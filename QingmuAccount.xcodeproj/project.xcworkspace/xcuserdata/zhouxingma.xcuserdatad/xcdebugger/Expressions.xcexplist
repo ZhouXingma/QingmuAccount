@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in PersonView.body.getter:PersonView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "AccountBookDetailView.getAccountBookSeting():AccountBookDetailView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gloabalModel.accountBook.id">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AccountBookSettingComponent.handleAccountBookSuccessFun(data:):AccountBookSettingComponent.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in AccountBookDetailView.body.getter:AccountBookDetailView.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
