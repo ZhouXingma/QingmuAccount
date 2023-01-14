@@ -42,7 +42,7 @@ struct InOutOfMonthComponent : View {
                             Spacer()
                         }
                         HStack {
-                            Text("\(year)").font(.system(size: 12,weight: .bold))
+                            Text("\(String(year))").font(.system(size: 12,weight: .bold))
                             Spacer()
                         }
                     }.frame(width: 100,height: 30)

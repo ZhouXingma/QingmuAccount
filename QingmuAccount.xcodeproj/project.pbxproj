@@ -57,7 +57,6 @@
 		D5A21CA22939B8EC008F7668 /* AccountBookDetailOfListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */; };
 		D5A21CA42939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */; };
 		D5A375052936FB5E00C01D6E /* PreferenceKeyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A375042936FB5E00C01D6E /* PreferenceKeyConfig.swift */; };
-		D5A3750729379E9200C01D6E /* ContentShowConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A3750629379E9200C01D6E /* ContentShowConfig.swift */; };
 		D5A5BB48292EFCE8004E4BFF /* QingmuAccountApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A5BB47292EFCE8004E4BFF /* QingmuAccountApp.swift */; };
 		D5A5BB4A292EFCE8004E4BFF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A5BB49292EFCE8004E4BFF /* ContentView.swift */; };
 		D5A5BB4C292EFCEA004E4BFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5A5BB4B292EFCEA004E4BFF /* Assets.xcassets */; };
@@ -160,7 +159,6 @@
 		D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfListComponent.swift; sourceTree = "<group>"; };
 		D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfCalendarComponent.swift; sourceTree = "<group>"; };
 		D5A375042936FB5E00C01D6E /* PreferenceKeyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyConfig.swift; sourceTree = "<group>"; };
-		D5A3750629379E9200C01D6E /* ContentShowConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentShowConfig.swift; sourceTree = "<group>"; };
 		D5A5BB44292EFCE8004E4BFF /* QingmuAccount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QingmuAccount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5A5BB47292EFCE8004E4BFF /* QingmuAccountApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QingmuAccountApp.swift; sourceTree = "<group>"; };
 		D5A5BB49292EFCE8004E4BFF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -223,13 +221,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D507A035294E192700E8D053 /* animations */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = animations;
-			sourceTree = "<group>";
-		};
 		D525839029461F4D00DE5D61 /* selfswiper */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,7 +443,6 @@
 				D5A5BB5E292FBC02004E4BFF /* appconfigs */,
 				D56DBFBF2930A6930017F7FC /* utils */,
 				D54B76F429345B130053F158 /* fonts */,
-				D507A035294E192700E8D053 /* animations */,
 				D5A5BB4B292EFCEA004E4BFF /* Assets.xcassets */,
 				D5A5BB4D292EFCEA004E4BFF /* Preview Content */,
 			);
@@ -481,6 +471,7 @@
 				D5558DEC293248B100C667B4 /* loading */,
 				D5558DD62931E8C900C667B4 /* alter */,
 				D5558DD12931B84400C667B4 /* account */,
+				D5FBA681297252C300BB26D4 /* toggle */,
 				D5A5BB63292FC3C8004E4BFF /* calendar */,
 			);
 			path = components;
@@ -504,7 +495,6 @@
 				D5558DDF2932076000C667B4 /* ColorConfig.swift */,
 				D5558DE3293221F200C667B4 /* KeyboardConfig.swift */,
 				D55DF1FE2935BBFA00308B7C /* PersonConfig.swift */,
-				D5A3750629379E9200C01D6E /* ContentShowConfig.swift */,
 				D5DF22BF29402A4E001C8891 /* AccountBookConfig.swift */,
 				D5D8250E295D344B00DC1A05 /* CommonFunConfig.swift */,
 			);
@@ -569,7 +559,6 @@
 			children = (
 				D5D82519295DB19000DC1A05 /* assertsdata */,
 				D5D82511295D713100DC1A05 /* AssetsEditComponent.swift */,
-				D5D82513295D89E700DC1A05 /* SelfToggle.swift */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -638,6 +627,14 @@
 				D5F01F4C29546EB600A1AFF0 /* Expend+IncomeMoel.swift */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		D5FBA681297252C300BB26D4 /* toggle */ = {
+			isa = PBXGroup;
+			children = (
+				D5D82513295D89E700DC1A05 /* SelfToggle.swift */,
+			);
+			path = toggle;
 			sourceTree = "<group>";
 		};
 		D5FF26FA2957330D00E3B7A6 /* Pie */ = {
@@ -737,7 +734,6 @@
 				D56DBFC32930AD980017F7FC /* CalendarDateFactory.swift in Sources */,
 				D56F3B34293F6ED5000EA179 /* AccountBookSetingModel.swift in Sources */,
 				D5BB7BFA29600B4800C963FD /* AccountBookSelectComponent.swift in Sources */,
-				D5A3750729379E9200C01D6E /* ContentShowConfig.swift in Sources */,
 				D5DF22C429404BCF001C8891 /* AccountBookHandleOfCacheService.swift in Sources */,
 				D569BAD029389F7500BA5A7A /* HalfCircleProgressComponent.swift in Sources */,
 				D5F01F4D29546EB600A1AFF0 /* Expend+IncomeMoel.swift in Sources */,

@@ -36,7 +36,7 @@ struct CalendarComponent : View {
     var body: some View {
         VStack {
             HStack {
-                Text("\(year)年\(month)月").font(.system(size: 15,weight: .bold))
+                Text("\(String(year))年\(month)月").font(.system(size: 15,weight: .bold))
                 Spacer()
             }.padding(10)
             HStack() {

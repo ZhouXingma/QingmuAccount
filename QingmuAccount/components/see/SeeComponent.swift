@@ -2,12 +2,15 @@
 //  SeeComponent.swift
 //  QingmuAccount
 //
+//  外观
+//  暗黑模式等视图设置
 //  Created by 周荥马 on 2022/12/31.
 //
 
 import SwiftUI
 
 struct SeeComponent : View {
+    // 环境变量
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     // 系统当前颜色模式
     @Environment(\.colorScheme) var colorScheme: ColorScheme

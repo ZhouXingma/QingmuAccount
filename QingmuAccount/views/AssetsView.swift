@@ -116,7 +116,7 @@ struct AssetsView : View {
                     Image(systemName: "list.bullet").font(.system(size: 12, weight: .bold))
                     Text("记录").font(.system(size: 14, weight: .bold))
                     Spacer()
-                    Text("\(year)年\(month)月").font(.system(size: 14, weight: .bold)).foregroundColor(.secondary)
+                    Text("\(String(year))年\(month)月").font(.system(size: 14, weight: .bold)).foregroundColor(.secondary)
                         .onTapGesture {
                             datePickerValue.year = year
                             datePickerValue.month = month
@@ -124,7 +124,7 @@ struct AssetsView : View {
                         }
                 }.frame(height: 30)
                 VStack {
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         ForEach(records,id:\.self) { item in
                             VStack {
                                 HStack {

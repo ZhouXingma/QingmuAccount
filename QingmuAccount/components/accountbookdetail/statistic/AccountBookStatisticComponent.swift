@@ -68,7 +68,7 @@ struct AccountBookStatisticComponent : View {
                 HStack {
                     HStack {
                         if (selectStaticDateType == 0) {
-                            Text("\(year)年\(month)月").font(.system(size: 16,weight: .bold))
+                            Text("\(String(year))年\(month)月").font(.system(size: 16,weight: .bold))
                                 .onTapGesture {
                                     showDatePickerType = .YM
                                     showDatePickerTime = true
@@ -77,7 +77,7 @@ struct AccountBookStatisticComponent : View {
                                     initData()
                                 }
                         } else {
-                            Text("\(year)年").font(.system(size: 16,weight: .bold))
+                            Text("\(String(year))年").font(.system(size: 16,weight: .bold))
                                 .onTapGesture {
                                     showDatePickerType = .Y
                                     showDatePickerTime = true
