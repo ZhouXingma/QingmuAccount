@@ -23,3 +23,22 @@
 （1）存款的设置
 
 （2）负债的设置
+
+
+
+## 3 关于图标
+
+### 3.1 图标字体信息
+链接: https://pan.baidu.com/s/1wpGmW57sJhjsfkaxTbAzrw 提取码: bi6b
+
+### 3.2 图标来源
+(1) iconpark(绝大部份): https://iconpark.oceanengine.com/official
+
+(2) iconfinder(小部分): https://www.iconfinder.com/
+
+(3) iconfont(极少部分,都是开源可商用图标): https://www.iconfont.cn/
+
+(4) figma(极少部分，自制图标部分): https://www.figma.com/
+
+### 3.3 图标字体的制作
+icomoon: https://icomoon.io/
