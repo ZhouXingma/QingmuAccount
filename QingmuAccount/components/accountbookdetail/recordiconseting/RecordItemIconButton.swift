@@ -19,7 +19,7 @@ struct RecordItemIconButton : View {
             if (!isImage) {
                 VStack {
                     Text(iconStr)
-                        .font(.custom("iconfont", size: 30))
+                        .font(.custom("icomoon", size: 30))
                         .foregroundColor(isSelected ? Color("DefaultButtonBackgroud") : Color("FontColorSecend"))
                     Text(name).font(.system(size: 10,weight: .bold))
                         .foregroundColor(isSelected ? Color("DefaultButtonBackgroud") : Color("FontColorSecend"))
@@ -31,7 +31,7 @@ struct RecordItemIconButton : View {
             } else {
                 VStack {
                     Image(systemName: iconStr)
-                        .font(.custom("iconfont", size: 30))
+                        .font(.custom("icomoon", size: 30))
                         .foregroundColor(isSelected ? Color("DefaultButtonBackgroud") : Color("FontColorSecend"))
                     Text(name).font(.system(size: 10,weight: .bold))
                         .foregroundColor(isSelected ? Color("DefaultButtonBackgroud") : Color("FontColorSecend"))

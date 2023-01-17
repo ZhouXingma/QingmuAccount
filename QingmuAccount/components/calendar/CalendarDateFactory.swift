@@ -47,12 +47,25 @@ func createCalendarDateModelsaOfMonth(year:Int, month:Int) ->[CalendarDateModel]
     let startDate = DateUtils.nextDay(firstDateOfMonth, count: Double(-monthBeforeSupplementCount))
     // 返回的日历字典集合
     var result:[CalendarDateModel] = []
+    // 今日
+    let todyComponent = DateUtils.findComponentsOfDate([.year,.month,.day], date: Date())
+    let todayYear = todyComponent.year!
+    let todayMonth = todyComponent.month!
+    let todayDay = todyComponent.day!
+    
     for index in 0..<dayCount {
+        let isCurrentMonth = (index >= monthBeforeSupplementCount) && index < (monthBeforeSupplementCount+dayLengthOfMonth)
         let resultDate = DateUtils.nextDay(startDate, count: Double(index))
-        result.append(CalendarDateModel(day: resultDate, desc: "", mark: false))
+        let dayComponent = DateUtils.findComponentsOfDate([.year,.month,.day], date: resultDate)
+        let dateYear = dayComponent.year!;
+        let dateMonth = dayComponent.month!;
+        let dateDay = dayComponent.day!
+        let isToday = dateYear == todayYear && dateMonth == todayMonth && dateDay == todayDay;
+        result.append(CalendarDateModel(day: resultDate, yearValue:dateYear, monthValue:dateMonth, dayValue: dateDay, desc: "", mark: false, isCurrentMonth: isCurrentMonth, isToday: isToday))
     }
     return result
 }
+
 /**
  日历组件显示天数计算
  dayLengthOfMonth: 这个月一共有的天数

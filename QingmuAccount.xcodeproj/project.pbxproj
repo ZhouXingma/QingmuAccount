@@ -37,7 +37,7 @@
 		D56DBFBC29305DE60017F7FC /* CalendarDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DBFBB29305DE50017F7FC /* CalendarDateModel.swift */; };
 		D56DBFC12930A6AD0017F7FC /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DBFC02930A6AD0017F7FC /* DateUtils.swift */; };
 		D56DBFC32930AD980017F7FC /* CalendarDateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DBFC22930AD980017F7FC /* CalendarDateFactory.swift */; };
-		D56F3B2A293F3836000EA179 /* IconfontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F3B29293F3836000EA179 /* IconfontStyle.swift */; };
+		D56F3B2A293F3836000EA179 /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F3B29293F3836000EA179 /* FontStyle.swift */; };
 		D56F3B31293F6DE8000EA179 /* AccountBookSetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F3B30293F6DE8000EA179 /* AccountBookSetingService.swift */; };
 		D56F3B34293F6ED5000EA179 /* AccountBookSetingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F3B33293F6ED5000EA179 /* AccountBookSetingModel.swift */; };
 		D56F3B36293F6F35000EA179 /* AccountBookSettingOfIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F3B35293F6F35000EA179 /* AccountBookSettingOfIconModel.swift */; };
@@ -49,8 +49,8 @@
 		D577A0C3293860C0006A58C6 /* DefaultTopBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C2293860C0006A58C6 /* DefaultTopBarComponent.swift */; };
 		D577A0C629387142006A58C6 /* BudgetOverviewOfMonthComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C529387142006A58C6 /* BudgetOverviewOfMonthComponent.swift */; };
 		D577A0C8293875F8006A58C6 /* DecimalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C7293875F8006A58C6 /* DecimalUtils.swift */; };
+		D580E11729768D7B0053118D /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D580E11629768D730053118D /* icomoon.ttf */; };
 		D5856C6D293D779C004FFDF4 /* YmDatePickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */; };
-		D5866860294178F800AD8BD2 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D586685F294178F800AD8BD2 /* iconfont.ttf */; };
 		D58668632941A8B900AD8BD2 /* InOutOfDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */; };
 		D58668682941ABBB00AD8BD2 /* AccountBookCommService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668672941ABBB00AD8BD2 /* AccountBookCommService.swift */; };
 		D5866873294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */; };
@@ -139,7 +139,7 @@
 		D56DBFBB29305DE50017F7FC /* CalendarDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateModel.swift; sourceTree = "<group>"; };
 		D56DBFC02930A6AD0017F7FC /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		D56DBFC22930AD980017F7FC /* CalendarDateFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateFactory.swift; sourceTree = "<group>"; };
-		D56F3B29293F3836000EA179 /* IconfontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconfontStyle.swift; sourceTree = "<group>"; };
+		D56F3B29293F3836000EA179 /* FontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
 		D56F3B30293F6DE8000EA179 /* AccountBookSetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookSetingService.swift; sourceTree = "<group>"; };
 		D56F3B33293F6ED5000EA179 /* AccountBookSetingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookSetingModel.swift; sourceTree = "<group>"; };
 		D56F3B35293F6F35000EA179 /* AccountBookSettingOfIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookSettingOfIconModel.swift; sourceTree = "<group>"; };
@@ -151,8 +151,8 @@
 		D577A0C2293860C0006A58C6 /* DefaultTopBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTopBarComponent.swift; sourceTree = "<group>"; };
 		D577A0C529387142006A58C6 /* BudgetOverviewOfMonthComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetOverviewOfMonthComponent.swift; sourceTree = "<group>"; };
 		D577A0C7293875F8006A58C6 /* DecimalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalUtils.swift; sourceTree = "<group>"; };
+		D580E11629768D730053118D /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YmDatePickerComponent.swift; sourceTree = "<group>"; };
-		D586685F294178F800AD8BD2 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOutOfDayModel.swift; sourceTree = "<group>"; };
 		D58668672941ABBB00AD8BD2 /* AccountBookCommService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookCommService.swift; sourceTree = "<group>"; };
 		D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookBudgetSettingComponent.swift; sourceTree = "<group>"; };
@@ -233,9 +233,9 @@
 		D54B76F429345B130053F158 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				D586685F294178F800AD8BD2 /* iconfont.ttf */,
+				D580E11629768D730053118D /* icomoon.ttf */,
 				D54B76F529345B270053F158 /* IconfontEnum.swift */,
-				D56F3B29293F3836000EA179 /* IconfontStyle.swift */,
+				D56F3B29293F3836000EA179 /* FontStyle.swift */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -705,9 +705,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D580E11729768D7B0053118D /* icomoon.ttf in Resources */,
 				D5A5BB4F292EFCEA004E4BFF /* Preview Assets.xcassets in Resources */,
 				D5A5BB4C292EFCEA004E4BFF /* Assets.xcassets in Resources */,
-				D5866860294178F800AD8BD2 /* iconfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -808,7 +808,7 @@
 				D55DF1FF2935BBFA00308B7C /* PersonConfig.swift in Sources */,
 				D577A0C3293860C0006A58C6 /* DefaultTopBarComponent.swift in Sources */,
 				D571902C293B33EA009F941D /* YmdDatePickerComponent.swift in Sources */,
-				D56F3B2A293F3836000EA179 /* IconfontStyle.swift in Sources */,
+				D56F3B2A293F3836000EA179 /* FontStyle.swift in Sources */,
 				D5D82522295DBA8700DC1A05 /* AssertsDataCacheService.swift in Sources */,
 				D5F01F482954276800A1AFF0 /* MagnifierRect.swift in Sources */,
 				D56F3B31293F6DE8000EA179 /* AccountBookSetingService.swift in Sources */,

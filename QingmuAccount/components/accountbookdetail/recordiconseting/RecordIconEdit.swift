@@ -32,7 +32,7 @@ struct RecordIconEdit:View {
                 VStack {
                     if (StringUtils.trimCount(selectIconConfig.iconStr) > 0) {
                         Text(selectIconConfig.iconStr)
-                            .font(.custom("iconfont", size: 30))
+                            .font(.custom("icomoon", size: 30))
                             .foregroundColor(Color("FontColorSecend"))
                     }
                 }.frame(width: 55, height: 55)

@@ -141,7 +141,7 @@ struct AccountBookAddComponent : View {
                     ForEach(accountBookIconArray,id:\.self) { item in
                         VStack {
                             Text(item.rawValue)
-                                .font(.custom("iconfont", size: 30))
+                                .font(.custom("icomoon", size: 26))
                                 .foregroundColor(selectIcon == item ? .white : Color("DefaultButtonBackgroud"))
                                 .padding(10)
                         }.background(selectIcon == item ? Color("DefaultButtonBackgroud") : Color("MainBackgroundColor"),in: RoundedRectangle(cornerRadius: 10))
@@ -181,7 +181,7 @@ struct AccountBookAddComponent : View {
     
     var AccountBookAddForm_PreView : some View {
         HStack {
-            Text(selectIcon.rawValue).font(.custom("iconfont", size: 25))
+            Text(selectIcon.rawValue).font(.custom("icomoon", size: 25))
                 .foregroundColor(.white)
                 .padding(10)
                 .background(selectColor.count<=0 ? Color("DefaultButtonBackgroud") : Color(hex: selectColor), in: RoundedRectangle(cornerRadius: 10))

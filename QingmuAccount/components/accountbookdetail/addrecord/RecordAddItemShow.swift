@@ -17,7 +17,7 @@ struct RecordAddItemShow : View {
     var body: some View {
         HStack {
             Text(iconStr)
-                .font(.custom("iconfont", size: 35))
+                .font(.custom("icomoon", size: 35))
                 .foregroundColor( Color("DefaultButtonBackgroud"))
                 .padding(10)
                 .background(.ultraThinMaterial,in:RoundedRectangle(cornerRadius: 10))

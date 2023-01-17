@@ -10,41 +10,35 @@ import SwiftUI
 class CalendarDateModel  {
     // 日期
     var day: Date
+    var yearValue:Int
+    var monthValue:Int
+    var dayValue:Int
     // 描述信息
     var desc: String
     // 标记信息
     var mark: Bool
+    // 是否当前这个月
+    var isCurrentMonth:Bool
+    // 是否是今天
+    var isToday:Bool
     
-    init(day: Date, desc: String, mark: Bool) {
+    init(day: Date, yearValue:Int, monthValue:Int, dayValue:Int, desc: String, mark: Bool, isCurrentMonth:Bool, isToday:Bool = false) {
         self.day = day
+        self.yearValue = yearValue
+        self.monthValue = monthValue
+        self.dayValue = dayValue
         self.desc = desc
         self.mark = mark
-    }
-    /**
-     是否是今日
-     true:今日，false:不是今日
-     */
-    func isToDay(today: Date) -> Bool {
-        return day.timeIntervalSince1970 == today.timeIntervalSince1970
-    }
-    /**
-     是否是选中的日期
-     true: 是， false: 不是
-     */
-    func isSelectDay(selectDate: Date) -> Bool{
-        return day.timeIntervalSince1970 == selectDate.timeIntervalSince1970
-    }
-    /**
-    是否是当前选择的这个月
-     */
-    func isThisMonth(month: Int) -> Bool {
-        let monthValue = DateUtils.findComponentsOfDate([.month], date: day).month!
-        return monthValue == month
+        self.isCurrentMonth = isCurrentMonth
+        self.isToday = isToday
     }
     
-    func getDayString() -> String {
-        let dayValue = DateUtils.findComponentsOfDate([.day], date: day).day!
-        return String(dayValue)
-    }
+    func isSelectedDay(_ selectDate:Date) -> Bool {
+        let dayComponent = DateUtils.findComponentsOfDate([.year,.month,.day], date: selectDate)
+        let dateYear = dayComponent.year!
+        let dateMonth = dayComponent.month!
+        let dateDay = dayComponent.day!
+        return dateYear == yearValue && dateMonth == monthValue && dateDay == dayValue
     
+    }
 }

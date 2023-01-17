@@ -12,8 +12,6 @@ struct IndexView : View {
     @AppStorage("selectAccountBook") private var selectAccountBook = AccountBookHandleService.DEFAULT_NAME
     // 系统当前颜色模式
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    
-    
     @State private var initAccountBookResult:Bool = false
     @State private var initAccountBookConfig = AlertComponentConfig(desc: "初始化账本失败",
                             showCancelButton: false,

@@ -232,13 +232,11 @@ struct CalendarBody : View  {
      */
     func createCalendarDayItem(year:Int, month:Int, calendarDateModel:CalendarDateModel) -> some View {
         VStack {
-            let components = DateUtils.findComponentsOfDate([.year,.month,.day], date: calendarDateModel.day)
-            Text("\(components.day!)")
+            Text("\(calendarDateModel.dayValue)")
                 .font(.system(size: 14, weight: .bold))
-                .foregroundColor(isToday(calendarDateModel.day) ? .white : Color("FontColor").opacity(1))
-                
+                .foregroundColor(calendarDateModel.isToday ? .white : Color("FontColor").opacity(1))
         }.frame(width: 40, height: 40)
-            .background(Color("DefaultButtonBackgroud").opacity(isToday(calendarDateModel.day) ? 1 : 0), in:RoundedRectangle(cornerRadius: 50))
+            .background(Color("DefaultButtonBackgroud").opacity(calendarDateModel.isToday ? 1 : 0), in:RoundedRectangle(cornerRadius: 50))
             .padding(2)
             .onTapGesture {
                 if (selectDate == calendarDateModel.day) {
@@ -254,17 +252,8 @@ struct CalendarBody : View  {
             }.overlay {
                 Circle().stroke(style: .init(lineWidth: 3)).frame(width: 35, height: 35)
                     .foregroundColor(Color("DefaultButtonBackgroud"))
-                    .opacity(DateUtils.transDate2String(self.selectDate, format: "yyyyMMdd") == DateUtils.transDate2String(calendarDateModel.day, format: "yyyyMMdd") ? 1 : 0)
-            }.opacity(isThisMonth(year: year, month: month, currentDate: calendarDateModel.day) ? 1 : 0)
-    }
-    func isToday(_ checkDate:Date) -> Bool {
-        let fmt = "yyyyMMdd"
-        return DateUtils.transDate2String(checkDate, format: fmt) == DateUtils.transDate2String(Date(), format: fmt)
-    }
-    func isThisMonth(year:Int, month:Int, currentDate:Date) -> Bool {
-        let monthStr = month < 10 ? String("0\(month)") : String("\(month)")
-        let ym = String("\(year)\(monthStr)")
-        return ym == DateUtils.transDate2String(currentDate, format: "yyyyMM")
+                    .opacity(calendarDateModel.isSelectedDay(selectDate) ? 1 : 0)
+            }.opacity(calendarDateModel.isCurrentMonth ? 1 : 0)
     }
 }
 

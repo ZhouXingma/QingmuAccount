@@ -44,7 +44,7 @@ struct AccountBookRecordEditComponent : View {
                     Spacer()
                     Text(accountBookData.iconStr)
                         .frame(width: 35,height: 35)
-                        .font(.custom("iconfont", size: 25))
+                        .font(.custom("icomoon", size: 25))
                         .background(.ultraThinMaterial,in:RoundedRectangle(cornerRadius: 10))
                         .foregroundColor(Color("DefaultButtonBackgroud"))
                 }.frame(height: 40)

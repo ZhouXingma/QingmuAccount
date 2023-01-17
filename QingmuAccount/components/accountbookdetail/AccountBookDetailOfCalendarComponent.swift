@@ -144,7 +144,7 @@ struct AccountBookDetailOfCalendarComponent : View {
     func recordDayListItem(_ recordItem:AccountBookData) -> some View {
         HStack {
             Text(recordItem.iconStr)
-                .font(.custom("iconfont", size: 25))
+                .font(.custom("icomoon", size: 25))
                 .foregroundColor( Color("DefaultButtonBackgroud"))
                 .padding(10)
                 .background(.ultraThinMaterial,in:RoundedRectangle(cornerRadius: 10))
