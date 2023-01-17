@@ -352,7 +352,7 @@ struct AccountBookStatisticComponent : View {
      */
     func createListItem(iconStr:String, title:String, percent:Double, totalMoney:Decimal, payCount:Int) -> some View {
         HStack {
-            Text(iconStr)
+            Text(hexStr2Unicode(iconStr))
                 .font(.custom("icomoon", size: 25))
                 .foregroundColor( Color("DefaultButtonBackgroud"))
                 .padding(10)

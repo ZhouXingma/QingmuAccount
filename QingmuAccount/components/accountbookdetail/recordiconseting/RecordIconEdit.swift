@@ -31,7 +31,7 @@ struct RecordIconEdit:View {
             HStack {
                 VStack {
                     if (StringUtils.trimCount(selectIconConfig.iconStr) > 0) {
-                        Text(selectIconConfig.iconStr)
+                        Text(hexStr2Unicode(selectIconConfig.iconStr))
                             .font(.custom("icomoon", size: 30))
                             .foregroundColor(Color("FontColorSecend"))
                     }

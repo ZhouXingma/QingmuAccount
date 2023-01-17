@@ -15,7 +15,7 @@ struct AccountBookItem : View {
     
     var body: some View {
         HStack {
-            Text(iconValue).font(.custom("icomoon", size: 25))
+            Text(hexStr2Unicode(iconValue)).font(.custom("icomoon", size: 25))
                 .foregroundColor(.white)
                 .padding(10)
                 .background(bgColor.count<=0 ? Color("DefaultButtonBackgroud") : Color(hex: bgColor), in: RoundedRectangle(cornerRadius: 10))

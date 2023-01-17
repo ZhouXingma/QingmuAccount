@@ -26,7 +26,7 @@ class AccountBookHandleService {
     
     public static let FILE_PATH =  FILE_DIRECTOR + FILE_NAME
     
-    public static let DEFALT_ACCOUNT_BOOK = AccountBookModel(id: DEFAULT_UUID, name: DEFAULT_NAME, iconStr: IconFontEnum.icon1.rawValue, bgColor: "")
+    public static let DEFALT_ACCOUNT_BOOK = AccountBookModel(id: DEFAULT_UUID, name: DEFAULT_NAME, iconStr: IconFontEnum.icon1.getUnicodeValue(), bgColor: "")
     
     /**
         移除账本

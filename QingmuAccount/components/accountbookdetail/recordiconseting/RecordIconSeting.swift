@@ -1,7 +1,7 @@
 //
 //  RecordIconSeting.swift
 //  QingmuAccount
-//
+//  图标设置
 //  Created by 周荥马 on 2022/12/13.
 //
 

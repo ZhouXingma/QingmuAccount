@@ -16,7 +16,7 @@ struct RecordAddItemShow : View {
     @Binding var computerDesc:String
     var body: some View {
         HStack {
-            Text(iconStr)
+            Text(hexStr2Unicode(iconStr))
                 .font(.custom("icomoon", size: 35))
                 .foregroundColor( Color("DefaultButtonBackgroud"))
                 .padding(10)

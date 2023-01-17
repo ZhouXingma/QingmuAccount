@@ -107,7 +107,7 @@ struct AccountBookAddComponent : View {
     func addAccountBookSure() {
         isCreatingWait = true
         do {
-            let data = try AccountBookHandleOfCacheService.addAccountBook(name: StringUtils.trim(accountBookName),icon:selectIcon.rawValue,bgColor:selectColor, cache: globalModel)
+            let data = try AccountBookHandleOfCacheService.addAccountBook(name: StringUtils.trim(accountBookName),icon:selectIcon.getUnicodeValue(),bgColor:selectColor, cache: globalModel)
             openNormalAlter("添加账本成功！")
             accountBookName=""
             handleAccountBookSuccessFun(data)
@@ -122,7 +122,7 @@ struct AccountBookAddComponent : View {
     func updateAccountBookSure() {
         isCreatingWait = true
         do {
-            let data = try AccountBookHandleOfCacheService.updateAccountBook(id:updateAccountBook!.id, name: StringUtils.trim(accountBookName),icon:selectIcon.rawValue,bgColor:selectColor,cache: globalModel)
+            let data = try AccountBookHandleOfCacheService.updateAccountBook(id:updateAccountBook!.id, name: StringUtils.trim(accountBookName),icon:selectIcon.getUnicodeValue(),bgColor:selectColor,cache: globalModel)
             openNormalAlter("更新账本成功！")
             handleAccountBookSuccessFun(data)
         } catch AccountBookHandleError.ISNOTEXIT {
@@ -197,8 +197,6 @@ struct AccountBookAddComponent : View {
         .frame(height: 60)
         .background(Color("MainBackgroundColor"), in:RoundedRectangle(cornerRadius: 10))
         .padding(.vertical, 10)
-        
-          
     }
     
     /**

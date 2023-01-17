@@ -52,7 +52,6 @@
 		D580E11729768D7B0053118D /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D580E11629768D730053118D /* icomoon.ttf */; };
 		D5856C6D293D779C004FFDF4 /* YmDatePickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */; };
 		D58668632941A8B900AD8BD2 /* InOutOfDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */; };
-		D58668682941ABBB00AD8BD2 /* AccountBookCommService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668672941ABBB00AD8BD2 /* AccountBookCommService.swift */; };
 		D5866873294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */; };
 		D5A21CA22939B8EC008F7668 /* AccountBookDetailOfListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */; };
 		D5A21CA42939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */; };
@@ -154,7 +153,6 @@
 		D580E11629768D730053118D /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YmDatePickerComponent.swift; sourceTree = "<group>"; };
 		D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOutOfDayModel.swift; sourceTree = "<group>"; };
-		D58668672941ABBB00AD8BD2 /* AccountBookCommService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookCommService.swift; sourceTree = "<group>"; };
 		D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookBudgetSettingComponent.swift; sourceTree = "<group>"; };
 		D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfListComponent.swift; sourceTree = "<group>"; };
 		D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfCalendarComponent.swift; sourceTree = "<group>"; };
@@ -240,7 +238,7 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
-		D5558DD12931B84400C667B4 /* account */ = {
+		D5558DD12931B84400C667B4 /* accountbooksetting */ = {
 			isa = PBXGroup;
 			children = (
 				D5558DEB293242E900C667B4 /* model */,
@@ -249,7 +247,7 @@
 				D5558DD72931E9AD00C667B4 /* AccountBookAddComponent.swift */,
 				D54B76F92934873C0053F158 /* AccountBookItemComponent.swift */,
 			);
-			path = account;
+			path = accountbooksetting;
 			sourceTree = "<group>";
 		};
 		D5558DD62931E8C900C667B4 /* alter */ = {
@@ -365,13 +363,12 @@
 		D577A0C429387105006A58C6 /* accountbookdetail */ = {
 			isa = PBXGroup;
 			children = (
-				D567660C2950936B00A3662C /* statistic */,
-				D5B669CD29498ACA00131F53 /* recordiconseting */,
-				D58668662941ABA400AD8BD2 /* commservice */,
-				D58668612941A8A500AD8BD2 /* model */,
 				D5DF22D729409549001C8891 /* accountbookdata */,
-				D5DF22C729407A9B001C8891 /* addrecord */,
 				D56F3B2F293F6DC1000EA179 /* accountbookseting */,
+				D5B669CD29498ACA00131F53 /* recordiconseting */,
+				D567660C2950936B00A3662C /* statistic */,
+				D58668612941A8A500AD8BD2 /* model */,
+				D5DF22C729407A9B001C8891 /* addrecord */,
 				D5EA01AE293DDA8F001431D9 /* keyboards */,
 				D577A0C529387142006A58C6 /* BudgetOverviewOfMonthComponent.swift */,
 				D569BAD12938ABEB00BA5A7A /* InOutOfMonthComponent.swift */,
@@ -390,14 +387,6 @@
 				D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */,
 			);
 			path = model;
-			sourceTree = "<group>";
-		};
-		D58668662941ABA400AD8BD2 /* commservice */ = {
-			isa = PBXGroup;
-			children = (
-				D58668672941ABBB00AD8BD2 /* AccountBookCommService.swift */,
-			);
-			path = commservice;
 			sourceTree = "<group>";
 		};
 		D5A21CA52939DA2C008F7668 /* datetimepicker */ = {
@@ -460,17 +449,17 @@
 		D5A5BB55292EFD24004E4BFF /* components */ = {
 			isa = PBXGroup;
 			children = (
+				D5558DD12931B84400C667B4 /* accountbooksetting */,
+				D577A0C429387105006A58C6 /* accountbookdetail */,
 				D5BB7BFD2960453C00C963FD /* see */,
 				D5D82510295D711600DC1A05 /* assets */,
 				D525839029461F4D00DE5D61 /* selfswiper */,
 				D5A21CA52939DA2C008F7668 /* datetimepicker */,
 				D569BACE29389F4500BA5A7A /* progress */,
-				D577A0C429387105006A58C6 /* accountbookdetail */,
 				D577A0C1293860A0006A58C6 /* topbar */,
 				D55DF2002935FEBE00308B7C /* dragback */,
 				D5558DEC293248B100C667B4 /* loading */,
 				D5558DD62931E8C900C667B4 /* alter */,
-				D5558DD12931B84400C667B4 /* account */,
 				D5FBA681297252C300BB26D4 /* toggle */,
 				D5A5BB63292FC3C8004E4BFF /* calendar */,
 			);
@@ -800,7 +789,6 @@
 				D577A0C629387142006A58C6 /* BudgetOverviewOfMonthComponent.swift in Sources */,
 				D56F3B36293F6F35000EA179 /* AccountBookSettingOfIconModel.swift in Sources */,
 				D5F01F4A2954395900A1AFF0 /* MagnifierLine.swift in Sources */,
-				D58668682941ABBB00AD8BD2 /* AccountBookCommService.swift in Sources */,
 				D5D8251B295DB3E200DC1A05 /* AssertsData.swift in Sources */,
 				D5EA01AD293DDA85001431D9 /* AcountKeyBoard.swift in Sources */,
 				D5CA39A12953092200B07BE8 /* IndicatorPoint.swift in Sources */,

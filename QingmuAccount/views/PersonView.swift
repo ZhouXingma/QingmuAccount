@@ -23,7 +23,7 @@ struct PersonView : View {
                     if nil != globalModel.accountBook {
                         VStack(alignment: .center, spacing: 8.0) {
                             VStack {
-                                Text(globalModel.accountBook!.iconStr).font(.custom("icomoon", size: 30))
+                                Text(hexStr2Unicode(globalModel.accountBook!.iconStr)).font(.custom("icomoon", size: 30))
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .background(globalModel.accountBook!.bgColor.count<=0 ? Color("DefaultButtonBackgroud") : Color(hex: globalModel.accountBook!.bgColor), in: RoundedRectangle(cornerRadius: 10))

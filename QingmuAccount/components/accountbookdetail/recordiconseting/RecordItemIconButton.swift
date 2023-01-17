@@ -18,7 +18,7 @@ struct RecordItemIconButton : View {
             let isSelected = iconStr == selectIconStr
             if (!isImage) {
                 VStack {
-                    Text(iconStr)
+                    Text(hexStr2Unicode(iconStr))
                         .font(.custom("icomoon", size: 30))
                         .foregroundColor(isSelected ? Color("DefaultButtonBackgroud") : Color("FontColorSecend"))
                     Text(name).font(.system(size: 10,weight: .bold))

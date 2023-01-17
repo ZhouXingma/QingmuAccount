@@ -133,7 +133,7 @@ struct AccountBookDetailOfListComponent : View {
     // 每日列表中的某条记录
     func recordDayListItem(_ recordItem:AccountBookData) -> some View {
         HStack {
-            Text(recordItem.iconStr)
+            Text(hexStr2Unicode(recordItem.iconStr))
                 .font(.custom("icomoon", size: 25))
                 .foregroundColor( Color("DefaultButtonBackgroud"))
                 .padding(10)

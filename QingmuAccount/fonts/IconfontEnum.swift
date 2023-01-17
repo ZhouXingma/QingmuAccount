@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 
-public enum IconFontEnum:String,CaseIterable  {
+public enum IconFontEnum:String,Encodable,Decodable,CaseIterable  {
     // icon-sun-one
     case icon1 = "\u{e90b}"
     // icon-peoples-two
@@ -462,8 +462,35 @@ public enum IconFontEnum:String,CaseIterable  {
     case icon213 = "\u{eb92}"
     // icon-fingernail
     case icon214 = "\u{eb76}"
+    // icon-bank-card
+    case icon215 = "\u{eb39}"
     
-    
+    // 获取unicode的编码
+    func getUnicodeValue() -> String {
+        var str = ""
+        for scalar in self.rawValue.unicodeScalars {
+            str += String(scalar.value, radix: 16)
+        }
+        return pod(str)
+    }
+    // 补位
+    func pod(_ str:String) -> String {
+        var value = str
+        while value.count % 4 != 0 {
+            value = "0"+value
+        }
+        return value
+    }
+    // 根据unicode编码找出相应的枚举
+    static func findByUnicodeValue(_ value:String) -> IconFontEnum? {
+        for item in IconFontEnum.allCases {
+            if item.getUnicodeValue() == value {
+                return item
+            }
+        }
+        return nil
+    }
+    // 根据值找到相应的枚举
     static func findByValue(_ value:String) -> IconFontEnum? {
         for item in IconFontEnum.allCases {
             if item.rawValue == value {
@@ -472,6 +499,17 @@ public enum IconFontEnum:String,CaseIterable  {
         }
         return nil
     }
+}
+
+
+
+
+func hexStr2Unicode(_ hexStr:String, _ defaultHexStr:String = IconFontEnum.icon1.getUnicodeValue()) -> String {
+    var transValue = hexStr
+    if (hexStr.count <= 0) {
+        transValue = defaultHexStr
+    }
+    return String(Int(transValue, radix: 16).map{ Character(UnicodeScalar($0)!)}!)
 }
 
 // 账本图标，不同账本，设置不同的图标

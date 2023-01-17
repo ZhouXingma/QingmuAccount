@@ -42,7 +42,7 @@ struct AccountBookRecordEditComponent : View {
                     Text("图标").font(.system(size: 14,weight: .bold))
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text(accountBookData.iconStr)
+                    Text(hexStr2Unicode(accountBookData.iconStr))
                         .frame(width: 35,height: 35)
                         .font(.custom("icomoon", size: 25))
                         .background(.ultraThinMaterial,in:RoundedRectangle(cornerRadius: 10))
