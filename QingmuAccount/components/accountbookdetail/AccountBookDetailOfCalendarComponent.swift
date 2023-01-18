@@ -99,9 +99,14 @@ struct AccountBookDetailOfCalendarComponent : View {
     }
     // 计算月度标点符号显示
     func computerMonthDataHandleShow(_ calendarShowData: CalendarShowData, _ yearDataReal:AccountBookYearData) {
-        let datas = calendarShowData.show.datas
-        let monthStr = month < 10 ? "0\(month)" : "\(month)"
-        let ymStr = String("\(year)\(monthStr)")
+        calendarShowData.show.datas = calendarShowDateItemsShow(calendarShowData.show, yearDataReal)
+        calendarShowData.pre.datas = calendarShowDateItemsShow(calendarShowData.pre, yearDataReal)
+        calendarShowData.next.datas = calendarShowDateItemsShow(calendarShowData.next, yearDataReal)
+    }
+    
+    func calendarShowDateItemsShow(_ calendarShowDateItems: CalendarShowDateItems, _ yearDataReal:AccountBookYearData) -> [CalendarDateModel] {
+        var datas = calendarShowDateItems.datas
+        let ymStr = DateUtils.ymStr(calendarShowDateItems.year, calendarShowDateItems.month)
         // ym - []
         let monthDatas = yearDataReal.data[ymStr] ?? []
         // ymd:[]
@@ -118,8 +123,13 @@ struct AccountBookDetailOfCalendarComponent : View {
             dataItem.mark = false
             if nil != dayDatas && dayDatas!.count > 0 {
                 dataItem.mark = true
+                var totalMoney:Decimal = dayDatas!.reduce(Decimal(0.0)) { partialResult, item in
+                    partialResult + (Decimal(string:item.money) ?? Decimal(0))
+                }
+                dataItem.desc = String("\(totalMoney)")
             }
         }
+        return datas
     }
     // 查找日期的数据
     func findDatesValue(_ date:Date, _ yearDataReal:AccountBookYearData) -> [AccountBookData] {

@@ -228,6 +228,40 @@
 			path = service;
 			sourceTree = "<group>";
 		};
+		D52160962977B09700532653 /* person */ = {
+			isa = PBXGroup;
+			children = (
+				D5558DD12931B84400C667B4 /* accountbooksetting */,
+				D5BB7BFD2960453C00C963FD /* see */,
+			);
+			path = person;
+			sourceTree = "<group>";
+		};
+		D52160972977B1AD00532653 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				D5D8251F295DBA7F00DC1A05 /* AssertsDataService.swift */,
+				D5D82521295DBA8700DC1A05 /* AssertsDataCacheService.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		D52160982977B20200532653 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				D525839029461F4D00DE5D61 /* selfswiper */,
+				D5A21CA52939DA2C008F7668 /* datetimepicker */,
+				D569BACE29389F4500BA5A7A /* progress */,
+				D577A0C1293860A0006A58C6 /* topbar */,
+				D55DF2002935FEBE00308B7C /* dragback */,
+				D5558DEC293248B100C667B4 /* loading */,
+				D5558DD62931E8C900C667B4 /* alter */,
+				D5FBA681297252C300BB26D4 /* toggle */,
+				D5A5BB63292FC3C8004E4BFF /* calendar */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		D525839029461F4D00DE5D61 /* selfswiper */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,19 +491,10 @@
 		D5A5BB55292EFD24004E4BFF /* components */ = {
 			isa = PBXGroup;
 			children = (
-				D5558DD12931B84400C667B4 /* accountbooksetting */,
 				D577A0C429387105006A58C6 /* accountbookdetail */,
-				D5BB7BFD2960453C00C963FD /* see */,
 				D5D82510295D711600DC1A05 /* assets */,
-				D525839029461F4D00DE5D61 /* selfswiper */,
-				D5A21CA52939DA2C008F7668 /* datetimepicker */,
-				D569BACE29389F4500BA5A7A /* progress */,
-				D577A0C1293860A0006A58C6 /* topbar */,
-				D55DF2002935FEBE00308B7C /* dragback */,
-				D5558DEC293248B100C667B4 /* loading */,
-				D5558DD62931E8C900C667B4 /* alter */,
-				D5FBA681297252C300BB26D4 /* toggle */,
-				D5A5BB63292FC3C8004E4BFF /* calendar */,
+				D52160962977B09700532653 /* person */,
+				D52160982977B20200532653 /* common */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -564,8 +589,7 @@
 			isa = PBXGroup;
 			children = (
 				D5D8251E295DBA6400DC1A05 /* model */,
-				D5D8251F295DBA7F00DC1A05 /* AssertsDataService.swift */,
-				D5D82521295DBA8700DC1A05 /* AssertsDataCacheService.swift */,
+				D52160972977B1AD00532653 /* service */,
 			);
 			path = assertsdata;
 			sourceTree = "<group>";

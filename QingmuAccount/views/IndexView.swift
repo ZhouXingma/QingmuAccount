@@ -110,7 +110,7 @@ struct IndexView : View {
                     Image(systemName: "list.bullet.circle")
                         .font(.system(size: 28))
                         .foregroundColor(.primary)
-                }
+                }.opacity(selection == 0 ? 1 : 0)
                 NavigationLink {
                     PersonView().environmentObject(globalModel)
                 } label: {

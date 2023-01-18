@@ -61,7 +61,7 @@ func createCalendarDateModelsaOfMonth(year:Int, month:Int) ->[CalendarDateModel]
         let dateMonth = dayComponent.month!;
         let dateDay = dayComponent.day!
         let isToday = dateYear == todayYear && dateMonth == todayMonth && dateDay == todayDay;
-        result.append(CalendarDateModel(day: resultDate, yearValue:dateYear, monthValue:dateMonth, dayValue: dateDay, desc: "", mark: false, isCurrentMonth: isCurrentMonth, isToday: isToday))
+        result.append(CalendarDateModel(day: resultDate, yearValue:dateYear, monthValue:dateMonth, dayValue: dateDay, desc: " ", mark: false, isCurrentMonth: isCurrentMonth, isToday: isToday))
     }
     return result
 }

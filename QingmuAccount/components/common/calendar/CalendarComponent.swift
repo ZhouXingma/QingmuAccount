@@ -15,6 +15,7 @@ struct CalendarComponent : View {
     
     var monthDataHandle:(CalendarShowData)->Void = {_ in }
     var selectDateChange:(Date)->Void = {_ in }
+    @AppStorage("calendarType") private var calendarType:Int = 1
     @Binding var year:Int
     @Binding var month:Int
     @Binding var selectDate:Date
@@ -33,11 +34,20 @@ struct CalendarComponent : View {
     /// 是否需要动画
     @State var isAnimation: Bool = true
     
+    
     var body: some View {
         VStack {
             HStack {
                 Text("\(String(year))年\(month)月").font(.system(size: 15,weight: .bold))
                 Spacer()
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .font(.system(size: 16))
+                    .foregroundColor(.primary)
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            calendarType = calendarType == 0 ? 1 : 0
+                        }
+                    }
             }.padding(10)
             HStack() {
                 LazyVGrid(columns: columns) {
@@ -52,12 +62,12 @@ struct CalendarComponent : View {
                 HStack(alignment: .top, spacing: 0) {
                     VStack(spacing: 0) {
                         if (dragIng) {
-                            CalendarBody(calendarShowDateItems: $calendarShowData.pre, selectDate: $selectDate)
+                            CalendarBody(calendarShowDateItems: $calendarShowData.pre, selectDate: $selectDate, calendarType: $calendarType)
                         }
                     }.frame(width: width)
                         .opacity(dragIng ? 1 : 0)
                     VStack(spacing: 0) {
-                        CalendarBody(calendarShowDateItems: $calendarShowData.show, selectDate: $selectDate)
+                        CalendarBody(calendarShowDateItems: $calendarShowData.show, selectDate: $selectDate, calendarType: $calendarType)
                     }.frame(width: width)
                         .background(GeometryReader {gp -> Color in
                                DispatchQueue.main.async {
@@ -68,7 +78,7 @@ struct CalendarComponent : View {
                         })
                     VStack(spacing: 0) {
                         if (dragIng) {
-                            CalendarBody(calendarShowDateItems: $calendarShowData.next, selectDate: $selectDate)
+                            CalendarBody(calendarShowDateItems: $calendarShowData.next, selectDate: $selectDate, calendarType: $calendarType)
                         }
                     }.frame(width: width)
                         .opacity(dragIng ? 1 : 0)
@@ -205,25 +215,16 @@ struct CalendarBody : View  {
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(),spacing: 0), count: 7)
     @Binding var calendarShowDateItems:CalendarShowDateItems
     @Binding var selectDate:Date
+    @Binding var calendarType:Int
     var body: some View {
         LazyVGrid(columns: columns,spacing: 0) {
-//            ForEach(calendarShowDateItems.datas.indices, id:\.self) { itemIndex in
-//                createCalendarDayItem(
-//                    year: calendarShowDateItems.year,
-//                    month: calendarShowDateItems.month,
-//                    calendarDateModel: calendarShowDateItems.datas[itemIndex])
-//            }
-            
-            if (calendarShowDateItems.datas.count > 0) {
-                ForEach(calendarShowDateItems.datas.indices, id:\.self) { itemIndex in
-                    createCalendarDayItem(
-                       year: calendarShowDateItems.year,
-                       month: calendarShowDateItems.month,
-                       calendarDateModel: calendarShowDateItems.datas[itemIndex])
-                    
-                }
+            ForEach(calendarShowDateItems.datas.indices, id:\.self) { itemIndex in
+                createCalendarDayItem(
+                   year: calendarShowDateItems.year,
+                   month: calendarShowDateItems.month,
+                   calendarDateModel: calendarShowDateItems.datas[itemIndex])
+                
             }
-            
         }
     }
     
@@ -235,25 +236,39 @@ struct CalendarBody : View  {
             Text("\(calendarDateModel.dayValue)")
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(calendarDateModel.isToday ? .white : Color("FontColor").opacity(1))
-        }.frame(width: 40, height: 40)
-            .background(Color("DefaultButtonBackgroud").opacity(calendarDateModel.isToday ? 1 : 0), in:RoundedRectangle(cornerRadius: 50))
-            .padding(2)
-            .onTapGesture {
-                if (selectDate == calendarDateModel.day) {
-                    self.selectDate = Date()
-                } else {
-                    self.selectDate = calendarDateModel.day
-                }
+            Text(calendarDateModel.desc)
+                .font(.system(size: calendarType == 0 ? 0.01 : 10))
+                .foregroundColor(calendarDateModel.isToday ? .white : Color("FontColor").opacity(0.5))
+        }.frame(
+            width: calendarType == 0 ? 40.0 : 50.0,
+            height: calendarType == 0 ? 40.0 : 50.0
+        ).background(
+            Color("DefaultButtonBackgroud").opacity(calendarDateModel.isToday ? 1 : 0),
+            in:RoundedRectangle(cornerRadius: calendarType == 0 ? 40 : 5)
+        )
+        .padding(1)
+        .onTapGesture {
+            if (selectDate == calendarDateModel.day) {
+                self.selectDate = Date()
+            } else {
+                self.selectDate = calendarDateModel.day
             }
-            .overlay {
-                Circle().fill(Color("RedColor")).frame(width: 4,height: 4)
-                    .offset(y:12)
-                    .opacity(calendarDateModel.mark ? 1 : 0)
-            }.overlay {
-                Circle().stroke(style: .init(lineWidth: 3)).frame(width: 35, height: 35)
-                    .foregroundColor(Color("DefaultButtonBackgroud"))
-                    .opacity(calendarDateModel.isSelectedDay(selectDate) ? 1 : 0)
-            }.opacity(calendarDateModel.isCurrentMonth ? 1 : 0)
+        }
+        .overlay {
+            Circle().fill(Color("RedColor")).frame(width: 4,height: 4)
+                .offset(y: 12)
+                .opacity(calendarType == 0 && calendarDateModel.mark ? 1 : 0)
+        }.overlay {
+            RoundedRectangle(cornerRadius: calendarType == 0 ? 40 : 5)
+                .stroke(style: .init(lineWidth: 2))
+                .frame(
+                    width: calendarType == 0 ? 38 : 48,
+                    height: calendarType == 0 ? 38 : 48
+                )
+                .foregroundColor(Color("DefaultButtonBackgroud"))
+                .opacity(calendarDateModel.isSelectedDay(selectDate) ? 1 : 0)
+            
+        }.opacity(calendarDateModel.isCurrentMonth ? 1 : 0)
     }
 }
 
@@ -262,7 +277,7 @@ struct CalendarBody : View  {
 struct CalendarComponent_Previews: PreviewProvider {
     
     static var previews: some View {
-        CalendarComponent(year: .constant(2022), month: .constant(12), selectDate: .constant(Date()),latestLoadTime: .constant(Date())).preferredColorScheme(.light)
+        CalendarComponent(year: .constant(2022), month: .constant(12), selectDate: .constant(Date()),latestLoadTime: .constant(Date())).previewDevice("iPhone 12 mini").preferredColorScheme(.light)
     }
 }
 

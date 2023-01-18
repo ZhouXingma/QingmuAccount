@@ -29,9 +29,11 @@ struct AccountBookSelectComponent : View {
                     ForEach(accountBooks, id:\.self.hashValue) { item in
                         AccountBookItem(name: item.name, iconValue: item.iconStr, bgColor: item.bgColor, selectAccountBookName:$selectAccountBook)
                             .onTapGesture {
-                                selectAccountBook = item.name
-                                globalModel.refreshAccountBook(item)
-                                presentationMode.wrappedValue.dismiss()
+                                if (selectAccountBook != item.name) {
+                                    selectAccountBook = item.name
+                                    globalModel.refreshAccountBook(item)
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             }
                     }
                 }.padding(.horizontal,15)
