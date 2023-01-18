@@ -352,6 +352,8 @@ struct AccountBookBudgetSettingComponent : View {
             if (nil == dataArray) {
                 return
             }
+            // 初始化
+            self.expend = 0
             for data in dataArray! {
                 if (data.type == 1) {
                     continue

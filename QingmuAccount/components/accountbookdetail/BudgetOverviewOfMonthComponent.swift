@@ -20,7 +20,7 @@ struct BudgetOverviewOfMonthComponent : View {
     // 整本的配置信息
     @State var accountBookSeting:AccountBookSetingModel? = nil
     // 显示预算设置
-    @Binding var showBudgetSetting:Bool
+    @State var showBudgetSetting:()->Void = {}
     // 显示预算更新监听时间
     @Binding var budgetChangeTime:Date
     // 支出
@@ -47,7 +47,7 @@ struct BudgetOverviewOfMonthComponent : View {
                 VStack {
                     Image(systemName: "chevron.right.circle.fill").font(.system(size: 18))
                         .onTapGesture {
-                            showBudgetSetting = true
+                            showBudgetSetting()
                         }
                     Spacer()
                 }

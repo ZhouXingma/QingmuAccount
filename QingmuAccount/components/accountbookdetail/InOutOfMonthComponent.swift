@@ -30,7 +30,7 @@ struct InOutOfMonthComponent : View {
     /**
      显示统计
      */
-    @Binding var showStatistics:Bool
+    @State var showStatistics:() -> Void = {}
     
     var body: some View {
         VStack {
@@ -54,7 +54,7 @@ struct InOutOfMonthComponent : View {
                         Image(systemName: "chart.pie.fill")
                             .font(.system(size: 16))
                             .onTapGesture {
-                                showStatistics = true
+                                showStatistics()
                             }
                         Spacer()
                     }.frame(height: 30)

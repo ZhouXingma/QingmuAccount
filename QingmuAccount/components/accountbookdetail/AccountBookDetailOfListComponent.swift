@@ -44,14 +44,24 @@ struct AccountBookDetailOfListComponent : View {
     var body: some View {
         VStack {
             TabView(selection: $selection) {
+                // 支出收入汇总
                 InOutOfMonthComponent(year: $year, month: $month, outTotal: $monthExpend, inTotal: $monthIncome, changeTime: {
-                    showYmPicker = true
+                    closeAll()
                     datePickerParam.year = year
                     datePickerParam.month = month
-                },showStatistics:$showStatistics).environmentObject(globalModel).tag(0)
+                    showYmPicker = true
+                },showStatistics: {
+                    closeAll()
+                    showStatistics = true
+                }).environmentObject(globalModel).tag(0)
+                
+                // 预算汇总
                 BudgetOverviewOfMonthComponent(
                     year: $year, month: $month,
-                    showBudgetSetting:$showBudgetSetting,
+                    showBudgetSetting:{
+                        closeAll()
+                        showBudgetSetting = true
+                    },
                     budgetChangeTime:$budgetChangeTime).environmentObject(globalModel).tag(1)
                
             }
@@ -172,6 +182,7 @@ struct AccountBookDetailOfListComponent : View {
         showBudgetSetting = false
         editRecord = false
         showYmPicker = false
+        showStatistics = false
     }
     /**
      初始化数据

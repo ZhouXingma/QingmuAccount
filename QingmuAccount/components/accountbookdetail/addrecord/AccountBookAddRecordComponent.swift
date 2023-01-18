@@ -1,7 +1,7 @@
 //
 //  AccountBookAddRecordComponent.swift
 //  QingmuAccount
-//
+//  支出和收入
 //  Created by 周荥马 on 2022/12/5.
 //
 

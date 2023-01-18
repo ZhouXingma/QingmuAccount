@@ -33,6 +33,12 @@ struct HalfCircleProgressComponent : View {
                 .onDisappear {
                     appear = false
                 }
+                .onChange(of: percent) { newValue in
+                    appear = false
+                    withAnimation(.spring(response: 2, dampingFraction: 0.925, blendDuration: 0.925).delay(0.2)) {
+                        appear = true
+                    }
+                }
         }
     }
 }
