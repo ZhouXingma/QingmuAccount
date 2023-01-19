@@ -83,7 +83,7 @@ struct RecordAddOfIncome : View {
         AcountKeyBoard(date: trans2KeyDateStrFormat(updateRecord?.dateStr), desc: updateRecord?.desc ?? "") { newDesc in
             desc = newDesc
         } dateChangeFun: { newDate in
-            dateStr = DateUtils.transDate2String(DateUtils.transString2Date(newDate, format: "yyyy-MM-dd") ?? Date(), format: "yyyy-MM-dd")
+            dateStr = DateUtils.transDate2String(DateUtils.transString2Date(newDate, format: "yyyy-MM-dd") ?? Date(), format: "yyyyMMdd")
         } keyTabFun: { keyId in
             if (keyId == 15) {
                 // 完成

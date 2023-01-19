@@ -18,6 +18,9 @@ class AssertsData : Identifiable,Encodable,Decodable {
     var liabilitiesData:[String:[AssertsDataItem]] = [:]
 }
 
+
+
+
 class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
     static func == (lhs: AssertsDataItem, rhs: AssertsDataItem) -> Bool {
         return lhs.id == rhs.id &&
@@ -26,8 +29,7 @@ class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
         lhs.gmtCreated == rhs.gmtCreated &&
         lhs.gmtModfied == rhs.gmtModfied &&
         lhs.type == rhs.type &&
-        lhs.money == rhs.money &&
-        lhs.total == rhs.total
+        lhs.money == rhs.money
     }
     
     func hash(into hasher: inout Hasher) {
@@ -38,7 +40,6 @@ class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
         hasher.combine(gmtModfied)
         hasher.combine(type)
         hasher.combine(money)
-        hasher.combine(total)
     }
     
     var version = "1.0"
@@ -56,10 +57,8 @@ class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
     var type:Int
     // 金钱
     var money:String
-    // 总计
-    var total:String
     
-    init(version: String = "1.0", id: UUID = UUID(), accountName: String, itemName: String, gmtCreated: Date, gmtModfied: Date, type: Int, money: String, total: String) {
+    init(version: String = "1.0", id: UUID = UUID(), accountName: String, itemName: String, gmtCreated: Date, gmtModfied: Date, type: Int, money: String) {
         self.version = version
         self.id = id
         self.accountName = accountName
@@ -68,6 +67,5 @@ class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
         self.gmtModfied = gmtModfied
         self.type = type
         self.money = money
-        self.total = total
     }
 }

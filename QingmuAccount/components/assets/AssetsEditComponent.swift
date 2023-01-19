@@ -216,34 +216,13 @@ struct AssetsEditComponent : View {
     }
     // 保存操作
     func saveData() {
-        var total:Decimal = 0
-        if (self.payToggle) {
-            // 减少
-            if (self.typeToggle) {
-                // 负债
-                total = liabilitiesValue - (Decimal(string: self.setingValue) ?? 0.0)
-            } else {
-                // 存款
-                total = depositValue - (Decimal(string: self.setingValue) ?? 0.0)
-            }
-        } else {
-            // 增加
-            if (self.typeToggle) {
-                // 负债
-                total = liabilitiesValue + (Decimal(string: self.setingValue) ?? 0.0)
-            } else {
-                // 存款
-                total = depositValue + (Decimal(string: self.setingValue) ?? 0.0)
-            }
-        }
         let assertsData = AssertsDataItem(
             accountName: self.accountName,
             itemName: self.itemName,
             gmtCreated: Date(),
             gmtModfied: Date(),
             type: self.payToggle ? 0 : 1,
-            money: self.setingValue,
-            total: DecimalUtils.trans2StringOfCurrency(total)
+            money: self.setingValue
         )
         
         let ymStr = DateUtils.ymStr(Date())
@@ -268,6 +247,7 @@ struct AssetsEditComponent : View {
             var depositDataTemp = self.assertsData.depositData[ymStr] ?? []
             depositDataTemp.append(assertsData)
             self.assertsData.depositData[ymStr] = depositDataTemp
+            
             var depositTemp = self.assertsData.deposit[assertsData.accountName] ?? "0.0"
             if (self.payToggle) {
                 // 减少

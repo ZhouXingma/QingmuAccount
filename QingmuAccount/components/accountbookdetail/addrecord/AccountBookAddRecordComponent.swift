@@ -25,9 +25,13 @@ struct  AccountBookAddRecordComponent : View {
                 RecordAddOfExpend(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord).tag(0)
                 RecordAddOfIncome(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord).tag(1)
             }.tabViewStyle(.page(indexDisplayMode: .never))
-            
         }.ignoresSafeArea()
             .background(Color("ViewBackgroundColor"))
+            .onAppear() {
+                if (nil != updateRecord) {
+                    recordType = updateRecord!.type == 1 ? 1 : 0
+                }
+            }
             .onTapGesture {
                 toHideKeyboard()
             }

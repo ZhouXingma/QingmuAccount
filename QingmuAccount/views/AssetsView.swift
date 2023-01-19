@@ -100,6 +100,9 @@ struct AssetsView : View {
                         HStack {
                             Text("\(keyItem)")
                                 .font(.system(size: 14, weight: .bold))
+                                .onTapGesture {
+                                    //showAssertsDetail(item)
+                                }
                             Spacer()
                             Text("\(item)")
                                 .font(.system(size: 14, weight: .bold))
@@ -194,6 +197,14 @@ struct AssetsView : View {
             refreshData(assertsDataReal)
         }
     }
+    /**
+     显示账户详情
+     */
+    func showAssertsDetail() {
+        
+    }
+    
+    
     // 刷新数据
     func refreshData(_ assertsDataReal:AssertsData) {
         var liabilitiesTotal:Decimal = 0
