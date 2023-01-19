@@ -124,7 +124,14 @@ struct AccountBookDetailOfCalendarComponent : View {
             if nil != dayDatas && dayDatas!.count > 0 {
                 dataItem.mark = true
                 var totalMoney:Decimal = dayDatas!.reduce(Decimal(0.0)) { partialResult, item in
-                    partialResult + (Decimal(string:item.money) ?? Decimal(0))
+                    var resultTemp = partialResult
+                    if item.type == 0 {
+                        // 支出
+                        resultTemp = partialResult - (Decimal(string:item.money) ?? Decimal(0))
+                    } else  if item.type == 1 {
+                        resultTemp = partialResult + (Decimal(string:item.money) ?? Decimal(0))
+                    }
+                    return resultTemp
                 }
                 dataItem.desc = String("\(totalMoney)")
             }
