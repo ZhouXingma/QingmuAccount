@@ -116,7 +116,7 @@ struct AcountKeyBoardButton : View {
                 toHideKeyboard()
                 // 如果背景在播放音乐，会产生影响
                 //playKeySound()
-                keyFeedback(0)
+                keyFeedback()
                 keyTabFun(c.id)
             } label: {
                 if (!c.isImage) {

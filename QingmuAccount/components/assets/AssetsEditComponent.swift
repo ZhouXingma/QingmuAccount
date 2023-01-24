@@ -216,7 +216,7 @@ struct AssetsEditComponent : View {
     }
     // 保存操作
     func saveData() {
-        let assertsData = AssertsDataItem(
+        let recordDataItem = AssertsDataItem(
             accountName: self.accountName,
             itemName: self.itemName,
             gmtCreated: Date(),
@@ -229,10 +229,10 @@ struct AssetsEditComponent : View {
         if (self.typeToggle) {
             // 负债
             var liabilitiesDataTemp = self.assertsData.liabilitiesData[ymStr] ?? []
-            liabilitiesDataTemp.append(assertsData)
+            liabilitiesDataTemp.append(recordDataItem)
             self.assertsData.liabilitiesData[ymStr] = liabilitiesDataTemp
             
-            var liabilitiesTemp = self.assertsData.liabilities[assertsData.accountName] ?? "0.0"
+            var liabilitiesTemp = self.assertsData.liabilities[recordDataItem.accountName] ?? "0.0"
             if (self.payToggle) {
                 // 减少
                 liabilitiesTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: liabilitiesTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0))
@@ -241,14 +241,14 @@ struct AssetsEditComponent : View {
                 liabilitiesTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: liabilitiesTemp) ?? 0) + (Decimal(string: self.setingValue) ?? 0))
             }
             
-            self.assertsData.liabilities[assertsData.accountName] = liabilitiesTemp
+            self.assertsData.liabilities[recordDataItem.accountName] = liabilitiesTemp
         } else {
             // 存款
             var depositDataTemp = self.assertsData.depositData[ymStr] ?? []
-            depositDataTemp.append(assertsData)
+            depositDataTemp.append(recordDataItem)
             self.assertsData.depositData[ymStr] = depositDataTemp
             
-            var depositTemp = self.assertsData.deposit[assertsData.accountName] ?? "0.0"
+            var depositTemp = self.assertsData.deposit[recordDataItem.accountName] ?? "0.0"
             if (self.payToggle) {
                 // 减少
                 depositTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: depositTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0))
@@ -256,7 +256,7 @@ struct AssetsEditComponent : View {
                 // 增加
                 depositTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: depositTemp) ?? 0) + (Decimal(string: self.setingValue) ?? 0))
             }
-            self.assertsData.deposit[assertsData.accountName] = depositTemp
+            self.assertsData.deposit[recordDataItem.accountName] = depositTemp
         }
         do {
             try AssertsDataCacheService.updateAsserts(self.assertsData, cache: globalModel)

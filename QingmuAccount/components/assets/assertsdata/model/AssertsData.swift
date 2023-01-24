@@ -53,7 +53,7 @@ class AssertsDataItem : Hashable,Identifiable,Encodable,Decodable {
     var gmtCreated:Date
     // 修改时间
     var gmtModfied:Date
-    // 类型
+    // 类型 0:-,1:+
     var type:Int
     // 金钱
     var money:String

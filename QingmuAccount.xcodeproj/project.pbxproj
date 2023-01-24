@@ -49,6 +49,8 @@
 		D577A0C3293860C0006A58C6 /* DefaultTopBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C2293860C0006A58C6 /* DefaultTopBarComponent.swift */; };
 		D577A0C629387142006A58C6 /* BudgetOverviewOfMonthComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C529387142006A58C6 /* BudgetOverviewOfMonthComponent.swift */; };
 		D577A0C8293875F8006A58C6 /* DecimalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577A0C7293875F8006A58C6 /* DecimalUtils.swift */; };
+		D5790C71297925A300723556 /* AssertsDetailComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5790C70297925A300723556 /* AssertsDetailComponent.swift */; };
+		D5790C74297936B700723556 /* AssertsDetailListGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5790C73297936B700723556 /* AssertsDetailListGroupModel.swift */; };
 		D580E11729768D7B0053118D /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D580E11629768D730053118D /* icomoon.ttf */; };
 		D5856C6D293D779C004FFDF4 /* YmDatePickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */; };
 		D58668632941A8B900AD8BD2 /* InOutOfDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */; };
@@ -150,6 +152,8 @@
 		D577A0C2293860C0006A58C6 /* DefaultTopBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTopBarComponent.swift; sourceTree = "<group>"; };
 		D577A0C529387142006A58C6 /* BudgetOverviewOfMonthComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetOverviewOfMonthComponent.swift; sourceTree = "<group>"; };
 		D577A0C7293875F8006A58C6 /* DecimalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalUtils.swift; sourceTree = "<group>"; };
+		D5790C70297925A300723556 /* AssertsDetailComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertsDetailComponent.swift; sourceTree = "<group>"; };
+		D5790C73297936B700723556 /* AssertsDetailListGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertsDetailListGroupModel.swift; sourceTree = "<group>"; };
 		D580E11629768D730053118D /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YmDatePickerComponent.swift; sourceTree = "<group>"; };
 		D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOutOfDayModel.swift; sourceTree = "<group>"; };
@@ -423,6 +427,14 @@
 			path = accountbookdetail;
 			sourceTree = "<group>";
 		};
+		D5790C72297936AA00723556 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				D5790C73297936B700723556 /* AssertsDetailListGroupModel.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		D58668612941A8A500AD8BD2 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -579,8 +591,10 @@
 		D5D82510295D711600DC1A05 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D5790C72297936AA00723556 /* model */,
 				D5D82519295DB19000DC1A05 /* assertsdata */,
 				D5D82511295D713100DC1A05 /* AssetsEditComponent.swift */,
+				D5790C70297925A300723556 /* AssertsDetailComponent.swift */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -781,6 +795,7 @@
 				D5CA39A32953096100B07BE8 /* Line.swift in Sources */,
 				D5DF22C6294065A7001C8891 /* AccountBookSetingOfCacheService.swift in Sources */,
 				D5CA39A5295309A500B07BE8 /* Path+QuadCurve.swift in Sources */,
+				D5790C74297936B700723556 /* AssertsDetailListGroupModel.swift in Sources */,
 				D5558DD32931B85900C667B4 /* AccountBookSettingComponent.swift in Sources */,
 				D5A375052936FB5E00C01D6E /* PreferenceKeyConfig.swift in Sources */,
 				D5558DE02932076000C667B4 /* ColorConfig.swift in Sources */,
@@ -820,6 +835,7 @@
 				D5DF22DB294095DB001C8891 /* AccountBookDataOfCacheService.swift in Sources */,
 				D577A0C629387142006A58C6 /* BudgetOverviewOfMonthComponent.swift in Sources */,
 				D56F3B36293F6F35000EA179 /* AccountBookSettingOfIconModel.swift in Sources */,
+				D5790C71297925A300723556 /* AssertsDetailComponent.swift in Sources */,
 				D5F01F4A2954395900A1AFF0 /* MagnifierLine.swift in Sources */,
 				D5D8251B295DB3E200DC1A05 /* AssertsData.swift in Sources */,
 				D5EA01AD293DDA85001431D9 /* AcountKeyBoard.swift in Sources */,

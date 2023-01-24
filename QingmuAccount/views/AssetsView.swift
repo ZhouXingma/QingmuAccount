@@ -29,6 +29,10 @@ struct AssetsView : View {
     @State private var showDatePicker = false
     @State private var datePickerType = DatePickerType.YM
     @State private var datePickerValue = DatePickerValue()
+    // 显示详情
+    @State private var showDetail = false
+    // 要显示的账户信息
+    @State private var showDetailItem:String = ""
     
     var body: some View {
         VStack {
@@ -57,6 +61,7 @@ struct AssetsView : View {
                     .background(Color("DefaultButtonBackgroud"),in:RoundedRectangle(cornerRadius: 10))
                     .padding(.trailing,2.5)
                     .onTapGesture {
+                        keyFeedback()
                         type = 0
                         initData()
                     }
@@ -84,6 +89,7 @@ struct AssetsView : View {
                     .background(Color("RedColor"),in:RoundedRectangle(cornerRadius: 10))
                     .padding(.leading,2.5)
                     .onTapGesture {
+                        keyFeedback()
                         type = 1
                         initData()
                     }
@@ -101,7 +107,7 @@ struct AssetsView : View {
                             Text("\(keyItem)")
                                 .font(.system(size: 14, weight: .bold))
                                 .onTapGesture {
-                                    //showAssertsDetail(item)
+                                    showAssertsDetail(keyItem)
                                 }
                             Spacer()
                             Text("\(item)")
@@ -169,11 +175,15 @@ struct AssetsView : View {
                 loadDataAndShow()
             })
             .sheet(isPresented: $showAssert) {
-                AssetsEditComponent(depositValue: $depositValue, liabilitiesValue: $liabilitiesValue,lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)
+                AssetsEditComponent(depositValue: $depositValue, liabilitiesValue: $liabilitiesValue, lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)
+            }
+            .sheet(isPresented: $showDetail) {
+                AssertsDetailComponent(showDetailItem: $showDetailItem, type: $type, lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)
             }
             .onAppear() {
                 initData()
-            }.onChange(of: lastUpdateTime) { newValue in
+            }
+            .onChange(of: lastUpdateTime) { newValue in
                 initData()
             }
     }
@@ -199,9 +209,12 @@ struct AssetsView : View {
     }
     /**
      显示账户详情
+     keyItem: 账户
+     type: 类型
      */
-    func showAssertsDetail() {
-        
+    func showAssertsDetail(_ keyItem:String) {
+        showDetailItem = keyItem
+        showDetail = true
     }
     
     

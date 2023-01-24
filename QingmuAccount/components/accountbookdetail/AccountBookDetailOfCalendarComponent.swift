@@ -105,7 +105,7 @@ struct AccountBookDetailOfCalendarComponent : View {
     }
     
     func calendarShowDateItemsShow(_ calendarShowDateItems: CalendarShowDateItems, _ yearDataReal:AccountBookYearData) -> [CalendarDateModel] {
-        var datas = calendarShowDateItems.datas
+        let datas = calendarShowDateItems.datas
         let ymStr = DateUtils.ymStr(calendarShowDateItems.year, calendarShowDateItems.month)
         // ym - []
         let monthDatas = yearDataReal.data[ymStr] ?? []
@@ -123,7 +123,7 @@ struct AccountBookDetailOfCalendarComponent : View {
             dataItem.mark = false
             if nil != dayDatas && dayDatas!.count > 0 {
                 dataItem.mark = true
-                var totalMoney:Decimal = dayDatas!.reduce(Decimal(0.0)) { partialResult, item in
+                let totalMoney:Decimal = dayDatas!.reduce(Decimal(0.0)) { partialResult, item in
                     var resultTemp = partialResult
                     if item.type == 0 {
                         // 支出

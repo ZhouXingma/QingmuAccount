@@ -146,6 +146,18 @@ class DateUtils {
     }
     
     /**
+     年度和月度转换为yyyyMMdd格式
+     */
+    public static func ymdStr(_ year:Int, _ month:Int, _ day:Int, _ withSplit:Bool = false) -> String {
+        let monthStr = month < 10 ? "0\(month)" : "\(month)"
+        let datStr = day < 10 ? "0\(day)" : "\(day)"
+        if !withSplit {
+            return String("\(year)\(monthStr)\(day)")
+        }
+        return String("\(year)-\(monthStr)-\(day)")
+    }
+    
+    /**
      年度和月度转换为yyyyMM格式
      */
     public static func ymStr(_ date:Date) -> String {

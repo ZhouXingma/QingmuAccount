@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3B5B398C-8601-467E-9920-E8A4EC78B393"
+            uuid = "D1562541-4704-4D7F-A5FE-B8550B539662"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QingmuAccount/components/accountbookdetail/service/accountbookdata/AccountBookDataOfCacheService.swift"
+            filePath = "QingmuAccount/components/assets/AssertsDetailComponent.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "addData(_:data:cache:updateCache:updaeFile:)"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "deleteAssertRecord(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
