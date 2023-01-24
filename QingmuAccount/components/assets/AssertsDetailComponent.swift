@@ -36,9 +36,8 @@ struct AssertsDetailComponent:View {
     // 显示加载
     @State var showLoading:Bool = false
     // 显示通知的配置信息
-    @State var alterComponentConfig:AlertComponentConfig =  AlertComponentConfig(desc: "操作失败",
-                                                                             showCancelButton: false,
-                                                                             sureButtonName: "我知道了")
+    @State var alterComponentConfig:AlertComponentConfig =  AlertComponentConfig(title: "删除提醒",
+                                                                                 desc: "是否确定删除该账目，并且删除所有记录？删除后无法进行恢复！")
     
     var body: some View {
         VStack {

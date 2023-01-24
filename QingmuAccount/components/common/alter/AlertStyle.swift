@@ -16,7 +16,6 @@ struct SelfAlterStyle: ViewModifier {
             content
             AlertComponent(showSate: $showState, config:config)
         }
-       
     }
 }
 

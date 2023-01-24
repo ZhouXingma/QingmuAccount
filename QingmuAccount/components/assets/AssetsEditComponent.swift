@@ -38,6 +38,9 @@ struct AssetsEditComponent : View {
     @State private var pickerDatasOfliabilities:[DataPickerValue] = []
     
     @State private var assertsData:AssertsData = AssertsData()
+    // 显示提醒
+    @State private var showAlter:Bool = false
+    @State private var alterComponentConfig = AlertComponentConfig(title: "异常提醒",desc: "数据超出项目最大额！")
     
     var body: some View {
         VStack {
@@ -151,6 +154,7 @@ struct AssetsEditComponent : View {
                 loadData()
                 resetShowDataPicker()
             }
+            .selfAlter(showState: $showAlter, config: alterComponentConfig)
             
     }
     // 加载数据
@@ -203,6 +207,7 @@ struct AssetsEditComponent : View {
     func closeAll() {
         toHideKeyboard()
         closeAllDataPicker()
+        showAlter = false
     }
     
     func closeAllDataPicker() {
@@ -228,34 +233,41 @@ struct AssetsEditComponent : View {
         let ymStr = DateUtils.ymStr(Date())
         if (self.typeToggle) {
             // 负债
-            var liabilitiesDataTemp = self.assertsData.liabilitiesData[ymStr] ?? []
-            liabilitiesDataTemp.append(recordDataItem)
-            self.assertsData.liabilitiesData[ymStr] = liabilitiesDataTemp
-            
             var liabilitiesTemp = self.assertsData.liabilities[recordDataItem.accountName] ?? "0.0"
             if (self.payToggle) {
                 // 减少
-                liabilitiesTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: liabilitiesTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0))
+                let liabilitiesTempDecimal = (Decimal(string: liabilitiesTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0)
+                liabilitiesTemp = DecimalUtils.trans2StringOfCurrency(liabilitiesTempDecimal)
+                if (liabilitiesTempDecimal < 0) {
+                    showHandleNumberError()
+                    return
+                }
             } else {
                 // 增加
                 liabilitiesTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: liabilitiesTemp) ?? 0) + (Decimal(string: self.setingValue) ?? 0))
             }
-            
+            var liabilitiesDataTemp = self.assertsData.liabilitiesData[ymStr] ?? []
+            liabilitiesDataTemp.append(recordDataItem)
+            self.assertsData.liabilitiesData[ymStr] = liabilitiesDataTemp
             self.assertsData.liabilities[recordDataItem.accountName] = liabilitiesTemp
         } else {
             // 存款
-            var depositDataTemp = self.assertsData.depositData[ymStr] ?? []
-            depositDataTemp.append(recordDataItem)
-            self.assertsData.depositData[ymStr] = depositDataTemp
-            
             var depositTemp = self.assertsData.deposit[recordDataItem.accountName] ?? "0.0"
             if (self.payToggle) {
                 // 减少
-                depositTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: depositTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0))
+                let depositTempDecimal = (Decimal(string: depositTemp) ?? 0) - (Decimal(string: self.setingValue) ?? 0)
+                depositTemp = DecimalUtils.trans2StringOfCurrency(depositTempDecimal)
+                if (depositTempDecimal < 0) {
+                    showHandleNumberError()
+                    return
+                }
             } else {
                 // 增加
                 depositTemp = DecimalUtils.trans2StringOfCurrency((Decimal(string: depositTemp) ?? 0) + (Decimal(string: self.setingValue) ?? 0))
             }
+            var depositDataTemp = self.assertsData.depositData[ymStr] ?? []
+            depositDataTemp.append(recordDataItem)
+            self.assertsData.depositData[ymStr] = depositDataTemp
             self.assertsData.deposit[recordDataItem.accountName] = depositTemp
         }
         do {
@@ -266,6 +278,21 @@ struct AssetsEditComponent : View {
             
         }
         
+    }
+    /**
+      显示数据处理异常
+      比如：减少的存款比实际的存款还多的时候
+      比如：减少的负债比实际的负债还多的时候
+     */
+    func showHandleNumberError() {
+        closeAll()
+        alterComponentConfig.title = "异常提醒"
+        alterComponentConfig.desc = "数据超出项目最大额！"
+        alterComponentConfig.topBarColorStyle = .RED
+        alterComponentConfig.showCancelButton = false
+        alterComponentConfig.showSureButton = true
+        alterComponentConfig.sureButtonName = "知道了"
+        showAlter = true
     }
     
     /**

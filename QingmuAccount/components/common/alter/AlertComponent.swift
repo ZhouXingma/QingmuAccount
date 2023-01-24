@@ -36,17 +36,12 @@ struct AlertComponent : View {
                     .foregroundColor(config.topBarColorStyle == .DEFAULT ? Color("DefaultButtonBackgroud") : Color("RedColor"))
                 VStack {
                     Text(config.title)
-                        .font(.system(size: 18,weight: .bold))
-                        .opacity(showSate ? 1 : 0)
-                        .animation(.easeIn(duration: 0.2), value: showSate)
+                        .font(.system(size: 18, weight: .bold))
                     Text(config.desc)
                         .font(.system(size: 16))
                         .padding(.vertical,10)
-                        .opacity(showSate ? 1 : 0)
-                        .animation(.easeIn(duration: 0.2), value: showSate)
                     Spacer()
                     HStack {
-                        if (config.showCancelButton) {
                             Button {
                                 closeShow()
                                 config.cancelFun()
@@ -56,13 +51,12 @@ struct AlertComponent : View {
                                         .foregroundColor(.white)
                                         .font(.system(size: 16, weight: .bold))
                                         .padding(.vertical, 10)
-                                }.frame(maxWidth: .infinity)
+                                }.frame(maxWidth: config.showCancelButton ? .infinity : 0)
                                     .background(Color("RedColor"), in: RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal,10)
-                            }
-                        }
-                       
-                        if (config.showSureButton) {
+                            }.opacity(config.showCancelButton ? 1 : 0)
+                            .frame(maxWidth: config.showCancelButton ? .infinity : 0)
+                        
                             Button {
                                 closeShow()
                                 config.sureFun()
@@ -72,28 +66,27 @@ struct AlertComponent : View {
                                         .foregroundColor(.white)
                                         .font(.system(size: 16, weight: .bold))
                                         .padding(.vertical, 10)
-                                }.frame(maxWidth: .infinity)
+                                }.frame(maxWidth: config.showSureButton ? .infinity : 0)
                                     .background(Color("DefaultButtonBackgroud"), in: RoundedRectangle(cornerRadius: 10))
                                     .padding(.horizontal,10)
-                            }
-                        }
-                        
-                        
-                    }.padding(.top, 20)
+                            }.opacity(config.showSureButton ? 1 : 0)
+                            .frame(maxWidth: config.showSureButton ? .infinity : 0)
+
+                    }.frame(minWidth: 0,maxWidth: .infinity)
+                        .padding(.top, 20)
                     
                 }.padding(.top, 5)
                     .padding(.horizontal,20)
                     .padding(.bottom,30)
-                    
                 
             }.frame(minWidth: 0, maxWidth: .infinity)
-            .frame(minHeight: 200,maxHeight: 250)
+            .frame(minHeight: 200, maxHeight: 250)
             .background(Color("MainBackgroundColor"),in:RoundedRectangle(cornerRadius: 20))
             .shadow(color: Color("MainShadowColor").opacity(0.3), radius:20,x: 1,y:-10)
-            .offset(y:computerOffSetY())
+            .offset(y: computerOffSetY())
             .gesture(drag)
-            .animation(.easeIn(duration: 0.2), value: showSate)
-            
+            .animation(.spring(), value: showSate)
+        
         }.ignoresSafeArea()
         .frame(minWidth: 0, maxWidth: .infinity)
         .frame(minHeight: 0, maxHeight: .infinity)
@@ -107,7 +100,7 @@ struct AlertComponent : View {
     }
     
     func closeShow() {
-        withAnimation(.easeOut) {
+        withAnimation(.spring()) {
             showSate = false
             offsetY = 0
         }
