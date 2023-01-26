@@ -162,7 +162,7 @@ public enum IconFontEnum:String,Encodable,Decodable,CaseIterable  {
     // icon-bus-two
     case icon70 = "\u{e9e5}"
     // icon-acceleration
-    case icon71 = "\u{e910}"
+    case icon71 = "\u{e914}"
     // icon-train_railway_railroad_locomotive_i
     case icon72 = "\u{ea1d}"
     // icon-cruise
