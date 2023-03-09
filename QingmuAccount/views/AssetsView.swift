@@ -101,18 +101,20 @@ struct AssetsView : View {
                     Spacer()
                 }.frame(height: 30)
                 VStack {
-                    ForEach(datas.keys.sorted(), id:\.self) { keyItem in
-                        let item = datas[keyItem]!
-                        HStack {
-                            Text("\(keyItem)")
-                                .font(.system(size: 14, weight: .bold))
-                                .onTapGesture {
-                                    showAssertsDetail(keyItem)
-                                }
-                            Spacer()
-                            Text("\(item)")
-                                .font(.system(size: 14, weight: .bold))
-                        }.frame(height: 30).foregroundColor(Color("FontColor"))
+                    ScrollView(showsIndicators: false) {
+                        ForEach(datas.keys.sorted(), id:\.self) { keyItem in
+                            let item = datas[keyItem]!
+                            HStack {
+                                Text("\(keyItem)")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .onTapGesture {
+                                        showAssertsDetail(keyItem)
+                                    }
+                                Spacer()
+                                Text("\(item)")
+                                    .font(.system(size: 14, weight: .bold))
+                            }.frame(height: 30).foregroundColor(Color("FontColor"))
+                        }
                     }
                 }
             }.padding(10)
@@ -175,7 +177,7 @@ struct AssetsView : View {
                 loadDataAndShow()
             })
             .sheet(isPresented: $showAssert) {
-                AssetsEditComponent(depositValue: $depositValue, liabilitiesValue: $liabilitiesValue, lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)
+                AssetsEditComponent(depositValue: $depositValue, liabilitiesValue: $liabilitiesValue, lastUpdateTime:$lastUpdateTime, currentType: type).environmentObject(globalModel)
             }
             .sheet(isPresented: $showDetail) {
                 AssertsDetailComponent(showDetailItem: $showDetailItem, type: $type, lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)

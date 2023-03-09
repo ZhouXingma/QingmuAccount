@@ -18,6 +18,7 @@ struct AssetsEditComponent : View {
     @Binding var liabilitiesValue:Decimal
     // 用于重新更新数据
     @Binding var lastUpdateTime:Date
+    var currentType:Int = 0
     // 类型，true:负债，false:存款
     @State private var typeToggle : Bool = false
     // 类型，true:减少，false:增加
@@ -151,6 +152,8 @@ struct AssetsEditComponent : View {
                 dataPickerValue = newValue
                 accountName = newValue.data ?? ""
             }.onAppear() {
+                // 预设
+                typeToggle = currentType == 1 ? true : false
                 loadData()
                 resetShowDataPicker()
             }

@@ -194,7 +194,9 @@ struct AssertsDetailComponent:View {
             }
             selectMoth  = selectMoth - 1
         }
-        self.showDatas = temp
+        self.showDatas = temp.sorted { item1, item2 in
+            item1.gmtCreated >= item2.gmtCreated
+        }
     }
     
     func deleteAssertRecordCheck(_ deleteData:AssertsDataItem) {
