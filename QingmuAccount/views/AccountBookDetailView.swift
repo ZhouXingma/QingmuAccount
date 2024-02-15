@@ -11,28 +11,29 @@ import SwiftUI
 struct AccountBookDetailView : View {
     @EnvironmentObject var globalModel:GlobalModel
     // 列表类型
-    @State var listType:Int = 0
+    @State private var listType:Int = 0
     // 显示添加记录
-    @State var showAddRecord:Bool = false
+    @State private var showAddRecord:Bool = false
     // 整本的配置信息
-    @State var accountBookSeting:AccountBookSetingModel? = nil
+    @State private var accountBookSeting:AccountBookSetingModel? = nil
     // 显示提醒
-    @State var showAlter = false
-    @State var alterConfig = AlertComponentConfig()
+    @State private var showAlter = false
+    @State private var alterConfig = AlertComponentConfig()
     // 最后加载时间
-    @State var latestLoadTime:Date = Date()
+    @State private var latestLoadTime:Date = Date()
     var body: some View {
         ZStack {
+            // 底部菜单栏
             subBar
             VStack {
                 if listType==0 {
+                    // 列表模式
                     AccountBookDetailOfListComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
                 } else if listType==1 {
+                    // 日历模式
                     AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
                 }
             }
-            
-           
         }.ignoresSafeArea()
             .onAppear() {
                 getAccountBookSeting()
@@ -45,12 +46,13 @@ struct AccountBookDetailView : View {
             .selfAlter(showState: $showAlter, config: alterConfig)
             
     }
-    
+    // 底部菜单栏
     var subBar : some View {
         VStack {
             Spacer()
             HStack(alignment:.center) {
                 Spacer()
+                // 列表
                 Image(systemName: "list.dash")
                     .font(.system(size: 20))
                     .foregroundColor(listType == 0 ?  Color("DefaultButtonBackgroud") : Color("FontColorSecend"))
@@ -60,6 +62,7 @@ struct AccountBookDetailView : View {
                         }
                     }
                 Spacer()
+                // 按钮
                 Button {
                     openAddRecord()
                 } label: {
@@ -70,6 +73,7 @@ struct AccountBookDetailView : View {
                         .shadow(color: Color("MainShadowColor").opacity(0.2), radius:8, x: 0, y:-4)
                 }.offset(y:-10)
                 Spacer()
+                // 日历
                 Image(systemName: "calendar")
                     .font(.system(size: 20))
                     .foregroundColor(listType == 1 ?  Color("DefaultButtonBackgroud") : Color("FontColorSecend"))

@@ -20,5 +20,14 @@ class StringUtils {
     static func trimCount(_ str:String) -> Int {
         return trim(str).count
     }
+    
+    static func subString(_ str:String, start:Int, end:Int) -> String {
+        if str.count < end || start >= end {
+            return ""
+        }
+        let startIndex = str.index(str.startIndex, offsetBy: start)
+        let endIndex = str.index(str.startIndex, offsetBy: end)
+        return String(str[startIndex..<endIndex])
+    }
 
 }

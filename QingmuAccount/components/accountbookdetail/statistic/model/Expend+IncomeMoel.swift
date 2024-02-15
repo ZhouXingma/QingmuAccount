@@ -55,10 +55,15 @@ class ExpendIncomeModel {
         }
         return data
     }
-    
-    func titleDataListWithSort() -> [ExpendIncomeTitleData]{
+    // 根据类别暂时列表
+    // @param sotType 排序类型，0:按照金额，1:按照支付笔数
+    func titleDataListWithSort(sortType:Int) -> [ExpendIncomeTitleData]{
         let groupValues = titleData.values.sorted { item1, item2 in
-            item1.value >= item2.value
+            if sortType == 0 {
+                return item1.value >= item2.value
+            } else {
+                return item1.count >= item2.count
+            }
         }
         return groupValues
     }
@@ -88,18 +93,27 @@ class ExpendIncomeTitleData {
     var value:Decimal
     // 总笔数
     var count:Int
+    // 记录列表
+    var list:[AccountBookData]
     
-    init(title: String, iconStr: String = "", value: Decimal = 0, count: Int = 0) {
+    init(title: String, iconStr: String = "", value: Decimal = 0, count: Int = 0, list:[AccountBookData] = []) {
         self.title = title
         self.iconStr = iconStr
         self.value = value
         self.count = count
+        self.list = list
     }
 }
 
 
-
-
-
+class ExpendIncomeDetailData : ObservableObject {
+    @Published var data:ExpendIncomeTitleData? = nil
+    
+    init() {
+    }
+    init(data:ExpendIncomeTitleData) {
+        self.data = data
+    }
+}
 
 

@@ -26,11 +26,11 @@ struct InOutOfMonthComponent : View {
     /**
      重新选择时间
      */
-    @State var changeTime: ()-> Void = {}
+    var changeTime: ()-> Void = {}
     /**
      显示统计
      */
-    @State var showStatistics:() -> Void = {}
+    var showStatistics:() -> Void = {}
     
     var body: some View {
         VStack {

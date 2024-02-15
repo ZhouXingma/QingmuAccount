@@ -195,6 +195,8 @@ struct AssetsView : View {
         self.year = DateUtils.findComponentsOfDate([.year], date: Date()).year!
         // 月
         self.month = DateUtils.findComponentsOfDate([.month], date: Date()).month!
+        // 日期选择
+        showDatePicker = false
         loadDataAndShow()
     }
     

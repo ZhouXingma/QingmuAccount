@@ -42,7 +42,7 @@ struct AccountBookDetailOfCalendarComponent : View {
         .padding(.bottom,100)
         .sheet(isPresented: $editRecord, content: {
             AccountBookRecordEditComponent(accountBookData: editAccountBookData!, newRecordUpdate: { item in
-                realoadDayDatas()
+                self.latestLoadTime = Date()
             }).environmentObject(globalModel)
         })
         .onChange(of: latestLoadTime, perform: { newValue in
@@ -204,7 +204,7 @@ struct AccountBookDetailOfCalendarComponent : View {
     func deleteRecord(_ recordItem:AccountBookData) {
         do {
             try AccountBookDataOfCacheService.deleteData(globalModel.accountBook!.id.description, data: recordItem, cache: globalModel)
-            self.realoadDayDatas()
+            self.latestLoadTime = Date()
         } catch {
             
         }

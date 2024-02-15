@@ -9,13 +9,10 @@ import SwiftUI
 
 struct IndexView : View {
     @EnvironmentObject var globalModel:GlobalModel
+    // 当前选择的账本
     @AppStorage("selectAccountBook") private var selectAccountBook = AccountBookHandleService.DEFAULT_NAME
     // 系统当前颜色模式
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @State private var initAccountBookResult:Bool = false
-    @State private var initAccountBookConfig = AlertComponentConfig(desc: "初始化账本失败",
-                            showCancelButton: false,
-                            sureButtonName: "我知道了")
     // 选择的tabView的tag
     @State private var selection:Int = 0
     // 滑动变动参数，用于计算菜单文字大小和颜色动态变化，以及菜单下的滚动条位置
@@ -33,9 +30,11 @@ struct IndexView : View {
         VStack {
             NavigationView {
                 VStack {
+                    // 顶部菜单
                     TopMenu
+                    // 正文内容
                     ContentTabView
-                }.frame(minWidth: 0,maxWidth: .infinity,minHeight: 0,maxHeight: .infinity)
+                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                     .ignoresSafeArea(.all,edges: .bottom)
                     .background(Color("ViewBackgroundColor"))
                     .navigationBarBackButtonHidden()
@@ -70,8 +69,8 @@ struct IndexView : View {
      */
     func initData() {
         showLoding = true
-        
         do {
+            // 初始化账本
             try AccountBookHandleOfCacheService.initAcountBook(selectAccountBookName:selectAccountBook, cache: globalModel)
         } catch AccountBookHandleError.ISEXIT {
             
@@ -98,12 +97,14 @@ struct IndexView : View {
      */
     var TopMenu : some View {
         VStack {
+            // 菜单
             HStack {
                 HStack(alignment: .bottom) {
                     TopMenuItem(name: "账本", menuSelection: 0, currentSelection: $selection, changeValue: $x)
                     TopMenuItem(name: "资产", menuSelection: 1, currentSelection: $selection, changeValue: $x)
                 }
                 Spacer()
+                // 账本选择
                 NavigationLink {
                     AccountBookSelectComponent().environmentObject(globalModel)
                 } label: {
@@ -111,6 +112,7 @@ struct IndexView : View {
                         .font(.system(size: 28))
                         .foregroundColor(.primary)
                 }.opacity(selection == 0 ? 1 : 0)
+                // 个人中心
                 NavigationLink {
                     PersonView().environmentObject(globalModel)
                 } label: {
@@ -119,6 +121,7 @@ struct IndexView : View {
                         .foregroundColor(.primary)
                 }
             }
+            // 菜单滚动条
             HStack{
                 HStack {
                     RoundedRectangle(cornerRadius: 5)
@@ -168,11 +171,16 @@ struct MainTabViewScrollPrefreceViewSetter : View {
 
 
 
-
+/**
+ * 顶部菜单的展示
+ */
 struct TopMenuItem : View {
-    @State var name : String
-    @State var menuSelection: Int
+    // 菜单名称
+    var name : String
+    // 当前选择哪个菜单
+    var menuSelection: Int
     @Binding var currentSelection : Int
+    // 手势变化偏移量
     @Binding var changeValue:Double
     var body: some View {
         HStack {

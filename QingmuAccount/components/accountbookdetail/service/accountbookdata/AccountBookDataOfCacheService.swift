@@ -12,7 +12,7 @@ class AccountBookDataOfCacheService {
     /**
      添加数据
      */
-    public static func addData(_ accountBookId:String, data:AccountBookData, cache:GlobalModel, updateCache:Bool = true, updaeFile:Bool = true) throws {
+    public static func addData(_ accountBookId:String, data:AccountBookData, cache:GlobalModel, updateCache:Bool = true, updaeFile:Bool = true, updateTotal:Bool = true) throws {
         let dataStr = data.dateStr
         if (StringUtils.trimCount(dataStr) != 8) {
             throw AccountBookDataError.TAKEHANLE
@@ -31,6 +31,9 @@ class AccountBookDataOfCacheService {
         }
         ymDataArray!.append(data)
         yearData!.data[ym] = ymDataArray
+        if (updateTotal) {
+            updateYearDataTotal(yearData!)
+        }
         if (updaeFile) {
             try AccountBookDataService.setData(accountBookId, accountBookYearData: yearData!)
         }
@@ -43,13 +46,13 @@ class AccountBookDataOfCacheService {
      */
     public static func updateData(_ accountBookId:String, oldData:AccountBookData, newData:AccountBookData, cache:GlobalModel) throws {
         // 处理逻辑，删除旧的，添加新的
-        try deleteData(accountBookId, data: oldData, cache: cache,updateCache: true, updaeFile: false)
-        try addData(accountBookId, data: newData, cache: cache, updateCache: true, updaeFile: true)
+        try deleteData(accountBookId, data: oldData, cache: cache,updateCache: true, updaeFile: false, updateTotal: false)
+        try addData(accountBookId, data: newData, cache: cache, updateCache: true, updaeFile: true, updateTotal: true)
     }
     /**
      删除数据
      */
-    public static func deleteData(_ accountBookId:String, data:AccountBookData, cache:GlobalModel, updateCache:Bool = true, updaeFile:Bool = true) throws {
+    public static func deleteData(_ accountBookId:String, data:AccountBookData, cache:GlobalModel, updateCache:Bool = true, updaeFile:Bool = true,updateTotal:Bool = true) throws {
         let dataStr = data.dateStr
         if (StringUtils.trimCount(dataStr) != 8) {
             throw AccountBookDataError.TAKEHANLE
@@ -76,6 +79,9 @@ class AccountBookDataOfCacheService {
         if (nil != removeIndex) {
             ymDataArray!.remove(at: removeIndex!)
             yearData!.data[ym] = ymDataArray
+            if (updateTotal) {
+                updateYearDataTotal(yearData!)
+            }
             if (updaeFile) {
                 try AccountBookDataService.setData(accountBookId, accountBookYearData: yearData!)
             }
@@ -95,5 +101,23 @@ class AccountBookDataOfCacheService {
         let yearDataDb = try AccountBookDataService.readData(accountBookId, year: year)
         cache.refreshAccountBookYearData(yearDataDb)
         return yearDataDb
+    }
+    
+    // 更新总数据
+    private static func updateYearDataTotal(_ yearData:AccountBookYearData) {
+        for (ym,ymData) in yearData.data {
+            var totalIn = Decimal(0.00);
+            var totalEx = Decimal(0.00)
+            if ymData.count > 0 {
+                for ymDataItem in ymData {
+                    if ymDataItem.type == 0 {
+                        totalEx = totalEx + (Decimal(string:ymDataItem.money) ?? Decimal(0.0))
+                    } else {
+                        totalIn = totalIn + (Decimal(string:ymDataItem.money) ?? Decimal(0.0))
+                    }
+                }
+            }
+            yearData.total[ym] = IncomeExpensesTotal(income: totalIn, expenses: totalEx)
+        }
     }
 }

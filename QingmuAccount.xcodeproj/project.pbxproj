@@ -54,7 +54,7 @@
 		D580E11729768D7B0053118D /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D580E11629768D730053118D /* icomoon.ttf */; };
 		D5856C6D293D779C004FFDF4 /* YmDatePickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */; };
 		D58668632941A8B900AD8BD2 /* InOutOfDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */; };
-		D5866873294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */; };
+		D5866873294237D000AD8BD2 /* AccountBookBudgetDetailComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5866872294237D000AD8BD2 /* AccountBookBudgetDetailComponent.swift */; };
 		D5A21CA22939B8EC008F7668 /* AccountBookDetailOfListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */; };
 		D5A21CA42939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */; };
 		D5A375052936FB5E00C01D6E /* PreferenceKeyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A375042936FB5E00C01D6E /* PreferenceKeyConfig.swift */; };
@@ -66,8 +66,10 @@
 		D5A5BB60292FBC43004E4BFF /* GlobalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A5BB5F292FBC43004E4BFF /* GlobalModel.swift */; };
 		D5A5BB62292FBE0B004E4BFF /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A5BB61292FBE0B004E4BFF /* AssetsView.swift */; };
 		D5A5BB65292FC3DD004E4BFF /* CalendarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A5BB64292FC3DD004E4BFF /* CalendarComponent.swift */; };
+		D5AEF9C32B557AAF0090FC51 /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEF9C22B557AAF0090FC51 /* BudgetModel.swift */; };
 		D5BB7BFA29600B4800C963FD /* AccountBookSelectComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BB7BF929600B4800C963FD /* AccountBookSelectComponent.swift */; };
 		D5BB7BFF2960455500C963FD /* SeeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BB7BFE2960455500C963FD /* SeeComponent.swift */; };
+		D5BF23982B564A380088EC90 /* AccountBookBudgetSettingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BF23972B564A380088EC90 /* AccountBookBudgetSettingComponent.swift */; };
 		D5CA399A2952E88500B07BE8 /* Legend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CA39992952E88500B07BE8 /* Legend.swift */; };
 		D5CA399E2952F6D100B07BE8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CA399D2952F6D000B07BE8 /* Helpers.swift */; };
 		D5CA39A12953092200B07BE8 /* IndicatorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CA39A02953092200B07BE8 /* IndicatorPoint.swift */; };
@@ -94,6 +96,7 @@
 		D5DF22D929409585001C8891 /* AccountBookDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF22D829409585001C8891 /* AccountBookDataService.swift */; };
 		D5DF22DB294095DB001C8891 /* AccountBookDataOfCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF22DA294095DB001C8891 /* AccountBookDataOfCacheService.swift */; };
 		D5E2CE832948B9B900940C98 /* RecordIconSeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E2CE822948B9B900940C98 /* RecordIconSeting.swift */; };
+		D5E929512B52BE890037F2FC /* AccountBookStatisticTitleConsumerDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E929502B52BE890037F2FC /* AccountBookStatisticTitleConsumerDetail.swift */; };
 		D5EA01AB293D952F001431D9 /* AccountBookAddRecordComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EA01AA293D952F001431D9 /* AccountBookAddRecordComponent.swift */; };
 		D5EA01AD293DDA85001431D9 /* AcountKeyBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EA01AC293DDA85001431D9 /* AcountKeyBoard.swift */; };
 		D5EA01B2293E1681001431D9 /* AcountKeyBoardNotifaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EA01B1293E1681001431D9 /* AcountKeyBoardNotifaction.swift */; };
@@ -157,7 +160,7 @@
 		D580E11629768D730053118D /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		D5856C6C293D779C004FFDF4 /* YmDatePickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YmDatePickerComponent.swift; sourceTree = "<group>"; };
 		D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOutOfDayModel.swift; sourceTree = "<group>"; };
-		D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookBudgetSettingComponent.swift; sourceTree = "<group>"; };
+		D5866872294237D000AD8BD2 /* AccountBookBudgetDetailComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookBudgetDetailComponent.swift; sourceTree = "<group>"; };
 		D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfListComponent.swift; sourceTree = "<group>"; };
 		D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDetailOfCalendarComponent.swift; sourceTree = "<group>"; };
 		D5A375042936FB5E00C01D6E /* PreferenceKeyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyConfig.swift; sourceTree = "<group>"; };
@@ -170,8 +173,10 @@
 		D5A5BB5F292FBC43004E4BFF /* GlobalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalModel.swift; sourceTree = "<group>"; };
 		D5A5BB61292FBE0B004E4BFF /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
 		D5A5BB64292FC3DD004E4BFF /* CalendarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarComponent.swift; sourceTree = "<group>"; };
+		D5AEF9C22B557AAF0090FC51 /* BudgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModel.swift; sourceTree = "<group>"; };
 		D5BB7BF929600B4800C963FD /* AccountBookSelectComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookSelectComponent.swift; sourceTree = "<group>"; };
 		D5BB7BFE2960455500C963FD /* SeeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeComponent.swift; sourceTree = "<group>"; };
+		D5BF23972B564A380088EC90 /* AccountBookBudgetSettingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookBudgetSettingComponent.swift; sourceTree = "<group>"; };
 		D5CA39992952E88500B07BE8 /* Legend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legend.swift; sourceTree = "<group>"; };
 		D5CA399D2952F6D000B07BE8 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D5CA39A02953092200B07BE8 /* IndicatorPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorPoint.swift; sourceTree = "<group>"; };
@@ -198,6 +203,7 @@
 		D5DF22D829409585001C8891 /* AccountBookDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookDataService.swift; sourceTree = "<group>"; };
 		D5DF22DA294095DB001C8891 /* AccountBookDataOfCacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountBookDataOfCacheService.swift; sourceTree = "<group>"; };
 		D5E2CE822948B9B900940C98 /* RecordIconSeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordIconSeting.swift; sourceTree = "<group>"; };
+		D5E929502B52BE890037F2FC /* AccountBookStatisticTitleConsumerDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookStatisticTitleConsumerDetail.swift; sourceTree = "<group>"; };
 		D5EA01AA293D952F001431D9 /* AccountBookAddRecordComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookAddRecordComponent.swift; sourceTree = "<group>"; };
 		D5EA01AC293DDA85001431D9 /* AcountKeyBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcountKeyBoard.swift; sourceTree = "<group>"; };
 		D5EA01B1293E1681001431D9 /* AcountKeyBoardNotifaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcountKeyBoardNotifaction.swift; sourceTree = "<group>"; };
@@ -347,6 +353,7 @@
 				D5F01F4B29546EA100A1AFF0 /* model */,
 				D5CA39982952E87200B07BE8 /* chart */,
 				D567660D2950939800A3662C /* AccountBookStatisticComponent.swift */,
+				D5E929502B52BE890037F2FC /* AccountBookStatisticTitleConsumerDetail.swift */,
 			);
 			path = statistic;
 			sourceTree = "<group>";
@@ -420,7 +427,8 @@
 				D569BAD12938ABEB00BA5A7A /* InOutOfMonthComponent.swift */,
 				D5A21CA12939B8EC008F7668 /* AccountBookDetailOfListComponent.swift */,
 				D5A21CA32939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift */,
-				D5866872294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift */,
+				D5866872294237D000AD8BD2 /* AccountBookBudgetDetailComponent.swift */,
+				D5BF23972B564A380088EC90 /* AccountBookBudgetSettingComponent.swift */,
 				D5258397294629AB00DE5D61 /* AccountBookRecordEditComponent.swift */,
 				D5BB7BF929600B4800C963FD /* AccountBookSelectComponent.swift */,
 			);
@@ -439,6 +447,7 @@
 			isa = PBXGroup;
 			children = (
 				D58668622941A8B900AD8BD2 /* InOutOfDayModel.swift */,
+				D5AEF9C22B557AAF0090FC51 /* BudgetModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -763,7 +772,8 @@
 				D5A21CA42939BEF7008F7668 /* AccountBookDetailOfCalendarComponent.swift in Sources */,
 				D5719034293C9085009F941D /* DatePickerComponentConfig.swift in Sources */,
 				D5DF22D4294089E3001C8891 /* AccountBookData.swift in Sources */,
-				D5866873294237D000AD8BD2 /* AccountBookBudgetSettingComponent.swift in Sources */,
+				D5AEF9C32B557AAF0090FC51 /* BudgetModel.swift in Sources */,
+				D5866873294237D000AD8BD2 /* AccountBookBudgetDetailComponent.swift in Sources */,
 				D569BAD22938ABEB00BA5A7A /* InOutOfMonthComponent.swift in Sources */,
 				D5558DD52931E8C000C667B4 /* AlertComponent.swift in Sources */,
 				D56DBFC32930AD980017F7FC /* CalendarDateFactory.swift in Sources */,
@@ -815,10 +825,12 @@
 				D5A5BB48292EFCE8004E4BFF /* QingmuAccountApp.swift in Sources */,
 				D5558DF029324E6F00C667B4 /* LoadingStyle.swift in Sources */,
 				D5719038293C9BCD009F941D /* DatePickerValue.swift in Sources */,
+				D5E929512B52BE890037F2FC /* AccountBookStatisticTitleConsumerDetail.swift in Sources */,
 				D5558DE72932393400C667B4 /* AccountBookModel.swift in Sources */,
 				D5558DDE2932043A00C667B4 /* StringUtils.swift in Sources */,
 				D5D82516295D97C500DC1A05 /* DataPickerComponent.swift in Sources */,
 				D5D8250F295D344B00DC1A05 /* CommonFunConfig.swift in Sources */,
+				D5BF23982B564A380088EC90 /* AccountBookBudgetSettingComponent.swift in Sources */,
 				D5FF26FE2957337600E3B7A6 /* PiePath.swift in Sources */,
 				D54CD25B2930497100D68B0E /* IndexView.swift in Sources */,
 				D5A5BB65292FC3DD004E4BFF /* CalendarComponent.swift in Sources */,

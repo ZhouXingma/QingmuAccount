@@ -7,17 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C4F21A47-6404-47B3-BF09-3FAAD05BDD02"
-            shouldBeEnabled = "Yes"
+            uuid = "FD5D2A58-0EDB-4F6D-85C9-C867A43C4091"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QingmuAccount/components/accountbookdetail/addrecord/RecordAddOfIncome.swift"
+            filePath = "QingmuAccount/views/IndexView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
-            landmarkName = "addData()"
-            landmarkType = "7">
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "ContentTabView"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

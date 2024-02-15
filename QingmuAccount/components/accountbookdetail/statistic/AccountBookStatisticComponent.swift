@@ -35,6 +35,12 @@ struct AccountBookStatisticComponent : View {
     @State private var peiDataList:[PieData]?
     // 列表
     @State private var titleDataList:[ExpendIncomeTitleData] = []
+    // 排序方式
+    @State private var sortType:Int = 0
+    // 显示消费详情
+    @State private var showDetail = false
+    // 显示消费详情的数据
+    @StateObject var showDetailData:ExpendIncomeDetailData = ExpendIncomeDetailData()
     
     @State private var lineViewStyle:ChartStyle = ChartStyle(
         backgroundColor: Color("MainBackgroundColor"),
@@ -132,17 +138,25 @@ struct AccountBookStatisticComponent : View {
                     }
                     if ((nil != peiDataList && peiDataList!.count > 0) || titleDataList.count > 0) {
                         VStack {
+                            HStack {
+                                Spacer()
+                                createSortButton()
+                            }
                             if (nil != peiDataList && peiDataList!.count > 0) {
                                 HStack {
                                     Pie(peiDataList: peiDataList!)
                                 }.frame(minWidth: 0, maxWidth: .infinity)
                                  .frame(height:200)
                             }
-                            
+                        
                             VStack {
                                 ForEach(titleDataList.indices, id:\.self) { index in
                                     let item = titleDataList[index]
                                     createListItem(iconStr: item.iconStr, title: item.title, percent: (item.value/expendIncomeMoney * 100).doubleValue, totalMoney: item.value, payCount: item.count)
+                                        .onTapGesture {
+                                            showDetailData.data = item
+                                            showDetail = true
+                                        }
                                 }
                             }.padding(.horizontal, 10)
                         }.padding(.vertical,10)
@@ -165,6 +179,9 @@ struct AccountBookStatisticComponent : View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(Color("ViewBackgroundColor"))
             .ignoresSafeArea()
+            .sheet(isPresented: $showDetail) {
+                AccountBookStatisticTitleConsumerDetail(showDetailData: showDetailData)
+            }
             .onAppear() {
                 initData()
             }
@@ -240,6 +257,7 @@ struct AccountBookStatisticComponent : View {
                 titleDataTemp!.iconStr = dataItem.iconStr
                 titleDataTemp!.value += (Decimal(string: dataItem.money) ?? 0)
                 titleDataTemp!.count += 1
+                titleDataTemp!.list.append(dataItem)
             }
         }
         self.staticData.expendData = expendMonthData
@@ -288,6 +306,7 @@ struct AccountBookStatisticComponent : View {
                     titleDataTemp!.iconStr = dataItem.iconStr
                     titleDataTemp!.value += (Decimal(string: dataItem.money) ?? 0)
                     titleDataTemp!.count += 1
+                    titleDataTemp!.list.append(dataItem)
                 }
             }
         }
@@ -301,13 +320,13 @@ struct AccountBookStatisticComponent : View {
             expendIncomeMoney = self.staticData.expendData.totalValue
             chartData = self.staticData.expendData.charData(year: year, month: month, type: selectStaticDateType)
             peiDataList = self.staticData.expendData.peiDataList()
-            titleDataList = self.staticData.expendData.titleDataListWithSort()
+            titleDataList = self.staticData.expendData.titleDataListWithSort(sortType: sortType)
         } else {
             expendIncomeCount = self.staticData.incomeData.totalCount
             expendIncomeMoney = self.staticData.incomeData.totalValue
             chartData = self.staticData.incomeData.charData(year: year, month: month, type: selectStaticDateType)
             peiDataList = self.staticData.incomeData.peiDataList()
-            titleDataList = self.staticData.incomeData.titleDataListWithSort()
+            titleDataList = self.staticData.incomeData.titleDataListWithSort(sortType: sortType)
         }
     }
     
@@ -325,6 +344,7 @@ struct AccountBookStatisticComponent : View {
                     self.selectStaticDateType = code
                     self.year = DateUtils.findComponentsOfDate([.year], date: Date()).year!
                     self.month = DateUtils.findComponentsOfDate([.month], date: Date()).month!
+                    sortType = 0
                     initData()
                 }
             }
@@ -381,12 +401,19 @@ struct AccountBookStatisticComponent : View {
             }.padding(.vertical,5)
         }.padding(.horizontal,5)
     }
-}
-
-
-
-struct AccountBookStatisticComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountBookStatisticComponent().preferredColorScheme(.light)
+    
+    func createSortButton() -> some View {
+        HStack(alignment: .center) {
+            Image(systemName: "list.bullet.below.rectangle")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(Color("DefaultButtonBackgroud"))
+            Text(sortType == 0 ? "金额":"笔数")
+                .font(.system(size: 14))
+                .foregroundColor(Color("DefaultButtonBackgroud"))
+        }.padding(.trailing,10)
+            .onTapGesture {
+                sortType = sortType == 0 ? 1 : 0
+                showWithExpendAndIncomeType()
+            }
     }
 }

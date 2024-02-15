@@ -13,26 +13,26 @@ struct BudgetOverviewOfMonthComponent : View {
     @Binding var year:Int
     // 选择的月份
     @Binding var month:Int
-    // 本年
-    @State var thisYear:Int = DateUtils.findComponentsOfDate([.year], date: Date()).year!
-    // 本月
-    @State var thisMonth:Int = DateUtils.findComponentsOfDate([.month], date: Date()).month!
-    // 整本的配置信息
-    @State var accountBookSeting:AccountBookSetingModel? = nil
     // 显示预算设置
-    @State var showBudgetSetting:()->Void = {}
+    var showBudgetSetting:()->Void = {}
     // 显示预算更新监听时间
     @Binding var budgetChangeTime:Date
+    // 本年
+    @State private var thisYear:Int = DateUtils.findComponentsOfDate([.year], date: Date()).year!
+    // 本月
+    @State private var thisMonth:Int = DateUtils.findComponentsOfDate([.month], date: Date()).month!
+    // 整本的配置信息
+    @State private var accountBookSeting:AccountBookSetingModel? = nil
     // 支出
-    @State var expend:Decimal = 0
+    @State private var expend:Decimal = 0
     // 预算
-    @State var budget:Decimal?
+    @State private var budget:Decimal?
     // 历史预算
-    @State var budgetHistory:[String:Decimal] = [:]
+    @State private var budgetHistory:[String:Decimal] = [:]
     // 可以支付
-    @State var canUseMoney:String = "-"
+    @State private var canUseMoney:String = "-"
     // 预算使用百分比
-    @State var budgetUsePercent:Double = 1
+    @State private var budgetUsePercent:Double = 1
     
     
     

@@ -1,7 +1,7 @@
 //
 //  AccountBookDetailOfListComponent.swift
 //  QingmuAccount
-//
+//  账本-列表模式
 //  Created by 周荥马 on 2022/12/2.
 //
 
@@ -9,40 +9,41 @@ import SwiftUI
 struct AccountBookDetailOfListComponent : View {
     @EnvironmentObject var globalModel:GlobalModel
     // 滑动的类型
-    @State var selection:Int = 0
+    @State private var selection:Int = 0
     // 当前年份
-    @State var year:Int = DateUtils.findComponentsOfDate([.year], date: Date()).year!
+    @State private var year:Int = DateUtils.findComponentsOfDate([.year], date: Date()).year!
     // 当前月份
-    @State var month:Int = DateUtils.findComponentsOfDate([.month], date: Date()).month!
+    @State private var month:Int = DateUtils.findComponentsOfDate([.month], date: Date()).month!
     // 月度预算
-    @State var monthBudget:Decimal = -1
+    @State private var monthBudget:Decimal = -1
     // 月度收入
-    @State var monthIncome:Decimal = 0
+    @State private var monthIncome:Decimal = 0
     // 月度支出
-    @State var monthExpend:Decimal = 0
+    @State private var monthExpend:Decimal = 0
     // 月度收支数据
-    @State var monthDatas:[String:InOutOfDayModel] = [:]
+    @State private var monthDatas:[String:InOutOfDayModel] = [:]
     // 显示年度预算设置
-    @State var showBudgetSetting:Bool = false
-    @State var budgetChangeTime:Date = Date()
+    @State private var showBudgetSetting:Bool = false
+    @State private var budgetChangeTime:Date = Date()
     // 列表滑动通知
     @StateObject var notifaction = SelfSwiperNotification()
     // 编辑记录
-    @State var editRecord:Bool = false
+    @State private var editRecord:Bool = false
     // 编辑的记录数据
-    @State var editAccountBookData:AccountBookData? = nil
+    @State private var editAccountBookData:AccountBookData? = nil
     // 最后加载时间
     @Binding var latestLoadTime:Date
     // 显示统计信息
-    @State var showStatistics:Bool = false
+    @State private var showStatistics:Bool = false
     
     // 年月选择
-    @State var showYmPicker:Bool = false
-    @State var showYmPickerType:DatePickerType = .YM
+    @State private var showYmPicker:Bool = false
+    @State private var showYmPickerType:DatePickerType = .YM
     @State private var datePickerParam:DatePickerValue = DatePickerValue()
     
     var body: some View {
         VStack {
+            // 统计，预算汇总、概览
             TabView(selection: $selection) {
                 // 支出收入汇总
                 InOutOfMonthComponent(year: $year, month: $month, outTotal: $monthExpend, inTotal: $monthIncome, changeTime: {
@@ -67,10 +68,12 @@ struct AccountBookDetailOfListComponent : View {
             }
             .frame(height: 180)
             .tabViewStyle(.page(indexDisplayMode: .never))
+            // 下面的杠杠
             HStack {
                 AccountBookDetailViewTabViewSub(currentSelection: 0, selection: $selection)
                 AccountBookDetailViewTabViewSub(currentSelection: 1, selection: $selection)
             }.frame(height: 5)
+            // 列表
             ScrollView(showsIndicators: false) {
                 VStack { 
                     ForEach(monthDatas.keys.sorted(by: { item1, item2 in
@@ -85,7 +88,7 @@ struct AccountBookDetailOfListComponent : View {
             .padding(.horizontal,15)
             .padding(.bottom,100)
             .sheet(isPresented: $showBudgetSetting, content: {
-                AccountBookBudgetSettingComponent(year:year, month:month, updateBudgetSeting:updateBudgetSeting).environmentObject(globalModel)
+                AccountBookBudgetDetailComponent(year:year, month:month, updateBudgetSeting:updateBudgetSeting).environmentObject(globalModel)
             })
             .sheet(isPresented: $showStatistics, content: {
                 AccountBookStatisticComponent().environmentObject(globalModel)
