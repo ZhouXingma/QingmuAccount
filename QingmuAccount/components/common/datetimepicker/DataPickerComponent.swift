@@ -20,26 +20,29 @@ struct DataPickerComponent : View {
             Spacer()
             VStack {
                 HStack {
-                    Button {
-                        closeShow()
-                    } label: {
+                    VStack {
                         Image(systemName: "xmark")
                             .foregroundColor(Color("DefaultButtonBackgroud"))
-                    }
-                    Spacer()
-                    Button {
-                        pickerSure(pickerValue)
+                    }.onTapGesture {
                         closeShow()
-                    } label: {
+                    }
+                  
+                    Spacer()
+                    VStack {
                         Text("确认")
                             .foregroundColor(.white)
                             .padding(.horizontal,20).padding(.vertical,5).background(Color("DefaultButtonBackgroud"),in: RoundedRectangle(cornerRadius: 5))
+                    }.onTapGesture {
+                        pickerSure(pickerValue)
+                        closeShow()
                     }
+            
                 }.frame(height: 30)
                     .padding(.horizontal,20)
                     .padding(.vertical,10)
                    
                 DataPickerRepresentable(pickerValues: $datas,pickerValue: $pickerValue)
+                
             }.background(Color("MainBackgroundColor"))
             .shadow(color: Color("MainShadowColor").opacity(0.3), radius:20,x: 1,y:-10)
             .frame(height: 300)

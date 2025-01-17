@@ -32,16 +32,16 @@ struct AcountKeyBoard : View {
                                 descChangeFun(newValue)
                             }
                     }.frame(minWidth: 0, maxWidth: .infinity)
-                    Button {
-                        toHideKeyboard()
-                        showDatePicker = true
-                    } label: {
+                    VStack {
                         Text(date)
                         .frame(width: 100,height: 30)
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                         .background(Color("SecendButtonBackgroud").opacity(0.2),in:RoundedRectangle(cornerRadius: 30))
-                    }
+                    }.highPriorityGesture(TapGesture().onEnded({ _ in
+                        toHideKeyboard()
+                        showDatePicker = true
+                    }))
                 }.padding(.horizontal,10)
                     .padding(.vertical,3)
             }.frame(minWidth: 0, maxWidth: .infinity)
@@ -111,31 +111,28 @@ struct AcountKeyBoardButton : View {
 
     var body: some View {
         HStack {
-            Button {
-                
+            if (!c.isImage) {
+                Text(c.showKeyStr)
+                    .frame(minWidth: 0,maxWidth: .infinity)
+                    .frame(height: c.height)
+                    .font(.system(size: 16,weight: .bold))
+                    .foregroundColor(c.fontColor)
+                    .background(c.bgColor,in:RoundedRectangle(cornerRadius: 5))
+            } else {
+                Image(systemName: c.showKeyStr)
+                    .frame(minWidth: 0,maxWidth: .infinity)
+                    .frame(height: c.height)
+                    .foregroundColor(c.fontColor)
+                    .background(c.bgColor,in:RoundedRectangle(cornerRadius: 5))
+            }
+        }.padding(0)
+            .highPriorityGesture(TapGesture().onEnded({ _ in
                 toHideKeyboard()
                 // 如果背景在播放音乐，会产生影响
                 //playKeySound()
                 keyFeedback()
                 keyTabFun(c.id)
-            } label: {
-                if (!c.isImage) {
-                    Text(c.showKeyStr)
-                        .frame(minWidth: 0,maxWidth: .infinity)
-                        .frame(height: c.height)
-                        .font(.system(size: 16,weight: .bold))
-                        .foregroundColor(c.fontColor)
-                        .background(c.bgColor,in:RoundedRectangle(cornerRadius: 5))
-                } else {
-                    Image(systemName: c.showKeyStr)
-                        .frame(minWidth: 0,maxWidth: .infinity)
-                        .frame(height: c.height)
-                        .foregroundColor(c.fontColor)
-                        .background(c.bgColor,in:RoundedRectangle(cornerRadius: 5))
-                }
-                
-            }.padding(0)
-        }.padding(0)
+            }))
     }
     
     func playKeySound() {

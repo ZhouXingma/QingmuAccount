@@ -20,22 +20,22 @@ struct YmDatePickerComponent : View {
             Spacer()
             VStack {
                 HStack {
-                    Button {
-                        closeShow()
-                    } label: {
+                    VStack {
                         Image(systemName: "xmark")
                             .foregroundColor(Color("DefaultButtonBackgroud"))
-                    }
-                    Spacer()
-                    Button {
-                        let value:DatePickerValue = DatePickerValue(year: year, month: month)
-                        pickerSure(value)
+                    }.highPriorityGesture(TapGesture().onEnded({ _ in
                         closeShow()
-                    } label: {
+                    }))
+                    Spacer()
+                    VStack {
                         Text("确认")
                             .foregroundColor(.white)
                             .padding(.horizontal,20).padding(.vertical,5).background(Color("DefaultButtonBackgroud"),in: RoundedRectangle(cornerRadius: 5))
-                    }
+                    }.highPriorityGesture(TapGesture().onEnded({ _ in
+                        let value:DatePickerValue = DatePickerValue(year: year, month: month)
+                        pickerSure(value)
+                        closeShow()
+                    }))
                 }.frame(height: 30)
                     .padding(.horizontal,20)
                     .padding(.vertical,10)

@@ -170,18 +170,18 @@ struct AssetsView : View {
             
         }.padding(.horizontal,15)
             .ignoresSafeArea()
-            .selfDatePicker(showState: $showDatePicker, type: $datePickerType, param: $datePickerValue,sureAction: { newValue in
-                self.year = newValue.year ?? self.year
-                self.month = newValue.month ?? self.month
-                self.datePickerValue = newValue
-                loadDataAndShow()
-            })
             .sheet(isPresented: $showAssert) {
                 AssetsEditComponent(depositValue: $depositValue, liabilitiesValue: $liabilitiesValue, lastUpdateTime:$lastUpdateTime, currentType: type).environmentObject(globalModel)
             }
             .sheet(isPresented: $showDetail) {
                 AssertsDetailComponent(showDetailItem: $showDetailItem, type: $type, lastUpdateTime:$lastUpdateTime).environmentObject(globalModel)
             }
+            .selfDatePicker(showState: $showDatePicker, type: $datePickerType, param: $datePickerValue,sureAction: { newValue in
+                self.year = newValue.year ?? self.year
+                self.month = newValue.month ?? self.month
+                self.datePickerValue = newValue
+                loadDataAndShow()
+            })
             .onAppear() {
                 initData()
             }

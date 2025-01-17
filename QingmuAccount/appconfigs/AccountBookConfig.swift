@@ -29,7 +29,7 @@ var defaultAccountBookOutRecordIcon:[AccountBookSetingOfIconModel] = [
     AccountBookSetingOfIconModel(id:"4",iconStr: IconFontEnum.icon45.getUnicodeValue(), name: "餐饮", sort: 0),
     AccountBookSetingOfIconModel(id:"5",iconStr: IconFontEnum.icon70.getUnicodeValue(), name: "公交", sort: 0),
     AccountBookSetingOfIconModel(id:"6",iconStr: IconFontEnum.icon77.getUnicodeValue(), name: "地铁", sort: 0),
-    AccountBookSetingOfIconModel(id:"6",iconStr: IconFontEnum.icon84.getUnicodeValue(), name: "高铁", sort: 0),
+    AccountBookSetingOfIconModel(id:"14",iconStr: IconFontEnum.icon84.getUnicodeValue(), name: "高铁", sort: 0),
     AccountBookSetingOfIconModel(id:"7",iconStr: IconFontEnum.icon126.getUnicodeValue(), name: "话费", sort: 0),
     AccountBookSetingOfIconModel(id:"8",iconStr: IconFontEnum.icon66.getUnicodeValue(), name: "电费", sort: 0),
     AccountBookSetingOfIconModel(id:"9",iconStr: IconFontEnum.icon65.getUnicodeValue(), name: "水费", sort: 0),

@@ -73,9 +73,9 @@ struct AssetsEditComponent : View {
                 Image(systemName: "text.book.closed")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.secondary)
-                    .onTapGesture {
+                    .highPriorityGesture(TapGesture().onEnded({ _ in
                         showSelectAccount()
-                    }
+                    }))
             }.padding(10)
             .frame(height: 50)
             .background(Color("MainBackgroundColor"),in:RoundedRectangle(cornerRadius: 10))

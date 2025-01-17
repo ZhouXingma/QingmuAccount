@@ -86,7 +86,7 @@ struct CalendarComponent : View {
                     .offset(x:self.dragOffset)
                     .animation(isAnimation ?.spring():.none)
                     .background(.white.opacity(0.01))
-                    .simultaneousGesture(
+                    .highPriorityGesture(
                         DragGesture()
                             .onChanged({ dragValue in
                                 self.isAnimation = true

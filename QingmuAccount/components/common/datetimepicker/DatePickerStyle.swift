@@ -16,12 +16,14 @@ struct DatePickerStyle: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             content
-            if (type == .YMD) {
-                YmdDatePickerComponent(showState:$showState, param: $param, pickerSure: sureAction)
-            } else if (type == .YM) {
-                YmDatePickerComponent(showState:$showState, param: $param, pickerSure: sureAction)
-            } else if (type == .Y) {
-                YearDatePickerComponent(showState: $showState, param: $param, pickerSure: sureAction)
+            if (showState) {
+                if (type == .YMD) {
+                    YmdDatePickerComponent(showState:$showState, param: $param, pickerSure: sureAction)
+                } else if (type == .YM) {
+                    YmDatePickerComponent(showState:$showState, param: $param, pickerSure: sureAction)
+                } else if (type == .Y) {
+                    YearDatePickerComponent(showState: $showState, param: $param, pickerSure: sureAction)
+                }
             }
         }.ignoresSafeArea()
     }
@@ -36,8 +38,10 @@ struct DataPickerStyle: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             content
-            if (datas.count > 0) {
-                DataPickerComponent(showState: $showState, param: $param, datas: $datas, pickerSure: sureAction)
+            if (showState) {
+                if (datas.count > 0) {
+                    DataPickerComponent(showState: $showState, param: $param, datas: $datas, pickerSure: sureAction)
+                }
             }
         }.ignoresSafeArea()
     }

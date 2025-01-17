@@ -13,7 +13,7 @@ struct SelfToggle : View {
     @Binding var isOn:Bool
     var onToggleFunc:(Bool) -> Void = {_ in }
     var body: some View {
-        ZStack {
+        HStack {
             RoundedRectangle(cornerRadius: 40)
                 .fill(isOn ? onColor : offColor)
                 .frame(width: 50,height: 30)
@@ -21,12 +21,15 @@ struct SelfToggle : View {
                 .overlay {
                     Circle().fill(.white).frame(width: 26,height: 26).offset(x:isOn ? 10 : -10)
                         .animation(.easeIn(duration: 0.2), value: isOn)
-                }
-                .onTapGesture {
+                }.highPriorityGesture(TapGesture().onEnded({ _ in
+                    print("aaa")
                     isOn.toggle()
                     onToggleFunc(isOn)
-                }
+                }))
+               
+               
         }.frame(width: 50,height: 30)
+            
     }
 }
 

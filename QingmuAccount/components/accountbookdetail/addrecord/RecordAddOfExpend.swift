@@ -47,20 +47,24 @@ struct RecordAddOfExpend : View {
            
             ScrollView(.vertical,showsIndicators: false) {
                 LazyVGrid(columns: iConGridItems) {
-                    ForEach(outRecordIcons ,id:\.self) { item in
+                    ForEach(outRecordIcons ,id:\.id) { item in
                         
                         RecordItemIconButton(iconStr:item.iconStr, name:item.name, selectIconStr: $iconStr)
-                            .onTapGesture {
-                                keyFeedback()
-                                iconStr = item.iconStr
-                                title = item.name
-                            }
+                            .highPriorityGesture(
+                                TapGesture().onEnded({ _ in
+                                    keyFeedback()
+                                    iconStr = item.iconStr
+                                    title = item.name
+                                })
+                            )
                     }
                     RecordItemIconButton(iconStr:"plus.circle", name:"编辑",isImage: true, selectIconStr: $iconStr)
-                        .onTapGesture {
-                            keyFeedback()
-                            showEditIcon = true
-                        }
+                        .highPriorityGesture(
+                            TapGesture().onEnded({ _ in
+                                keyFeedback()
+                                showEditIcon = true
+                            })
+                        )
                 }.padding(.horizontal,15)
                     .padding(.vertical,5)
             }

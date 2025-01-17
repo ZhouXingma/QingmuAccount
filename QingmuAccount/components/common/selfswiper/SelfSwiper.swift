@@ -17,6 +17,9 @@ struct SelfSwiperStyle<T>: ViewModifier where T:View{
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
+                if abs(value.translation.width) < abs(value.translation.height) {
+                    return;
+                }
                 NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: SelfSwiperNotification.notificationName), object: id, userInfo: nil)
                 if (value.translation.width > 0) {
                     offsetX = 0
