@@ -44,7 +44,7 @@ struct SelfSwiperStyle<T>: ViewModifier where T:View{
             }.padding(1).offset(x:-offsetX)
             content
         }.offset(x:offsetX)
-            .simultaneousGesture(drag)
+            .gesture(drag, isEnabled: false)
             .onChange(of: notification.handleId, perform: { newValue in
                 if (nil == newValue || newValue != id) {
                     offsetX = 0
