@@ -47,7 +47,7 @@ struct RecordAddOfExpend : View {
            
             ScrollView(.vertical,showsIndicators: false) {
                 LazyVGrid(columns: iConGridItems) {
-                    ForEach(outRecordIcons ,id:\.id) { item in
+                    ForEach(outRecordIcons ,id:\.self) { item in
                         
                         RecordItemIconButton(iconStr:item.iconStr, name:item.name, selectIconStr: $iconStr)
                             .highPriorityGesture(
