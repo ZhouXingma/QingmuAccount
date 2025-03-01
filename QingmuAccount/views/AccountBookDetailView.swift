@@ -21,6 +21,7 @@ struct AccountBookDetailView : View {
     @State private var alterConfig = AlertComponentConfig()
     // 最后加载时间
     @State private var latestLoadTime:Date = Date()
+    @State private var calendarSelectDate:Date? = nil
     var body: some View {
         ZStack {
             // 底部菜单栏
@@ -31,7 +32,7 @@ struct AccountBookDetailView : View {
                     AccountBookDetailOfListComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
                 } else if listType==1 {
                     // 日历模式
-                    AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
+                    AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime,calendarSelectDate:$calendarSelectDate).environmentObject(globalModel)
                 }
             }
         }.ignoresSafeArea()
@@ -41,7 +42,7 @@ struct AccountBookDetailView : View {
             .sheet(isPresented: $showAddRecord) {
                 AccountBookAddRecordComponent(newRecordUpdate: { item in
                     latestLoadTime = Date()
-                }, updateRecord: nil).environmentObject(globalModel)
+                }, updateRecord: nil, selectDate: listType == 0 ? nil : calendarSelectDate).environmentObject(globalModel)
             }
             .selfAlter(showState: $showAlter, config: alterConfig)
             

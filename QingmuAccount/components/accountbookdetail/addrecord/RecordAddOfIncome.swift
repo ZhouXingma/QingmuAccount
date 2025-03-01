@@ -31,10 +31,12 @@ struct RecordAddOfIncome : View {
     // 账本配置信息
     @State var accountBookSeting:AccountBookSetingModel? = nil
     @State var selectAccountBook:AccountBookModel? = nil
-    //  进行更新的数据
-    @Binding var updateRecord:AccountBookData?
     // 显示图标编辑
     @State var showEditIcon:Bool = false
+    //  进行更新的数据
+    @Binding var updateRecord:AccountBookData?
+    // 自定义选择的时间
+    @Binding var selectDate:Date?
     
     var body: some View {
         VStack {
@@ -47,17 +49,22 @@ struct RecordAddOfIncome : View {
                 LazyVGrid(columns: iConGridItems) {
                     ForEach(inRecordIcons ,id:\.self) { item in
                         RecordItemIconButton(iconStr:item.iconStr, name:item.name, selectIconStr: $iconStr)
-                            .onTapGesture {
-                                keyFeedback()
-                                iconStr = item.iconStr
-                                title = item.name
-                            }
+                            .highPriorityGesture(
+                                TapGesture().onEnded({ _ in
+                                    keyFeedback()
+                                    iconStr = item.iconStr
+                                    title = item.name
+                                })
+                            )
+                            
                     }
                     RecordItemIconButton(iconStr:"plus.circle", name:"编辑",isImage: true, selectIconStr: $iconStr)
-                        .onTapGesture {
-                            keyFeedback()
-                            showEditIcon = true
-                        }
+                        .highPriorityGesture(
+                            TapGesture().onEnded({ _ in
+                                keyFeedback()
+                                showEditIcon = true
+                            })
+                        )
                 }.padding(.horizontal,15)
                     .padding(.vertical,5)
             }
@@ -226,13 +233,18 @@ struct RecordAddOfIncome : View {
     // dataStr(yyyyMMdd)转换为（yyyy-MM-dd）
     func trans2KeyDateStrFormat(_ dateStr:String?) -> String{
         if nil == dateStr {
-            return "今天"
+            if nil == selectDate || selectDate!.timeIntervalSince1970 > Date().timeIntervalSince1970{
+                return "今天"
+            } else {
+                let dateStr = DateUtils.transDate2String(selectDate!, format: "yyyy-MM-dd")
+                return dateStr;
+            }
         }
         var tempValue = dateStr!
         tempValue.insert(contentsOf: "-", at: tempValue.index(tempValue.startIndex, offsetBy: 4))
         tempValue.insert(contentsOf: "-", at: tempValue.index(tempValue.startIndex, offsetBy: 7))
-        let dateStr = DateUtils.transDate2String(Date(), format: "yyyy-MM-dd")
-        if tempValue == dateStr {
+        let nowDateStr = DateUtils.transDate2String(Date(), format: "yyyy-MM-dd")
+        if tempValue == nowDateStr {
             return "今天"
         }
         return tempValue

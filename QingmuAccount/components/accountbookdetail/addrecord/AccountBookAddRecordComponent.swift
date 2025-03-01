@@ -9,21 +9,19 @@ import SwiftUI
 struct  AccountBookAddRecordComponent : View {
     @EnvironmentObject var globalModel:GlobalModel
     @State var recordType:Int = 0
-    /**
-     新记录进行操作了，添加了新记录后执行的函数
-     */
+    //  新记录进行操作了，添加了新记录后执行的函数
     @State var newRecordUpdate:(AccountBookData)->Void = {_ in }
-    /**
-     进行更新的数据
-     */
+    // 进行更新的数据
     @State var updateRecord:AccountBookData? = nil
+    // 日历选择的时间
+    @State var selectDate:Date? = nil
     
     var body: some View {
         VStack {
             topTitleMenu
             TabView(selection: $recordType) {
-                RecordAddOfExpend(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord).tag(0)
-                RecordAddOfIncome(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord).tag(1)
+                RecordAddOfExpend(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord, selectDate: $selectDate).tag(0)
+                RecordAddOfIncome(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord,selectDate: $selectDate).tag(1)
             }.tabViewStyle(.page(indexDisplayMode: .never))
         }.ignoresSafeArea()
             .background(Color("ViewBackgroundColor"))

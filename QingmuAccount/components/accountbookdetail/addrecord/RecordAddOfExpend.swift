@@ -32,10 +32,13 @@ struct RecordAddOfExpend : View {
     // 账本配置信息
     @State var accountBookSeting:AccountBookSetingModel? = nil
     @State var selectAccountBook:AccountBookModel? = nil
-    // 进行更新的数据
-    @Binding var updateRecord:AccountBookData?
     // 显示图标编辑
     @State var showEditIcon:Bool = false
+    // 进行更新的数据
+    @Binding var updateRecord:AccountBookData?
+    // 自定义选择的时间
+    @Binding var selectDate:Date?
+   
     
     
     var body: some View {
@@ -232,13 +235,18 @@ struct RecordAddOfExpend : View {
     // dataStr(yyyyMMdd)转换为（yyyy-MM-dd）
     func trans2KeyDateStrFormat(_ dateStr:String?) -> String{
         if nil == dateStr {
-            return "今天"
+            if nil == selectDate || selectDate!.timeIntervalSince1970 > Date().timeIntervalSince1970{
+                return "今天"
+            } else {
+                let dateStr = DateUtils.transDate2String(selectDate!, format: "yyyy-MM-dd")
+                return dateStr;
+            }
         }
         var tempValue = dateStr!
         tempValue.insert(contentsOf: "-", at: tempValue.index(tempValue.startIndex, offsetBy: 4))
         tempValue.insert(contentsOf: "-", at: tempValue.index(tempValue.startIndex, offsetBy: 7))
-        let dateStr = DateUtils.transDate2String(Date(), format: "yyyy-MM-dd")
-        if tempValue == dateStr {
+        let nowDateStr = DateUtils.transDate2String(Date(), format: "yyyy-MM-dd")
+        if tempValue == nowDateStr {
             return "今天"
         }
         return tempValue

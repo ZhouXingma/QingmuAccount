@@ -20,6 +20,7 @@ struct AccountBookDetailOfCalendarComponent : View {
     @State var editAccountBookData:AccountBookData? = nil
     // 最后加载时间
     @Binding var latestLoadTime:Date
+    @Binding var calendarSelectDate:Date?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -53,6 +54,7 @@ struct AccountBookDetailOfCalendarComponent : View {
             realoadDayDatas()
         })
         .onChange(of: selectDate, perform: { newValue in
+            calendarSelectDate = newValue
             realoadDayDatas()
         })
         .onAppear() {
