@@ -11,7 +11,7 @@ struct PersonView : View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var globalModel:GlobalModel
     @State var showAlter:Bool = false
-    @State var showAlterConfig:AlertComponentConfig = AlertComponentConfig()
+    @State var showAlterConfig:AlertComponentConfig = AlertComponentConfig(desc:"操作失败！")
     @State var showLoading:Bool = false
     var body: some View {
         VStack {

@@ -36,6 +36,8 @@ struct RecordAddOfExpend : View {
     @State var showEditIcon:Bool = false
     // 进行更新的数据
     @Binding var updateRecord:AccountBookData?
+    // 列表进入还是日历进入
+    @Binding var listType:Int;
     // 自定义选择的时间
     @Binding var selectDate:Date?
    
@@ -140,7 +142,19 @@ struct RecordAddOfExpend : View {
     
     func initUpdateData() {
         if nil == updateRecord {
-            return 
+            if nil == selectDate {
+                return
+            }
+            if listType == 1 {
+                let nowDateStr = DateUtils.transDate2String(Date(), format: "yyyyMMdd");
+                let selectDateStr = DateUtils.transDate2String(selectDate!, format: "yyyyMMdd")
+                if selectDateStr > nowDateStr {
+                    dateStr = nowDateStr
+                } else {
+                    dateStr = selectDateStr
+                }
+            }
+            return
         }
         if updateRecord!.type == payType {
             title = updateRecord!.title
@@ -235,11 +249,19 @@ struct RecordAddOfExpend : View {
     // dataStr(yyyyMMdd)转换为（yyyy-MM-dd）
     func trans2KeyDateStrFormat(_ dateStr:String?) -> String{
         if nil == dateStr {
-            if nil == selectDate || selectDate!.timeIntervalSince1970 > Date().timeIntervalSince1970{
-                return "今天"
+            if listType == 1 {
+                if nil == selectDate {
+                    return "今天"
+                }
+                let nowDateStr = DateUtils.transDate2String(Date(), format: "yyyy-MM-dd");
+                let selectDateStr = DateUtils.transDate2String(selectDate!, format: "yyyy-MM-dd")
+                if selectDateStr > nowDateStr {
+                    return "今天"
+                } else {
+                    return selectDateStr;
+                }
             } else {
-                let dateStr = DateUtils.transDate2String(selectDate!, format: "yyyy-MM-dd")
-                return dateStr;
+                return "今天"
             }
         }
         var tempValue = dateStr!

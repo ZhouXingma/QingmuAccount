@@ -18,7 +18,7 @@ struct AccountBookDetailView : View {
     @State private var accountBookSeting:AccountBookSetingModel? = nil
     // 显示提醒
     @State private var showAlter = false
-    @State private var alterConfig = AlertComponentConfig()
+    @State private var alterConfig = AlertComponentConfig(desc:"加载账本配置信息失败")
     // 最后加载时间
     @State private var latestLoadTime:Date = Date()
     @State private var calendarSelectDate:Date? = nil
@@ -42,7 +42,7 @@ struct AccountBookDetailView : View {
             .sheet(isPresented: $showAddRecord) {
                 AccountBookAddRecordComponent(newRecordUpdate: { item in
                     latestLoadTime = Date()
-                }, updateRecord: nil, selectDate: listType == 0 ? nil : calendarSelectDate).environmentObject(globalModel)
+                }, updateRecord: nil, listType:$listType, selectDate: $calendarSelectDate).environmentObject(globalModel)
             }
             .selfAlter(showState: $showAlter, config: alterConfig)
             
@@ -102,7 +102,6 @@ struct AccountBookDetailView : View {
                 accountBookSeting = try AccountBookSetingOfCacheService.getSeting(globalModel.accountBook!.id.description, cache: globalModel)
             } catch {
                 alterConfig.showCancelButton = false
-                alterConfig.desc = "加载账本配置信息失败，无法进行后续操作"
                 alterConfig.sureButtonName = "重试"
                 alterConfig.sureFun = getAccountBookSeting
                 showAlter = true
@@ -116,7 +115,6 @@ struct AccountBookDetailView : View {
             showAddRecord = true
         } else  {
             alterConfig.showCancelButton = false
-            alterConfig.desc = "加载账本配置信息失败"
             alterConfig.sureButtonName = "重试"
             alterConfig.sureFun = getAccountBookSeting
             showAlter = true

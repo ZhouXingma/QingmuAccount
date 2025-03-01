@@ -13,15 +13,17 @@ struct  AccountBookAddRecordComponent : View {
     @State var newRecordUpdate:(AccountBookData)->Void = {_ in }
     // 进行更新的数据
     @State var updateRecord:AccountBookData? = nil
+    // 列表进入还是日历进入
+    @Binding var listType:Int;
     // 日历选择的时间
-    @State var selectDate:Date? = nil
+    @Binding var selectDate:Date?
     
     var body: some View {
         VStack {
             topTitleMenu
             TabView(selection: $recordType) {
-                RecordAddOfExpend(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord, selectDate: $selectDate).tag(0)
-                RecordAddOfIncome(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord,selectDate: $selectDate).tag(1)
+                RecordAddOfExpend(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord, listType: $listType, selectDate: $selectDate).tag(0)
+                RecordAddOfIncome(newRecordUpdate:newRecordUpdate, updateRecord:$updateRecord,listType: $listType, selectDate: $selectDate).tag(1)
             }.tabViewStyle(.page(indexDisplayMode: .never))
         }.ignoresSafeArea()
             .background(Color("ViewBackgroundColor"))
@@ -70,12 +72,4 @@ struct  AccountBookAddRecordComponent : View {
        
     }
     
-}
-
-
-
-struct AccountBookAddRecordComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountBookAddRecordComponent().ignoresSafeArea().preferredColorScheme(.light)
-    }
 }

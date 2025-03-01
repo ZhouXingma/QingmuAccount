@@ -84,7 +84,7 @@ struct CalendarComponent : View {
                         .opacity(dragIng ? 1 : 0)
                 }.frame(width: 3 * width).offset(x: -currentOffset)
                     .offset(x:self.dragOffset)
-                    .animation(isAnimation ?.spring():.none)
+                    .animation(isAnimation ? .spring():.none)
                     .background(.white.opacity(0.01))
                     .highPriorityGesture(
                         DragGesture()
@@ -144,6 +144,7 @@ struct CalendarComponent : View {
                 
         }
         .onChange(of: latestLoadTime, perform: { newValue in
+            self.calendarShowData = createCalendarShowData(year: year, month: month)
             monthDataHandle(self.calendarShowData)
         })
         .onAppear() {

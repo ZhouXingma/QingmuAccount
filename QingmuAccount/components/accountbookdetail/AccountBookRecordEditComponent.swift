@@ -20,7 +20,9 @@ struct AccountBookRecordEditComponent : View {
     @State var newRecordUpdate:(AccountBookData) -> Void = {_ in }
     // 显示提醒
     @State var showAlter = false
-    @State var alterConfig = AlertComponentConfig()
+    @State var alterConfig = AlertComponentConfig(desc: "确定删除改记录吗？")
+    @State var listType = 0;
+    @State var selectDate:Date? = nil;
     
     var body: some View {
         VStack {
@@ -107,7 +109,7 @@ struct AccountBookRecordEditComponent : View {
         }.frame(minWidth: 0,maxWidth: .infinity,minHeight: 0,maxHeight: .infinity)
             .background(Color("ViewBackgroundColor"))
             .sheet(isPresented: $updateData) {
-                AccountBookAddRecordComponent(newRecordUpdate: haveEditRecord, updateRecord: accountBookData)
+                AccountBookAddRecordComponent(newRecordUpdate: haveEditRecord,  updateRecord: accountBookData, listType: $listType, selectDate: $selectDate)
             }
             .selfAlter(showState: $showAlter, config: alterConfig)
     }
@@ -118,7 +120,6 @@ struct AccountBookRecordEditComponent : View {
     }
     // 删除记录提醒
     func deleteRecordAlter() {
-        alterConfig.desc = "确定删除改记录吗？"
         alterConfig.sureFun = deleteRecord
         showAlter = true
     }

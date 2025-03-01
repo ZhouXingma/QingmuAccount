@@ -35,11 +35,13 @@ struct AlertComponent : View {
                     .padding(.vertical,10)
                     .foregroundColor(config.topBarColorStyle == .DEFAULT ? Color("DefaultButtonBackgroud") : Color("RedColor"))
                 VStack {
-                    Text(config.title)
-                        .font(.system(size: 18, weight: .bold))
-                    Text(config.desc)
-                        .font(.system(size: 16))
-                        .padding(.vertical,10)
+                    VStack {
+                        Text(config.title)
+                            .font(.system(size: 18, weight: .bold))
+                        Text(config.desc)
+                            .font(.system(size: 16))
+                            .padding(.vertical, 10)
+                    }
                     Spacer()
                     HStack {
                             Button {
