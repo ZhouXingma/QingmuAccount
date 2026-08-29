@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+/// 资产记录输入框（用于调账的双向联动：金额 <-> 目标余额）
+private enum AssetRecordInputField: Hashable {
+    case amount
+    case target
+}
+
 struct AssetAccountRecordEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var globalModel: GlobalModel
@@ -24,6 +30,10 @@ struct AssetAccountRecordEditView: View {
     @State private var showTargetPicker = false
     @State private var showAlter = false
     @State private var alterConfig = AlertComponentConfig(desc: "操作失败！")
+    @State private var balances: [(currency: String, totalCents: Int64)] = []
+    @State private var currentCents: Int64 = 0
+    @State private var targetValue: String = ""
+    @FocusState private var focusedInput: AssetRecordInputField?
 
     private let typeColumns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
 
@@ -39,6 +49,7 @@ struct AssetAccountRecordEditView: View {
                     }
                     if needDirection {
                         directionSection
+                        balanceSection
                     }
                     amountSection
                     remarkSection
@@ -74,6 +85,21 @@ struct AssetAccountRecordEditView: View {
         .onTapGesture { toHideKeyboard() }
         .onAppear {
             loadAccounts()
+        }
+        .onChange(of: setingValue) { _ in
+            // 当前正在输入金额时，实时回算目标余额
+            guard isAdjust, focusedInput == .amount else { return }
+            refreshTargetFromAmount()
+        }
+        .onChange(of: isPositive) { _ in
+            // 切换增减（非编辑目标余额时）时，按金额回算目标余额
+            guard isAdjust, focusedInput != .target else { return }
+            refreshTargetFromAmount()
+        }
+        .onChange(of: targetValue) { _ in
+            // 当前正在输入目标余额时，实时反推增减与金额
+            guard isAdjust, focusedInput == .target else { return }
+            refreshAmountFromTarget()
         }
         .sheet(isPresented: $showTargetPicker) {
             targetPickerSheet
@@ -143,6 +169,10 @@ struct AssetAccountRecordEditView: View {
                 isPositive = item.defaultPositive
                 if !item.needDirectionPicker {
                     targetAccountId = nil
+                }
+                focusedInput = nil
+                if item == .adjust {
+                    resetAdjustFields()
                 }
             }
         }
@@ -239,8 +269,71 @@ struct AssetAccountRecordEditView: View {
             .animation(.easeInOut(duration: 0.15), value: isPositive)
             .onTapGesture {
                 keyFeedback(0)
+                toHideKeyboard()
                 isPositive = positive
             }
+    }
+
+    /// 调账余额：两块独立卡片（白底）中间夹箭头，全部居中对齐
+    private var balanceSection: some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 12) {
+                balanceBlock(title: "当前余额", value: formatCents(currentCents),
+                             color: currentCents >= 0 ? Color("DefaultButtonBackgroud") : Color("RedColor"))
+                Image(systemName: "arrow.right")
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(Color("DefaultButtonBackgroud"))
+                targetBlock
+            }
+            Text("修改目标余额将自动计算方向与金额")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+        }
+    }
+
+    /// 只读当前余额块（独立白底卡片，内容居中）
+    private func balanceBlock(title: String, value: String, color: Color) -> some View {
+        VStack(spacing: 4) {
+            Text("\(title)（\(AssetCurrency.symbol(of: selectedCurrency))）")
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
+            Text(value)
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(color)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+        }
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .background(Color("MainBackgroundColor"), in: RoundedRectangle(cornerRadius: 12))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color("MainShadowColor").opacity(0.06), lineWidth: 1)
+        )
+        .shadow(color: Color("MainShadowColor").opacity(0.06), radius: 4, x: 0, y: 2)
+    }
+
+    /// 目标余额块（独立白底卡片，内容居中）
+    private var targetBlock: some View {
+        VStack(spacing: 4) {
+            Text("目标余额（\(AssetCurrency.symbol(of: selectedCurrency))）")
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
+            TextField("0.00", text: moneyBinding($targetValue, filteredTargetInput))
+                .focused($focusedInput, equals: .target)
+                .multilineTextAlignment(.center)
+                .font(.system(size: 18, weight: .bold))
+                .keyboardType(.numbersAndPunctuation)
+                .foregroundColor(Color("FontColor"))
+        }
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .background(Color("MainBackgroundColor"), in: RoundedRectangle(cornerRadius: 12))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color("MainShadowColor").opacity(0.06), lineWidth: 1)
+        )
+        .shadow(color: Color("MainShadowColor").opacity(0.06), radius: 4, x: 0, y: 2)
     }
 
     /// 金额输入（左侧币型下拉 + 右侧金额）
@@ -255,6 +348,11 @@ struct AssetAccountRecordEditView: View {
                         // 币型变化时，转移的转入账户需重新选择
                         if isTransfer {
                             targetAccountId = nil
+                        }
+                        // 币型变化时，调账按新币种的当前余额重新计算
+                        currentCents = currentBalanceCents(of: code)
+                        if isAdjust {
+                            resetAdjustFields()
                         }
                     } label: {
                         Text(AssetCurrency.name(of: code))
@@ -275,10 +373,11 @@ struct AssetAccountRecordEditView: View {
             }
             Spacer()
             Text(AssetCurrency.symbol(of: selectedCurrency))
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundColor(Color("DefaultButtonBackgroud"))
-            TextField("0.00", text: $setingValue)
-                .font(.system(size: 32, weight: .bold))
+            TextField("0.00", text: moneyBinding($setingValue, filteredMoneyInput))
+                .focused($focusedInput, equals: .amount)
+                .font(.system(size: 24, weight: .bold))
                 .keyboardType(.decimalPad)
                 .foregroundColor(Color("FontColor"))
                 .onTapGesture { toHideKeyboard() }
@@ -414,6 +513,8 @@ struct AssetAccountRecordEditView: View {
         do {
             accounts = try AssetAccountOfCacheService.getAccounts(cache: globalModel)
             selectedCurrency = accounts.first { $0.id.uuidString == accountId }?.primaryCurrency ?? "CNY"
+            balances = (try? AssetAccountBalanceService.getBalances(accountId: accountId)) ?? []
+            currentCents = currentBalanceCents(of: selectedCurrency)
         } catch {
             accounts = []
         }
@@ -425,8 +526,7 @@ struct AssetAccountRecordEditView: View {
     }
 
     private func canSave() -> Bool {
-        guard setingValue.count > 0,
-              setingValue != "0", setingValue != "0.", setingValue != "0.0", setingValue != "0.00" else { return false }
+        guard safeMoneyCents(setingValue) > 0 else { return false }
         if isTransfer {
             return targetAccountId != nil
         }
@@ -471,6 +571,94 @@ struct AssetAccountRecordEditView: View {
             alterConfig.sureButtonName = "知道了"
             showAlter = true
         }
+    }
+
+    private var isAdjust: Bool {
+        return changeType == AssetRecordChangeType.adjust.rawValue
+    }
+
+    /// 选中币种的当前余额（分）
+    private func currentBalanceCents(of code: String) -> Int64 {
+        return balances.first { $0.currency == code }?.totalCents ?? 0
+    }
+
+    /// 分转展示字符串（保留两位小数）
+    private func formatCents(_ cents: Int64) -> String {
+        return SQLiteManager.money(fromCents: cents)
+    }
+
+    /// 金额字符串转分：空串 / 非法输入按 0 处理（避免 NSDecimalNumber 对空串乘 100 抛溢出异常）
+    private func safeMoneyCents(_ value: String) -> Int64 {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return 0 }
+        let decimal = NSDecimalNumber(string: trimmed)
+        guard !decimal.doubleValue.isNaN else { return 0 }
+        return SQLiteManager.cents(fromMoney: trimmed)
+    }
+
+    /// 金额输入过滤：仅允许数字与一个小数点（小数点须跟在数字后）
+    private func filteredMoneyInput(_ raw: String) -> String {
+        var seenDot = false
+        return raw.reduce(into: "") { result, ch in
+            if ch == "." {
+                if seenDot || result.isEmpty { return }
+                seenDot = true
+                result.append(ch)
+            } else if ch.isASCII && ch.isNumber {
+                result.append(ch)
+            }
+        }
+    }
+
+    /// 目标余额过滤：可选前导负号，其余为数字与一个小数点（小数点须跟在数字后）
+    private func filteredTargetInput(_ raw: String) -> String {
+        var seenDot = false
+        return raw.reduce(into: "") { result, ch in
+            if ch == "-" {
+                if result.isEmpty { result.append(ch) }
+            } else if ch == "." {
+                if seenDot || result.isEmpty || result == "-" { return }
+                seenDot = true
+                result.append(ch)
+            } else if ch.isASCII && ch.isNumber {
+                result.append(ch)
+            }
+        }
+    }
+
+    /// 金额输入框绑定：写入前按指定规则过滤非法字符
+    private func moneyBinding(_ value: Binding<String>, _ filter: @escaping (String) -> String) -> Binding<String> {
+        Binding(get: { value.wrappedValue }, set: { value.wrappedValue = filter($0) })
+    }
+
+    /// 当前设置的带符号调整金额（正=增加，负=减少）
+    private func adjustSignedCents() -> Int64 {
+        let amountCents = abs(safeMoneyCents(setingValue))
+        return isPositive ? amountCents : -amountCents
+    }
+
+    /// 切换到调账/换币种时，重置为不做调整的初始状态
+    private func resetAdjustFields() {
+        setingValue = ""
+        targetValue = formatCents(currentCents)
+        isPositive = true
+    }
+
+    /// 由金额 + 方向 → 回算目标余额
+    private func refreshTargetFromAmount() {
+        targetValue = formatCents(currentCents + adjustSignedCents())
+    }
+
+    /// 由目标余额 → 反推增减方向与金额（空/非法按 0 处理）
+    private func refreshAmountFromTarget() {
+        let targetCents = safeMoneyCents(targetValue)
+        let diff = targetCents - currentCents
+        if diff > 0 {
+            isPositive = true
+        } else if diff < 0 {
+            isPositive = false
+        }
+        setingValue = (diff == 0) ? "" : formatCents(abs(diff))
     }
 
     /// 非转移类型的带符号金额（类型即方向，调账按手动选择）

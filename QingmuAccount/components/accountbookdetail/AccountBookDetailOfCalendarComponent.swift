@@ -155,8 +155,8 @@ struct AccountBookDetailOfCalendarComponent : View {
     @ViewBuilder
     var tabContentView: some View {
         if currencyTabIndex == 1 {
-            // 流水记录（所有币种）
-            VStack(spacing: 0) {
+            // 流水记录（所有币种），行间距与列表模式保持一致
+            VStack(spacing: 5) {
                 ForEach(dayDatas.sorted(by: { item1, item2 in
                     (item1.dateStr as NSString).longLongValue >= (item2.dateStr as NSString).longLongValue
                 }),id:\.self) { item in
