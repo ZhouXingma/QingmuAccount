@@ -129,6 +129,7 @@
 		D5F01F482954276800A1AFF0 /* MagnifierRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F01F472954276800A1AFF0 /* MagnifierRect.swift */; };
 		D5F01F4A2954395900A1AFF0 /* MagnifierLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F01F492954395900A1AFF0 /* MagnifierLine.swift */; };
 		D5F01F4D29546EB600A1AFF0 /* Expend+IncomeMoel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F01F4C29546EB600A1AFF0 /* Expend+IncomeMoel.swift */; };
+		D5F3EAB6305A640C005B44BC /* QingmuAccountIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D5F3EAB5305A640C005B44BC /* QingmuAccountIcon.icon */; };
 		D5FA00A10000000000000001 /* SheetHeaderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FA00A10000000000000002 /* SheetHeaderComponent.swift */; };
 		D5FA00A30000000000000001 /* AnimatedProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FA00A30000000000000002 /* AnimatedProgressBar.swift */; };
 		D5FACD001234567890AB01A1 /* AccountBookMonthSummaryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FACD001234567890AB01A2 /* AccountBookMonthSummaryComponent.swift */; };
@@ -265,6 +266,7 @@
 		D5F01F472954276800A1AFF0 /* MagnifierRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierRect.swift; sourceTree = "<group>"; };
 		D5F01F492954395900A1AFF0 /* MagnifierLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierLine.swift; sourceTree = "<group>"; };
 		D5F01F4C29546EB600A1AFF0 /* Expend+IncomeMoel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expend+IncomeMoel.swift"; sourceTree = "<group>"; };
+		D5F3EAB5305A640C005B44BC /* QingmuAccountIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = QingmuAccountIcon.icon; sourceTree = "<group>"; };
 		D5FA00A10000000000000002 /* SheetHeaderComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeaderComponent.swift; sourceTree = "<group>"; };
 		D5FA00A30000000000000002 /* AnimatedProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedProgressBar.swift; sourceTree = "<group>"; };
 		D5FACD001234567890AB01A2 /* AccountBookMonthSummaryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBookMonthSummaryComponent.swift; sourceTree = "<group>"; };
@@ -598,6 +600,7 @@
 		D5A5BB46292EFCE8004E4BFF /* QingmuAccount */ = {
 			isa = PBXGroup;
 			children = (
+				D5F3EAB5305A640C005B44BC /* QingmuAccountIcon.icon */,
 				D5558DE5293238A500C667B4 /* Info.plist */,
 				D5A5BB47292EFCE8004E4BFF /* QingmuAccountApp.swift */,
 				D5A5BB49292EFCE8004E4BFF /* ContentView.swift */,
@@ -885,6 +888,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5F3EAB6305A640C005B44BC /* QingmuAccountIcon.icon in Resources */,
 				D580E11729768D7B0053118D /* icomoon.ttf in Resources */,
 				D5A5BB4F292EFCEA004E4BFF /* Preview Assets.xcassets in Resources */,
 				D5A5BB4C292EFCEA004E4BFF /* Assets.xcassets in Resources */,
@@ -1150,6 +1154,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1189,6 +1194,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"QingmuAccount/Preview Content\"";
