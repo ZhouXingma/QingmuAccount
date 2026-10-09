@@ -8,6 +8,31 @@ A **fully offline** iOS bookkeeping app built with SwiftUI. No network requests,
 
 ---
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center"><img src="doc/01-home-list.png" width="220"><br><sub>Ledger Home · List View</sub></td>
+    <td align="center"><img src="doc/02-home-calendar.png" width="220"><br><sub>Ledger Home · Calendar View</sub></td>
+    <td align="center"><img src="doc/03-statistics.png" width="220"><br><sub>Statistics · Trend &amp; Category Split</sub></td>
+    <td align="center"><img src="doc/04-budget.png" width="220"><br><sub>Current Month Budget</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="doc/05-budget-history.png" width="220"><br><sub>Budget History</sub></td>
+    <td align="center"><img src="doc/06-assets.png" width="220"><br><sub>Asset Summary &amp; Monthly Records</sub></td>
+    <td align="center"><img src="doc/07-account-picker.png" width="220"><br><sub>Account Picker</sub></td>
+    <td align="center"><img src="doc/08-add-account.png" width="220"><br><sub>Add Asset Account</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="doc/09-overview.png" width="220"><br><sub>Overview · All Ledgers</sub></td>
+    <td align="center"><img src="doc/10-ledger-edit.png" width="220"><br><sub>Edit Ledger</sub></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
 ## Features
 
 ### 📒 Ledger Management

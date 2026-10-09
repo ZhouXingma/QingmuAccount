@@ -8,6 +8,31 @@
 
 ---
 
+## 截图预览
+
+<table>
+  <tr>
+    <td align="center"><img src="doc/01-home-list.png" width="220"><br><sub>账本首页 · 列表视图</sub></td>
+    <td align="center"><img src="doc/02-home-calendar.png" width="220"><br><sub>账本首页 · 日历视图</sub></td>
+    <td align="center"><img src="doc/03-statistics.png" width="220"><br><sub>统计 · 趋势与分类占比</sub></td>
+    <td align="center"><img src="doc/04-budget.png" width="220"><br><sub>当月预算</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="doc/05-budget-history.png" width="220"><br><sub>历史预算</sub></td>
+    <td align="center"><img src="doc/06-assets.png" width="220"><br><sub>资产汇总与当月记录</sub></td>
+    <td align="center"><img src="doc/07-account-picker.png" width="220"><br><sub>选择账户</sub></td>
+    <td align="center"><img src="doc/08-add-account.png" width="220"><br><sub>添加资产账户</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="doc/09-overview.png" width="220"><br><sub>概览 · 各账本合计</sub></td>
+    <td align="center"><img src="doc/10-ledger-edit.png" width="220"><br><sub>编辑账本</sub></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
 ## 功能特性
 
 ### 📒 账本管理
