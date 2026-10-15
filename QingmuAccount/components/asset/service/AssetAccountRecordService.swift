@@ -19,14 +19,14 @@ class AssetAccountRecordService {
     /// 某账户的全部变更明细，时间倒序
     static func getRecords(accountId: String) throws -> [AssetAccountRecordModel] {
         let rows = try SQLiteManager.shared.query(
-            "SELECT * FROM \(table) WHERE accountId=? ORDER BY gmtCreated DESC", [accountId])
+            "SELECT * FROM \(table) WHERE accountId=? ORDER BY gmtCreated DESC, id DESC", [accountId])
         return rows.compactMap { rowToRecord($0) }
     }
 
     /// 某账户的变更明细分页查询，时间倒序
     static func getRecords(accountId: String, limit: Int, offset: Int) throws -> [AssetAccountRecordModel] {
         let rows = try SQLiteManager.shared.query(
-            "SELECT * FROM \(table) WHERE accountId=? ORDER BY gmtCreated DESC LIMIT ? OFFSET ?",
+            "SELECT * FROM \(table) WHERE accountId=? ORDER BY gmtCreated DESC, id DESC LIMIT ? OFFSET ?",
             [accountId, limit, offset])
         return rows.compactMap { rowToRecord($0) }
     }
@@ -43,7 +43,7 @@ class AssetAccountRecordService {
         let start = Calendar.current.date(from: startComps) ?? Date()
         let end = Calendar.current.date(byAdding: .month, value: 1, to: start) ?? Date()
         let rows = try SQLiteManager.shared.query(
-            "SELECT * FROM \(table) WHERE gmtCreated >= ? AND gmtCreated < ? ORDER BY gmtCreated DESC",
+            "SELECT * FROM \(table) WHERE gmtCreated >= ? AND gmtCreated < ? ORDER BY gmtCreated DESC, id DESC",
             [Int64(start.timeIntervalSince1970), Int64(end.timeIntervalSince1970)])
         return rows.compactMap { rowToRecord($0) }
     }
@@ -60,7 +60,7 @@ class AssetAccountRecordService {
         let start = Calendar.current.date(from: startComps) ?? Date()
         let end = Calendar.current.date(byAdding: .month, value: 1, to: start) ?? Date()
         let rows = try SQLiteManager.shared.query(
-            "SELECT * FROM \(table) WHERE accountId=? AND gmtCreated >= ? AND gmtCreated < ? ORDER BY gmtCreated DESC",
+            "SELECT * FROM \(table) WHERE accountId=? AND gmtCreated >= ? AND gmtCreated < ? ORDER BY gmtCreated DESC, id DESC",
             [accountId, Int64(start.timeIntervalSince1970), Int64(end.timeIntervalSince1970)])
         return rows.compactMap { rowToRecord($0) }
     }

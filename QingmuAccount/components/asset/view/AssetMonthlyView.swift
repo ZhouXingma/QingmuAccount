@@ -185,6 +185,9 @@ struct AssetMonthlyView: View {
         var expenseCents: Int64 {
             records.filter { $0.moneyCents < 0 }.reduce(Int64(0)) { $0 + abs($1.moneyCents) }
         }
+        var lastChangeAt: Date {
+            records.reduce(Date.distantPast) { Swift.max($0, $1.gmtCreated) }
+        }
     }
 
     private func groupedAccounts() -> [AssetAccountGroup] {
@@ -196,7 +199,10 @@ struct AssetMonthlyView: View {
         return map.keys.compactMap { id -> AssetAccountGroup? in
             guard let account = accountMap[id] else { return nil }
             return AssetAccountGroup(account: account, records: map[id] ?? [])
-        }.sorted { $0.records.first?.gmtCreated ?? Date() > $1.records.first?.gmtCreated ?? Date() }
+        }.sorted {
+            if $0.lastChangeAt != $1.lastChangeAt { return $0.lastChangeAt > $1.lastChangeAt }
+            return $0.id < $1.id
+        }
     }
 
 				private func accountGroupCard(_ group: AssetAccountGroup) -> some View {

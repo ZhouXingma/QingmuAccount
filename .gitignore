@@ -3,3 +3,61 @@
 /scripts/
 /CLAUDE.md
 /database_schema.sql
+
+# Xcode：用户数据（含本机用户名、断点、界面状态、打开过的文件路径）
+xcuserdata/
+*.xcuserstate
+*.xcbkptlist
+*.xcscmblueprint
+*.xccheckout
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.hmap
+
+# 本地签名 / 团队 / 账号配置
+Local.xcconfig
+*.local.xcconfig
+Secrets.xcconfig
+*.mobileprovision
+*.p12
+*.cer
+*.certSigningRequest
+
+# 密钥与环境变量
+.env
+.env.*
+*.env
+
+# 本地数据与日志
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+.Trashes
+._*
+
+# Xcode 构建产物
+/QingmuAccount.xcodeproj/xcuserdata/
+/QingmuAccount.xcodeproj/project.xcworkspace/xcuserdata/
+build/
+DerivedData/
+
+# App 打包产物
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Playgrounds / SPM
+timeline.xctimeline
+playground.xcworkspace
+.swiftpm
+Packages
+Package.resolved
+.xcode-docgeneration-setting
