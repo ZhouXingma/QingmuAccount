@@ -113,6 +113,32 @@ Or open `QingmuAccount.xcodeproj` in Xcode and run.
 
 ---
 
+## How to Install the IPA
+
+The IPA provided by this project is an **unsigned clean build**. Users must sign it with their own Apple ID, a paid developer account, or a third-party certificate before installing.
+
+### 1. Desktop Tools (sign and install over a USB cable from PC/Mac)
+
+- **Aisi Assistant (Windows/Mac)**: The most widely used device-management tool in China, and the lowest barrier to entry. It has a built-in IPA signing feature that supports Apple ID re-signing or importing personal/enterprise certificates, and installs the signed app to the phone in one click.
+- **Sideloadly (Windows/Mac)**: The mainstream overseas tool for clean personal sideloading. Drag the IPA in, enter your Apple ID, and it signs and installs automatically; it also supports injecting tweaks (.dylib/.deb).
+- **AltStore / AltServer (Windows/Mac)**: Runs as a server on your computer and automatically refreshes your apps over the local Wi-Fi. A free personal account can hold 3 apps at once, and re-signing is wireless as long as the computer and phone are on the same network.
+- **Xcode (Mac only)**: Apple's official developer tool. Users can create a blank project, use a free or paid developer account, and sideload the IPA onto a connected iOS device.
+- **Apple Configurator 2 (Mac only)**: Apple's official enterprise and device deployment tool. Built for managing iOS devices in bulk; it can distribute a valid IPA package by dragging it onto a connected device.
+- **iFunbox / i4 Tools (Windows/Mac)**: Traditional iOS file and app transfer tools, mainly for installing already-validly-signed IPA packages or installing apps on jailbroken devices.
+
+### 2. On-device Tools (fully computer-free, operated directly on iPhone)
+
+- **ESign (全能签)**: A widely popular iOS local signing and installing tool in China. It imports p12 certificates and mobileprovision profiles, or self-signs with an Apple ID, and supports multiple app instances, bundle-ID changes, and tweak injection.
+- **EasySign (轻松签)**: A lightweight yet powerful on-device signing tool. It supports one-tap signing, dynamic library injection, and changing app icons and names, with a clean, ad-free interface.
+- **SideStore**: A phone-based sideloading tool that evolved from AltStore. It uses a local WireGuard VPN so users can refresh their personal Apple ID certificate and install the IPA entirely on the phone, with no computer involved.
+- **TrollStore (巨魔商店)**: The legendary signature-free installer. It exploits specific low-level iOS vulnerabilities (supported on certain iOS versions between 14.0 and 17.0). IPAs installed through it need no signature at all, never expire, and get the highest app privileges similar to jailbreaking.
+
+### 3. Special Platform Helpers
+
+- **PlayCover (Apple Silicon Mac only)**: If you distribute a game or other mobile app IPA, users on Apple Silicon Macs (M1/M2/M3/M4, etc.) can use PlayCover to install the IPA directly and run it on the Mac, with custom keyboard and mouse mapping support.
+
+---
+
 ## About the Icons
 
 - Icon font download: <https://pan.baidu.com/s/1wpGmW57sJhjsfkaxTbAzrw> (code `bi6b`)

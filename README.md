@@ -113,6 +113,32 @@ xcodebuild -project QingmuAccount.xcodeproj -scheme QingmuAccount \
 
 ---
 
+## IPA 安装方法
+
+本项目提供的 IPA 为**未签名的纯净版**，使用者需要使用自己的 Apple ID、付费开发者账号或第三方证书进行签名后才能安装。
+
+### 1. 电脑端安装工具（通过数据线连接 PC/Mac 签名安装）
+
+- **爱思助手（Windows/Mac）**：国内最常用、门槛最低的设备管理工具。内置 IPA 签名功能，支持使用 Apple ID 代签或导入个人/企业证书，签名后可一键安装到手机。
+- **Sideloadly（Windows/Mac）**：国外主流的纯净个人侧载工具。支持直接将 IPA 拖入，输入 Apple ID 即可自动签名安装，并支持注入插件（.dylib/.deb）。
+- **AltStore / AltServer（Windows/Mac）**：通过电脑端软件作为服务器，利用本地 Wi-Fi 自动为手机端应用续签。个人免费账号支持同时安装 3 个应用，只要电脑与手机在同一网络即可无线自动续签。
+- **Xcode（仅 Mac）**：苹果官方开发工具。使用者可以通过新建空白项目，使用免费或付费开发者账号，将 IPA 侧载并安装到连接的 iOS 设备上。
+- **Apple Configurator 2（仅 Mac）**：苹果官方提供的企业与设备部署工具。主要用于批量管理 iOS 设备，支持直接将有效的 IPA 包拖拽分发到连接的设备中。
+- **iFunbox / 爱客助手（Windows/Mac）**：传统的 iOS 文件与应用传输工具，主要用于安装已做好有效签名的 IPA 包或在已越狱设备上安装应用。
+
+### 2. 手机端直接安装工具（完全脱离电脑，在 iPhone 上直接操作）
+
+- **全能签 (ESign)**：国内非常流行的 iOS 本地签名与安装工具。支持导入 p12 证书、mobileprovision 描述文件或通过 Apple ID 自签，支持应用多开、修改包名和注入插件。
+- **轻松签 (EasySign)**：轻量且功能强大的手机端本地签名工具。支持一键签名、注入动态库、修改应用图标和名称，界面清爽无广告。
+- **SideStore**：基于 AltStore 演进而来的手机端侧载工具。它利用本地 WireGuard VPN 技术，让使用者可以完全脱离电脑，直接在手机上刷新个人 Apple ID 证书并安装 IPA。
+- **巨魔商店 (TrollStore)**：神级免签名安装工具。利用了特定的 iOS 系统底层漏洞（支持 iOS 14.0 至 iOS 17.0 的部分特定版本）。通过它安装的 IPA 不需要任何签名，也永不过期，拥有类似越狱的最高应用权限。
+
+### 3. 特殊平台辅助工具
+
+- **PlayCover（仅 Apple Silicon Mac）**：如果您提供的是手游或移动端应用 IPA，Mac 用户（M1/M2/M3/M4 等芯片）可以使用 PlayCover 将 IPA 直接安装到 Mac 电脑上运行，并支持自定义键盘和鼠标映射。
+
+---
+
 ## 关于图标
 
 - 图标字体信息：<https://pan.baidu.com/s/1wpGmW57sJhjsfkaxTbAzrw>（提取码 `bi6b`）
