@@ -17,6 +17,10 @@ struct MonthlySheetItem: Identifiable {
 
 struct MonthlyOverviewComponent: View {
     @EnvironmentObject var globalModel: GlobalModel
+    // 宽屏（如 iPhone Duo 展开）时全部账本合计与各账本明细左右分栏
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var isWideLayout: Bool { horizontalSizeClass == .regular }
+
     @Binding var year: Int
     @Binding var month: Int
     @Binding var thisYear: Int
@@ -44,43 +48,74 @@ struct MonthlyOverviewComponent: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            monthSelector
-
-            summaryCard
-                .padding(.horizontal, 15)
-
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 12) {
-                    if bookDetails.isEmpty {
-                        emptyView
-                    } else {
-                        HStack {
-                            Text("各账本明细")
-                                .font(.system(size: 16, weight: .bold))
-                            Spacer()
-                        }
-                        .padding(.horizontal, 5)
-                        .padding(.top, 10)
-                        ForEach(bookDetails.indices, id: \.self) { index in
-                            bookDetailRow(bookDetails[index])
+        Group {
+            if isWideLayout {
+                // 宽屏：左列全部账本合计、右列各账本明细，各自独立滚动
+                HStack(alignment: .top, spacing: 12) {
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            monthSelector
+                            summaryCard
+                                .padding(.horizontal, 15)
+                                .padding(.top, 5)
                         }
                     }
+                    .frame(maxWidth: .infinity)
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 12) {
+                            if bookDetails.isEmpty {
+                                emptyView
+                            } else {
+                                HStack {
+                                    Text("各账本明细")
+                                        .font(.system(size: 16, weight: .bold))
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 5)
+                                .padding(.top, 10)
+                                ForEach(bookDetails.indices, id: \.self) { index in
+                                    bookDetailRow(bookDetails[index])
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 15)
+                        .padding(.top, 5)
+                        .padding(.bottom, 30)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
-                .padding(.horizontal, 15)
-                .padding(.bottom, 100)
+            } else {
+                // 窄屏原布局：合计卡固定在上，明细在下滚动
+                VStack(spacing: 0) {
+                    monthSelector
+
+                    summaryCard
+                        .padding(.horizontal, 15)
+
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 12) {
+                            if bookDetails.isEmpty {
+                                emptyView
+                            } else {
+                                HStack {
+                                    Text("各账本明细")
+                                        .font(.system(size: 16, weight: .bold))
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 5)
+                                .padding(.top, 10)
+                                ForEach(bookDetails.indices, id: \.self) { index in
+                                    bookDetailRow(bookDetails[index])
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 15)
+                        .padding(.bottom, 100)
+                    }
+                }
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-        .onAppear { 
-            loadData() 
-        }
-        .onChange(of: month) { _ in 
-            loadData() 
-        }
-        .onChange(of: year) { _ in 
-            loadData() 
-        }
         .sheet(item: $sheetItem) { item in
             AnyView(
                 AccountBookStatisticComponent(
@@ -91,6 +126,15 @@ struct MonthlyOverviewComponent: View {
                 )
                 .environmentObject(globalModel)
             )
+        }
+        .onAppear {
+            loadData()
+        }
+        .onChange(of: month) { _ in
+            loadData()
+        }
+        .onChange(of: year) { _ in
+            loadData()
         }
     }
 

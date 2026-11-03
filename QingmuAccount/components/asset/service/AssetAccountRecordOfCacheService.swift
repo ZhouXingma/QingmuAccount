@@ -58,6 +58,12 @@ class AssetAccountRecordOfCacheService {
         _ = try AssetAccountOfCacheService.reloadAccounts(cache: cache)
     }
 
+    /// 修改一条变更的备注（不影响金额与余额）
+    static func updateRecordRemark(recordId: String, remark: String, cache: GlobalModel) throws {
+        try AssetAccountRecordService.updateRecordRemark(recordId: recordId, remark: remark)
+        _ = try AssetAccountOfCacheService.reloadAccounts(cache: cache)
+    }
+
     /// 删除一条变更：删除明细 + 回滚账户余额
     static func deleteRecord(recordId: String, cache: GlobalModel) throws {
         try AssetAccountRecordService.deleteRecord(recordId: recordId)

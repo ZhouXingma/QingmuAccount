@@ -20,16 +20,18 @@
   <tr>
     <td align="center"><img src="doc/05-budget-history.png" width="220"><br><sub>历史预算</sub></td>
     <td align="center"><img src="doc/06-assets.png" width="220"><br><sub>资产汇总与当月记录</sub></td>
-    <td align="center"><img src="doc/07-account-picker.png" width="220"><br><sub>选择账户</sub></td>
-    <td align="center"><img src="doc/08-add-account.png" width="220"><br><sub>添加资产账户</sub></td>
+    <td align="center"><img src="doc/07-asset-accounts.png" width="220"><br><sub>资产账户列表</sub></td>
+    <td align="center"><img src="doc/08-account-detail.png" width="220"><br><sub>账户详情 · 记账热力</sub></td>
   </tr>
   <tr>
     <td align="center"><img src="doc/09-overview.png" width="220"><br><sub>概览 · 各账本合计</sub></td>
-    <td align="center"><img src="doc/10-ledger-edit.png" width="220"><br><sub>编辑账本</sub></td>
-    <td></td>
-    <td></td>
+    <td align="center"><img src="doc/10-ledger-setting.png" width="220"><br><sub>账本管理</sub></td>
+    <td align="center"><img src="doc/11-me.png" width="220"><br><sub>我的 · 记账热力</sub></td>
+    <td align="center"><img src="doc/08-account-detail.png" width="220"><br><sub>账户详情 · 记账热力</sub></td>
   </tr>
 </table>
+
+> 已适配 **iPhone Duo 展开宽屏**：账本、资产、概览等主要页面在展开后自动切换为左右双栏布局，两栏各自独立滚动。
 
 ---
 

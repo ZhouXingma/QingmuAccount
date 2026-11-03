@@ -181,6 +181,18 @@ class AssetAccountRecordService {
         }
     }
 
+    /// 修改明细备注（不影响金额与余额）
+    static func updateRecordRemark(recordId: String, remark: String) throws {
+        let rows = try SQLiteManager.shared.query("SELECT id FROM \(table) WHERE id=?", [recordId])
+        guard rows.count > 0 else {
+            throw AssetAccountRecordError.ISNOTEXIT
+        }
+        try SQLiteManager.shared.execute(
+            "UPDATE \(table) SET remark=?, gmtModfied=? WHERE id=?",
+            [remark, Int64(Date().timeIntervalSince1970), recordId]
+        )
+    }
+
     /// 删除一条变更明细，并在同一事务内回滚账户余额。
     static func deleteRecord(recordId: String) throws {
         try SQLiteManager.shared.transaction {

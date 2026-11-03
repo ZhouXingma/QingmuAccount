@@ -42,70 +42,72 @@ struct AccountBookSettingComponent : View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // 标题栏（返回 + 居中标题 + 对称占位）
-            HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                // 标题栏（返回 + 居中标题 + 对称占位）
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color("FontColor"))
+                    }
+
+                    Spacer()
+
+                    Text("账本")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(Color("FontColor"))
+
+                    Spacer()
+
+                    // 占位符，保持居中
                     Image(systemName: "chevron.left")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color("FontColor"))
+                        .opacity(0)
                 }
+                .frame(height: 44)
+                .padding(.horizontal, 15)
 
-                Spacer()
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        // 当前账本书封
+                        if let currentBook = currentBook {
+                            AccountBookCoverCard(
+                                accountBook: currentBook,
+                                defaultAccountName: defaultAccountName(of: currentBook),
+                                onTap: { handleEdit(currentBook) }
+                            )
+                            .padding(.top, 6)
+                        }
 
-                Text("账本")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(Color("FontColor"))
+                        // 其他账本
+                        if !otherBooks.isEmpty {
+                            otherBooksHeader
 
-                Spacer()
-
-                // 占位符，保持居中
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color("FontColor"))
-                    .opacity(0)
-            }
-            .frame(height: 44)
-            .padding(.horizontal, 15)
-
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
-                    // 当前账本书封
-                    if let currentBook = currentBook {
-                        AccountBookCoverCard(
-                            accountBook: currentBook,
-                            defaultAccountName: defaultAccountName(of: currentBook),
-                            onTap: { handleEdit(currentBook) }
-                        )
-                        .padding(.top, 6)
-                    }
-
-                    // 其他账本
-                    if !otherBooks.isEmpty {
-                        otherBooksHeader
-
-                        VStack(spacing: 9) {
-                            ForEach(otherBooks) { item in
-                                AccountBookManageRow(
-                                    accountBook: item,
-                                    defaultAccountName: defaultAccountName(of: item),
-                                    isCurrent: item.name == selectAccountBook,
-                                    canDelete: isNotSelectedOrDefault(item),
-                                    onEdit: { handleEdit(item) },
-                                    onSetCurrent: { changeCurrent(item) },
-                                    onDelete: { handleDeleted(item.name) }
-                                )
+                            VStack(spacing: 9) {
+                                ForEach(otherBooks) { item in
+                                    AccountBookManageRow(
+                                        accountBook: item,
+                                        defaultAccountName: defaultAccountName(of: item),
+                                        isCurrent: item.name == selectAccountBook,
+                                        canDelete: isNotSelectedOrDefault(item),
+                                        onEdit: { handleEdit(item) },
+                                        onSetCurrent: { changeCurrent(item) },
+                                        onDelete: { handleDeleted(item.name) }
+                                    )
+                                }
                             }
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 110)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 24)
             }
 
-            // 新建账本
+            // 新建账本（悬浮胶囊）
             Button {
                 handleEdit(nil)
             } label: {
@@ -116,12 +118,11 @@ struct AccountBookSettingComponent : View {
                         .font(.system(size: 16, weight: .bold))
                 }
                 .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 36)
                 .frame(height: 50)
-                .background(Color("DefaultButtonBackgroud"), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .background(Color("DefaultButtonBackgroud"), in: Capsule())
+                .shadow(color: Color("DefaultButtonBackgroud").opacity(0.35), radius: 10, x: 0, y: 6)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 8)
             .padding(.bottom, 20)
         }
         .onAppear() {

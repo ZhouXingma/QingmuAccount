@@ -12,6 +12,9 @@ struct PersonView : View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var globalModel:GlobalModel
     @Environment(\.colorScheme) private var colorScheme
+    // 宽屏（如 iPhone Duo 展开）时账本热力与账户热力左右分栏
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var isWideLayout: Bool { horizontalSizeClass == .regular }
 
     @AppStorage("selectAccountBook") private var selectAccountBook = AccountBookHandleService.DEFAULT_NAME
 
@@ -47,14 +50,28 @@ struct PersonView : View {
                     topBar
 
                     ScrollView(showsIndicators: false) {
-                        VStack(spacing: 12) {
-                            menuGroup
-                            bookHeatCard
-                            accountHeatCard
+                        if isWideLayout {
+                            // 宽屏：管理入口整行，两张热力卡左右并排
+                            VStack(spacing: 12) {
+                                menuGroup
+                                HStack(alignment: .top, spacing: 12) {
+                                    bookHeatCard
+                                    accountHeatCard
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 4)
+                            .padding(.bottom, 26)
+                        } else {
+                            VStack(spacing: 12) {
+                                menuGroup
+                                bookHeatCard
+                                accountHeatCard
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 4)
+                            .padding(.bottom, 26)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 4)
-                        .padding(.bottom, 26)
                     }
                 }
                 .navigationBarHidden(true)

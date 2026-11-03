@@ -20,16 +20,18 @@ A **fully offline** iOS bookkeeping app built with SwiftUI. No network requests,
   <tr>
     <td align="center"><img src="doc/05-budget-history.png" width="220"><br><sub>Budget History</sub></td>
     <td align="center"><img src="doc/06-assets.png" width="220"><br><sub>Asset Summary &amp; Monthly Records</sub></td>
-    <td align="center"><img src="doc/07-account-picker.png" width="220"><br><sub>Account Picker</sub></td>
-    <td align="center"><img src="doc/08-add-account.png" width="220"><br><sub>Add Asset Account</sub></td>
+    <td align="center"><img src="doc/07-asset-accounts.png" width="220"><br><sub>Asset Account List</sub></td>
+    <td align="center"><img src="doc/08-account-detail.png" width="220"><br><sub>Account Detail · Heatmap</sub></td>
   </tr>
   <tr>
     <td align="center"><img src="doc/09-overview.png" width="220"><br><sub>Overview · All Ledgers</sub></td>
-    <td align="center"><img src="doc/10-ledger-edit.png" width="220"><br><sub>Edit Ledger</sub></td>
-    <td></td>
-    <td></td>
+    <td align="center"><img src="doc/10-ledger-setting.png" width="220"><br><sub>Ledger Management</sub></td>
+    <td align="center"><img src="doc/11-me.png" width="220"><br><sub>Me · Heatmaps</sub></td>
+    <td align="center"><img src="doc/08-account-detail.png" width="220"><br><sub>Account Detail · Heatmap</sub></td>
   </tr>
 </table>
+
+> Adapted for **iPhone Duo unfold (wide screen)**: main pages (Ledger, Assets, Overview) automatically switch to a two-column layout when unfolded, with each column scrolling independently.
 
 ---
 

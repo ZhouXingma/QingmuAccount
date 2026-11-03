@@ -9,6 +9,9 @@ import SwiftUI
 
 struct AssetMonthlyView: View {
     @EnvironmentObject var globalModel: GlobalModel
+    // 宽屏（如 iPhone Duo 展开）时资产汇总与当月记录左右分栏
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var isWideLayout: Bool { horizontalSizeClass == .regular }
 
     @State private var year: Int = DateUtils.findComponentsOfDate([.year], date: Date()).year ?? 2026
     @State private var month: Int = DateUtils.findComponentsOfDate([.month], date: Date()).month ?? 1
@@ -26,45 +29,89 @@ struct AssetMonthlyView: View {
     @State private var detailAccountId: String = ""
     @State private var detailRecords: [AssetAccountRecordModel] = []
     @State private var detailAccount: AssetAccountModel? = nil
+    // 是否隐藏资产汇总金额（默认显示）
+    @State private var hideAssetAmounts = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView(showsIndicators: false) {
-                if accounts.isEmpty {
-                    emptyView
-                } else {
-                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        // 资产汇总（吸顶）
-                        Section {
-                            AssetSummaryComponent(accounts: accounts, balanceMap: balanceMap, onAccountChanged: { loadData() })
-                                .padding(.horizontal, 15)
-                                .padding(.top, 10)
-                                .padding(.bottom, 12)
-                        } header: {
-                            sectionHeader("资产汇总")
-                        }
-                        // 当月记录（吸顶标题 + 年月切换一起置顶）
-                        Section {
-                            if records.isEmpty {
-                                emptyFlowView
-                            } else {
-                                VStack(spacing: 12) {
-                                    ForEach(groupedAccounts(), id: \.id) { group in
-                                        accountGroupCard(group)
-                                    }
-                                }
-                                .padding(.horizontal, 15)
-                                .padding(.top, 6)
-                                .padding(.bottom, 24)
+        ZStack {
+            if isWideLayout {
+                // 宽屏：左列资产汇总、右列当月记录，两栏等分、各自滚动
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 0) {
+                                assetSummaryHeader
+                                AssetSummaryComponent(accounts: accounts, balanceMap: balanceMap, hideAmounts: hideAssetAmounts, onAccountChanged: { loadData() })
+                                    .padding(.horizontal, 15)
+                                    .padding(.bottom, 24)
                             }
-                        } header: {
+                        }
+                        .frame(width: (geo.size.width - 1) / 2, height: geo.size.height)
+                        Divider()
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 0) {
                             VStack(spacing: 0) {
                                 sectionHeader("当月记录")
                                 monthHeader
                                     .padding(.horizontal, 15)
                                     .padding(.bottom, 8)
                             }
-                            .background(Color("ViewBackgroundColor"))
+                                .padding(.top, 10)
+                                if records.isEmpty {
+                                    emptyFlowView
+                                } else {
+                                    LazyVStack(spacing: 12) {
+                                        ForEach(groupedAccounts(), id: \.id) { group in
+                                            accountGroupCard(group)
+                                        }
+                                    }
+                                    .padding(.horizontal, 15)
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 24)
+                                }
+                            }
+                        }
+                        .frame(width: (geo.size.width - 1) / 2, height: geo.size.height)
+                    }
+                }.ignoresSafeArea(.all,edges: .bottom)
+            } else {
+                ScrollView(showsIndicators: false) {
+                    if accounts.isEmpty {
+                        emptyView
+                    } else {
+                        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                            // 资产汇总（吸顶）
+                            Section {
+                                AssetSummaryComponent(accounts: accounts, balanceMap: balanceMap, hideAmounts: hideAssetAmounts, onAccountChanged: { loadData() })
+                                    .padding(.horizontal, 15)
+                                    .padding(.top, 10)
+                                    .padding(.bottom, 12)
+                            } header: {
+                                assetSummaryHeader
+                            }
+                            // 当月记录（吸顶标题 + 年月切换一起置顶）
+                            Section {
+                                if records.isEmpty {
+                                    emptyFlowView
+                                } else {
+                                    VStack(spacing: 12) {
+                                        ForEach(groupedAccounts(), id: \.id) { group in
+                                            accountGroupCard(group)
+                                        }
+                                    }
+                                    .padding(.horizontal, 15)
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 24)
+                                }
+                            } header: {
+                                VStack(spacing: 0) {
+                                    sectionHeader("当月记录")
+                                    monthHeader
+                                        .padding(.horizontal, 15)
+                                        .padding(.bottom, 8)
+                                }
+                                .background(Color("ViewBackgroundColor"))
+                            }
                         }
                     }
                 }
@@ -390,7 +437,7 @@ struct AssetMonthlyView: View {
 								.font(.system(size: 11))
 								.foregroundColor(.secondary)
 							if !record.relatedAccountName.isEmpty {
-								Text(record.moneyCents >= 0 ? "来自\(record.relatedAccountName)" : "转至\(record.relatedAccountName)")
+								Text(record.moneyCents >= 0 ? "转入从\(record.relatedAccountName)" : "转出至\(record.relatedAccountName)")
 									.font(.system(size: 11))
 									.foregroundColor(.secondary)
 							}
@@ -435,6 +482,32 @@ struct AssetMonthlyView: View {
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(Color("FontColor"))
             Spacer()
+        }
+        .padding(.horizontal, 15)
+        .padding(.vertical, 10)
+        .background(Color("ViewBackgroundColor"))
+    }
+
+    /// 资产汇总标题：右侧眼睛按钮，控制是否显示金额
+    private var assetSummaryHeader: some View {
+        HStack {
+            Text("资产汇总")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(Color("FontColor"))
+            Spacer()
+            Button {
+                keyFeedback(0)
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    hideAssetAmounts.toggle()
+                }
+            } label: {
+                Image(systemName: hideAssetAmounts ? "eye.slash" : "eye")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(.secondary)
+                    .frame(width: 30, height: 30)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, 15)
         .padding(.vertical, 10)

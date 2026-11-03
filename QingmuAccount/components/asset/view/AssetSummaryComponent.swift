@@ -10,6 +10,8 @@ import SwiftUI
 struct AssetSummaryComponent: View {
     let accounts: [AssetAccountModel]
     let balanceMap: [String: [(currency: String, totalCents: Int64)]]
+    /// 是否隐藏金额（默认显示）
+    var hideAmounts: Bool = false
     var onAccountChanged: () -> Void = {}
     /// 已展开的币种
     @State private var expandedCurrencies: Set<String> = []
@@ -103,12 +105,12 @@ struct AssetSummaryComponent: View {
                             .foregroundColor(.secondary)
                     }
                     HStack(spacing: 12) {
-                        Text("总资产 \(money(summary.assetCents))")
+                        Text("总资产 \(hideAmounts ? hiddenMoney : money(summary.assetCents))")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(Color("DefaultButtonBackgroud"))
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)
-                        Text("总负债 \(money(summary.liabilityCents))")
+                        Text("总负债 \(hideAmounts ? hiddenMoney : money(summary.liabilityCents))")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(Color("RedColor"))
                             .lineLimit(1)
@@ -177,7 +179,7 @@ struct AssetSummaryComponent: View {
                 .foregroundColor(Color("FontColor"))
                 .lineLimit(1)
             Spacer()
-            Text(item.balanceCents >= 0 ? "资产 \(money(item.assetCents))" : "负债 \(money(item.liabilityCents))")
+            Text(item.balanceCents >= 0 ? "资产 \(hideAmounts ? hiddenMoney : money(item.assetCents))" : "负债 \(hideAmounts ? hiddenMoney : money(item.liabilityCents))")
                 .font(.system(size: 13, weight: .bold))
                 .foregroundColor(item.balanceCents >= 0 ? Color("DefaultButtonBackgroud") : Color("RedColor"))
                 .lineLimit(1)
@@ -190,6 +192,9 @@ struct AssetSummaryComponent: View {
     private func money(_ cents: Int64) -> String {
         return SQLiteManager.money(fromCents: cents)
     }
+
+    /// 隐藏金额时的占位文本
+    private var hiddenMoney: String { "****" }
 }
 
 /// 每币种汇总

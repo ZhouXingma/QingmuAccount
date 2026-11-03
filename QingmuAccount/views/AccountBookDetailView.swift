@@ -94,7 +94,11 @@ struct AccountBookDetailView : View {
                     .frame(width: 172, height: 48)
                 }
                 .padding(4)
-                .background(Color("MainBackgroundColor"), in: Capsule())
+                .background(.ultraThinMaterial, in: Capsule())
+                .overlay(
+                    Capsule()
+                        .strokeBorder(Color("MainShadowColor").opacity(0.12), lineWidth: 1)
+                )
                 .shadow(color: Color("MainShadowColor").opacity(0.2), radius: 4, x: 0, y: -2)
                 Spacer()
                 // 右侧圆形：添加记录

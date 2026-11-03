@@ -94,15 +94,19 @@ struct AssetAccountIconPickerView: View {
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 14), count: 4)
 
     var body: some View {
-        VStack(spacing: 14) {
-            header
-            modePicker
-            if mode == 0 {
-                iconContent
-            } else {
-                textContent
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 14) {
+                header
+                modePicker
+                if mode == 0 {
+                    iconContent
+                } else {
+                    textContent
+                }
             }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             confirmButton
+                .padding(.bottom, 22)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .background(Color("ViewBackgroundColor"))
@@ -169,7 +173,7 @@ struct AssetAccountIconPickerView: View {
                 }
                 .padding(.horizontal, 15)
                 .padding(.top, 8)
-                .padding(.bottom, 16)
+                .padding(.bottom, 110)
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -294,7 +298,7 @@ struct AssetAccountIconPickerView: View {
             ScrollView(showsIndicators: false) {
                 colorSection
                     .padding(.horizontal, 15)
-                    .padding(.bottom, 16)
+                    .padding(.bottom, 110)
             }
             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
@@ -351,19 +355,23 @@ struct AssetAccountIconPickerView: View {
         Button {
             confirm()
         } label: {
-            Text("确定")
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.white)
-                .frame(width: 250, height: 50)
-                .background(
-                    canConfirm() ? Color("DefaultButtonBackgroud")
-                        : Color("DefaultButtonBackgroud").opacity(ColorConfig.UNABLE_COLOR_OPCITY),
-                    in: RoundedRectangle(cornerRadius: 14)
-                )
-                .shadow(color: canConfirm() ? Color("MainShadowColor").opacity(0.25) : Color.clear, radius: 6, x: 0, y: 3)
+            HStack(spacing: 7) {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 15, weight: .bold))
+                Text("确定")
+                    .font(.system(size: 16, weight: .bold))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 44)
+            .frame(height: 50)
+            .background(
+                canConfirm() ? Color("DefaultButtonBackgroud")
+                    : Color("DefaultButtonBackgroud").opacity(ColorConfig.UNABLE_COLOR_OPCITY),
+                in: Capsule()
+            )
+            .shadow(color: canConfirm() ? Color("DefaultButtonBackgroud").opacity(0.35) : Color.clear, radius: 10, x: 0, y: 6)
         }
         .disabled(!canConfirm())
-        .padding(.bottom, 22)
     }
 
     private func canConfirm() -> Bool {

@@ -11,6 +11,9 @@ struct AssetAccountDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var globalModel: GlobalModel
     @Environment(\.colorScheme) private var colorScheme
+    // 宽屏（如 iPhone Duo 展开）时余额/月度统计与流水左右分栏
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var isWideLayout: Bool { horizontalSizeClass == .regular }
 
     let accountId: String
     var onAccountChanged: () -> Void = {}
@@ -25,6 +28,8 @@ struct AssetAccountDetailView: View {
 
     @State private var showRecordEdit = false
     @State private var showAccountEdit = false
+    // 流水备注编辑弹窗
+    @State private var editingRemarkRecord: AssetAccountRecordModel? = nil
     @State private var showDeleteAccountAlter = false
     @State private var showAlter = false
     @State private var alterConfig = AlertComponentConfig(desc: "操作失败！")
@@ -40,25 +45,68 @@ struct AssetAccountDetailView: View {
             VStack(spacing: 0) {
                 topBar
 
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 12) {
-                        if let account = account {
-                            accountHero(account)
-                            monthSummary
-                            heatCard
-                            flowSection
-                        } else {
-                            ProgressView()
-                                .padding(.top, 80)
+                if isWideLayout {
+                    // 宽屏：左列余额头部 + 月度统计，右列流水，两列各自独立滚动；
+                    // 悬浮操作条贴右列底部居中
+                    HStack(alignment: .top, spacing: 12) {
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 12) {
+                                if let account = account {
+                                    accountHero(account)
+                                    monthSummary
+                                } else {
+                                    ProgressView()
+                                        .padding(.top, 80)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .padding(.leading, 15)
+                        .padding(.vertical, 4)
+                        .padding(.bottom, 40)
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 12) {
+                                if account != nil {
+                                    flowSection
+                                } else {
+                                    ProgressView()
+                                        .padding(.top, 80)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .padding(.trailing, 15)
+                        .padding(.vertical, 4)
+                        .padding(.bottom, 80)
+                    }
+                    .overlay(alignment: .trailing) {
+                        if account != nil {
+                            floatingDock
+                                .padding(.bottom, 12)
+                                .padding(.trailing, 15)
+                                .frame(maxHeight: .infinity, alignment: .bottom)
                         }
                     }
-                    .padding(.horizontal, 15)
-                    .padding(.top, 4)
-                    .padding(.bottom, 126)
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 12) {
+                            if let account = account {
+                                accountHero(account)
+                                monthSummary
+                                flowSection
+                            } else {
+                                ProgressView()
+                                    .padding(.top, 80)
+                            }
+                        }
+                        .padding(.horizontal, 15)
+                        .padding(.top, 4)
+                        .padding(.bottom, 126)
+                    }
                 }
             }
 
-            if account != nil {
+            if account != nil && !isWideLayout {
                 floatingDock
                     .padding(.bottom, 10)
             }
@@ -81,6 +129,10 @@ struct AssetAccountDetailView: View {
                 AssetAccountEditView(mode: .edit, account: account, onSave: { reload(resetSelection: false) })
                     .environmentObject(globalModel)
             }
+        }
+        .sheet(item: $editingRemarkRecord) { record in
+            AssetRecordRemarkEditView(record: record, onSaved: { reload(resetSelection: false) })
+                .environmentObject(globalModel)
         }
         .selfDatePicker(showState: $showDatePicker, type: $datePickerType, param: $datePickerValue) { value in
             guard let pickYear = value.year, let pickMonth = value.month else { return }
@@ -139,10 +191,6 @@ struct AssetAccountDetailView: View {
 
     private func accountHero(_ account: AssetAccountModel) -> some View {
         let primary = primaryBalance
-        let others = Array(sortedBalances.dropFirst())
-        let symbol = AssetCurrency.symbol(of: primary.currency)
-        let currencyName = AssetCurrency.name(of: primary.currency)
-        let amount = SQLiteManager.money(fromCents: abs(primary.totalCents))
         let typeName = AssetAccountType(rawValue: account.type)?.name ?? "账户"
 
         return VStack(spacing: 0) {
@@ -157,7 +205,7 @@ struct AssetAccountDetailView: View {
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Color("FontColor"))
                         .lineLimit(1)
-                    Text("\(typeName) · \(currencyName)")
+                    Text("\(typeName) · \(AssetCurrency.name(of: primary.currency))")
                         .font(.system(size: 11.5))
                         .foregroundColor(Color("FontColorSecend"))
                 }
@@ -178,43 +226,16 @@ struct AssetAccountDetailView: View {
                 .overlay(Color("MainShadowColor").opacity(0.08))
                 .padding(.vertical, 13)
 
-            HStack {
-                Text("当前余额 · \(currencyName)")
-                    .font(.system(size: 11.5))
-                    .foregroundColor(Color("FontColorSecend"))
-                Spacer()
-                if sortedBalances.count > 1 {
-                    Text("共 \(String(sortedBalances.count)) 种币")
-                        .font(.system(size: 10.5))
-                        .foregroundColor(Color("FontColorSecend"))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Color("FontColor").opacity(0.05), in: Capsule())
-                }
-            }
-
-            HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(primary.totalCents < 0 ? "-" + symbol : symbol)
-                    .font(.system(size: 20, weight: .semibold))
-                Text(amount)
-                    .font(.system(size: 34, weight: .bold))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-            }
-            .foregroundColor(primary.totalCents < 0 ? Color("RedColor") : Color("FontColor"))
-            .monospacedDigit()
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            if !others.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 6) {
-                        ForEach(others, id: \.currency) { item in
-                            balancePill(item)
-                        }
+            // 多币种平铺：主币种金额稍大，其余币种等权展示
+            VStack(spacing: 0) {
+                ForEach(Array(sortedBalances.enumerated()), id: \.element.currency) { index, item in
+                    if index > 0 {
+                        Rectangle()
+                            .fill(Color("MainShadowColor").opacity(0.06))
+                            .frame(height: 0.7)
                     }
-                    .padding(.vertical, 1)
+                    currencyBalanceRow(item, isPrimary: index == 0)
                 }
-                .padding(.top, 9)
             }
         }
         .padding(16)
@@ -246,22 +267,38 @@ struct AssetAccountDetailView: View {
         }
     }
 
-    private func balancePill(_ item: (currency: String, totalCents: Int64)) -> some View {
-        let money = SQLiteManager.money(fromCents: abs(item.totalCents))
-        return HStack(spacing: 3) {
-            Text(AssetCurrency.symbol(of: item.currency))
-                .foregroundColor(Color("FontColorSecend"))
-            Text(item.totalCents < 0 ? "-" + money : money)
-                .foregroundColor(Color("FontColor"))
+    /// 单币种余额行：名称+编码居左，金额居右；主币种字号稍大
+    private func currencyBalanceRow(_ item: (currency: String, totalCents: Int64), isPrimary: Bool) -> some View {
+        let symbol = AssetCurrency.symbol(of: item.currency)
+        let amount = SQLiteManager.money(fromCents: abs(item.totalCents))
+        let negative = item.totalCents < 0
+        return HStack(alignment: .firstTextBaseline, spacing: 8) {
+            HStack(spacing: 5) {
+                Text(AssetCurrency.name(of: item.currency))
+                    .font(.system(size: isPrimary ? 14 : 13, weight: .bold))
+                    .foregroundColor(Color("FontColor"))
+                    .lineLimit(1)
+                Text(item.currency + (isPrimary ? " · 主币种" : ""))
+                    .font(.system(size: 9.5, weight: .semibold))
+                    .foregroundColor(Color("FontColorSecend"))
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 8)
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Text(negative ? "-" + symbol : symbol)
+                    .font(.system(size: isPrimary ? 16 : 13, weight: .semibold))
+                Text(amount)
+                    .font(.system(size: isPrimary ? 26 : 20, weight: .bold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+            }
+            .foregroundColor(negative ? Color("RedColor") : Color("FontColor"))
+            .monospacedDigit()
         }
-        .font(.system(size: 10.5, weight: .semibold))
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(Color("FontColor").opacity(0.05), in: Capsule())
-        .monospacedDigit()
+        .padding(.vertical, isPrimary ? 4 : 9)
     }
 
-    // MARK: - 月度收支
+    // MARK: - 月度收支（月份导航 + 币种统计 + 热力图 合并为一张卡）
 
     private var monthSummary: some View {
         AssetAccountMonthSummaryView(
@@ -269,26 +306,16 @@ struct AssetAccountDetailView: View {
             month: month,
             totalCount: monthRecords.count,
             stats: monthCurrencyStats,
+            daily: dailyStats,
+            selectedDay: selectedDay,
+            onSelectDay: { day in
+                keyFeedback(0)
+                selectedDay = day
+            },
             canGoNext: AssetMonthMath.canGoNext(year: year, month: month),
             onPrev: { shiftMonth(-1) },
             onNext: { shiftMonth(1) },
             onPick: openMonthPicker
-        )
-    }
-
-    // MARK: - 热力
-
-    private var heatCard: some View {
-        AssetAccountHeatmapView(
-            year: year,
-            month: month,
-            daily: dailyStats,
-            totalCount: monthRecords.count,
-            selectedDay: selectedDay,
-            onSelect: { day in
-                keyFeedback(0)
-                selectedDay = day
-            }
         )
     }
 
@@ -343,7 +370,13 @@ struct AssetAccountDetailView: View {
 
                 VStack(spacing: 7) {
                     ForEach(Array(monthRecords.prefix(4)), id: \.id) { record in
-                        AssetAccountRecordRow(record: record, showDate: true)
+                        Button {
+                            keyFeedback(0)
+                            editingRemarkRecord = record
+                        } label: {
+                            AssetAccountRecordRow(record: record, showDate: true)
+                        }
+                        .buttonStyle(.plain)
                             .selfSwiper(id: record.id.uuidString, maxOffsetX: 62, notification: notifaction) {
                                 Button {
                                     deleteRecord(record)
@@ -581,6 +614,8 @@ private struct AssetAccountFlowView: View {
     @State private var showDatePicker = false
     @State private var datePickerType: DatePickerType = .YM
     @State private var datePickerValue = DatePickerValue()
+    // 备注编辑弹窗
+    @State private var editingRemarkRecord: AssetAccountRecordModel? = nil
 
     init(accountId: String, year: Int, month: Int) {
         self.accountId = accountId
@@ -628,6 +663,10 @@ private struct AssetAccountFlowView: View {
                 year = pickYear
                 month = pickMonth
             }
+        }
+        // 点击流水 → 编辑备注（弹窗内只有备注可改）
+        .sheet(item: $editingRemarkRecord) { record in
+            AssetRecordRemarkEditView(record: record, onSaved: { reload() })
         }
     }
 
@@ -749,7 +788,13 @@ private struct AssetAccountFlowView: View {
             .padding(.horizontal, 3)
 
             ForEach(group.records, id: \.id) { record in
-                AssetAccountRecordRow(record: record, showDate: false)
+                Button {
+                    keyFeedback(0)
+                    editingRemarkRecord = record
+                } label: {
+                    AssetAccountRecordRow(record: record, showDate: false)
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -821,13 +866,18 @@ private struct AssetAccountFlowView: View {
     }
 }
 
-// MARK: - 月度收支卡
+// MARK: - 月度收支卡（月份导航做卡片头，币种统计 + 热力图同卡联动）
 
 private struct AssetAccountMonthSummaryView: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     let year: Int
     let month: Int
     let totalCount: Int
     let stats: [AssetMonthCurrencyStat]
+    let daily: [Int: AssetDayStat]
+    let selectedDay: Int?
+    let onSelectDay: (Int) -> Void
     let canGoNext: Bool
     let onPrev: () -> Void
     let onNext: () -> Void
@@ -835,6 +885,7 @@ private struct AssetAccountMonthSummaryView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            // 卡片头：月份导航（管辖下方统计与热力）
             HStack(spacing: 8) {
                 AssetMonthNav(
                     year: year,
@@ -849,13 +900,57 @@ private struct AssetAccountMonthSummaryView: View {
                     .font(.system(size: 10.5))
                     .foregroundColor(Color("FontColorSecend"))
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Color("DefaultButtonBackgroud").opacity(0.055))
 
+            Rectangle()
+                .fill(Color("MainShadowColor").opacity(0.06))
+                .frame(height: 0.7)
+
+            // 币种收支统计
+            statSection
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 14)
+
+            Rectangle()
+                .fill(Color("MainShadowColor").opacity(0.06))
+                .frame(height: 0.7)
+
+            // 记账热力（随月份切换联动）
+            AssetAccountHeatmapView(
+                year: year,
+                month: month,
+                daily: daily,
+                totalCount: totalCount,
+                selectedDay: selectedDay,
+                onSelect: onSelectDay
+            )
+        }
+        .padding(.bottom, 14)
+        .assetCard()
+        // 左右滑动切换上/下个月（同日历操作）
+        .gesture(
+            DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                .onEnded { value in
+                    guard abs(value.translation.width) > abs(value.translation.height) else { return }
+                    if value.translation.width < -30 {
+                        onNext()
+                    } else if value.translation.width > 30 {
+                        onPrev()
+                    }
+                }
+        )
+    }
+
+    private var statSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
             if stats.isEmpty {
                 Text("本月暂无流水")
                     .font(.system(size: 12))
                     .foregroundColor(Color("FontColorSecend"))
-                    .padding(.top, 14)
-                    .padding(.bottom, 2)
+                    .padding(.top, 2)
             } else {
                 HStack(spacing: 6) {
                     Text("币种")
@@ -868,7 +963,6 @@ private struct AssetAccountMonthSummaryView: View {
                 .font(.system(size: 10, weight: .semibold))
                 .foregroundColor(Color("FontColorSecend"))
                 .padding(.horizontal, 2)
-                .padding(.top, 12)
 
                 ForEach(stats) { stat in
                     currencyRow(stat)
@@ -882,8 +976,6 @@ private struct AssetAccountMonthSummaryView: View {
                 }
             }
         }
-        .padding(16)
-        .assetCard()
     }
 
     private func currencyRow(_ stat: AssetMonthCurrencyStat) -> some View {
@@ -957,7 +1049,7 @@ private struct AssetAccountHeatmapView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 6) {
                 Text("记账热力")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(Color("FontColor"))
                 Text("共 \(String(totalCount)) 笔 · \(String(activeDays)) 天有记录")
                     .font(.system(size: 11))
@@ -965,10 +1057,13 @@ private struct AssetAccountHeatmapView: View {
                     .lineLimit(1)
                 Spacer(minLength: 0)
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 14)
 
             weekdayHeader
                 .padding(.top, 14)
                 .padding(.bottom, 6)
+                .padding(.horizontal, 16)
 
             LazyVGrid(columns: columns, spacing: 6) {
                 ForEach(0..<(weekdayOffset + daysInMonth), id: \.self) { index in
@@ -980,9 +1075,11 @@ private struct AssetAccountHeatmapView: View {
                     }
                 }
             }
+            .padding(.horizontal, 16)
 
             detailStrip
                 .padding(.top, 11)
+                .padding(.horizontal, 16)
 
             HStack {
                 legend
@@ -992,9 +1089,8 @@ private struct AssetAccountHeatmapView: View {
                     .foregroundColor(Color("FontColorSecend").opacity(0.85))
             }
             .padding(.top, 11)
+            .padding(.horizontal, 16)
         }
-        .padding(16)
-        .assetCard()
     }
 
     private var weekdayHeader: some View {
@@ -1148,29 +1244,32 @@ private struct AssetAccountRecordRow: View {
             .frame(width: 38, height: 38)
 
             VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 8) {
-                    Text(changeType.name)
-                        .font(.system(size: 13.5, weight: .bold))
-                        .foregroundColor(Color("FontColor"))
-                    Spacer(minLength: 4)
-                    Text(timeText)
-                        .font(.system(size: 9.5))
-                        .foregroundColor(Color("FontColorSecend"))
-                        .monospacedDigit()
-                }
-
+                Text(changeType.name)
+                    .font(.system(size: 13.5, weight: .bold))
+                    .foregroundColor(Color("FontColor"))
                 Text(subtitle)
                     .font(.system(size: 11))
                     .foregroundColor(Color("FontColorSecend"))
                     .lineLimit(1)
             }
 
-            Text(amountText)
-                .font(.system(size: 14.5, weight: .bold))
-                .foregroundColor(record.moneyCents >= 0 ? Color("DefaultButtonBackgroud") : Color("RedColor"))
-                .monospacedDigit()
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
+            Spacer(minLength: 8)
+
+            // 右上角时间，金额在其下方右对齐
+            VStack(alignment: .trailing, spacing: 3) {
+                Text(timeText)
+                    .font(.system(size: 9.5))
+                    .foregroundColor(Color("FontColorSecend"))
+                    .monospacedDigit()
+                    .fixedSize()
+                Text(amountText)
+                    .font(.system(size: 14.5, weight: .bold))
+                    .foregroundColor(record.moneyCents >= 0 ? Color("DefaultButtonBackgroud") : Color("RedColor"))
+                    .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            .frame(maxWidth: 140, alignment: .trailing)
         }
         .padding(.horizontal, 12)
         .frame(minWidth: 0, maxWidth: .infinity)
@@ -1210,7 +1309,7 @@ private struct AssetAccountRecordRow: View {
             parts.append(record.remark)
         }
         if !record.relatedAccountName.isEmpty {
-            let verb = changeType == .transferIn ? "来自" : "转至"
+            let verb = record.moneyCents >= 0 ? "转入从" : "转出至"
             parts.append(verb + record.relatedAccountName)
         }
         return parts.isEmpty ? "账户变更" : parts.joined(separator: " · ")
@@ -1224,6 +1323,92 @@ private struct AssetAccountRecordRow: View {
         let code = record.currency.isEmpty ? "CNY" : record.currency
         let value = SQLiteManager.money(fromCents: abs(record.moneyCents))
         return (record.moneyCents >= 0 ? "+" : "-") + AssetCurrency.symbol(of: code) + value
+    }
+}
+
+// MARK: - 流水备注编辑（仅备注可改，金额/类型/时间不可编辑）
+
+private struct AssetRecordRemarkEditView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var globalModel: GlobalModel
+
+    let record: AssetAccountRecordModel
+    var onSaved: () -> Void = {}
+
+    @State private var remark = ""
+    @State private var showAlter = false
+    @State private var alterConfig = AlertComponentConfig(desc: "操作失败！")
+
+    var body: some View {
+        VStack(spacing: 0) {
+            SheetHeaderComponent(title: "编辑备注")
+
+            // 流水信息（只读展示）
+            AssetAccountRecordRow(record: record, showDate: true)
+                .padding(.horizontal, 15)
+                .padding(.top, 12)
+                .padding(.bottom, 16)
+
+            // 备注（唯一可编辑项）
+            HStack(spacing: 8) {
+                Image(systemName: "text.alignleft")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.secondary)
+                TextField("备注（选填）", text: $remark)
+                    .font(.system(size: 15))
+                    .foregroundColor(Color("FontColor"))
+                    .onTapGesture { toHideKeyboard() }
+            }
+            .padding(.horizontal, 16)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(height: 54)
+            .background(Color("MainBackgroundColor"), in: RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(Color("MainShadowColor").opacity(0.06), lineWidth: 1)
+            )
+            .padding(.horizontal, 15)
+
+            Spacer()
+
+            // 悬浮保存按钮
+            Button {
+                save()
+            } label: {
+                HStack(spacing: 7) {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 15, weight: .bold))
+                    Text("保存")
+                        .font(.system(size: 16, weight: .bold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 44)
+                .frame(height: 50)
+                .background(Color("DefaultButtonBackgroud"), in: Capsule())
+                .shadow(color: Color("DefaultButtonBackgroud").opacity(0.35), radius: 10, x: 0, y: 6)
+            }
+            .padding(.bottom, 20)
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .background(Color("ViewBackgroundColor"))
+        .onTapGesture { toHideKeyboard() }
+        .onAppear { remark = record.remark }
+        .selfAlter(showState: $showAlter, config: alterConfig)
+    }
+
+    private func save() {
+        keyFeedback()
+        do {
+            try AssetAccountRecordOfCacheService.updateRecordRemark(
+                recordId: record.id.uuidString, remark: StringUtils.trim(remark), cache: globalModel)
+            onSaved()
+            presentationMode.wrappedValue.dismiss()
+        } catch {
+            alterConfig.showCancelButton = false
+            alterConfig.sureButtonName = "知道了"
+            alterConfig.topBarColorStyle = .RED
+            showAlter = true
+        }
     }
 }
 

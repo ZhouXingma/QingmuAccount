@@ -38,47 +38,34 @@ struct AssetAccountRecordEditView: View {
     private let typeColumns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
 
     var body: some View {
-        VStack(spacing: 0) {
-            SheetHeaderComponent(title: "记一笔")
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                SheetHeaderComponent(title: "记一笔")
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 14) {
-                    typeSection
-                    if isTransfer {
-                        targetSection
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 14) {
+                        typeSection
+                        if isTransfer {
+                            targetSection
+                        }
+                        if needDirection {
+                            directionSection
+                            balanceSection
+                        }
+                        amountSection
+                        remarkSection
                     }
-                    if needDirection {
-                        directionSection
-                        balanceSection
-                    }
-                    amountSection
-                    remarkSection
+                    .padding(.horizontal, 15)
+                    .padding(.top, 4)
+                    .padding(.bottom, 100)
                 }
-                .padding(.horizontal, 15)
-                .padding(.top, 4)
-                .padding(.bottom, 16)
+                .padding(.top, 12)
             }
-            .padding(.top, 12)
 
-            // 保存
-            Button {
-                save()
-            } label: {
-                Text("保存")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(
-                        Color("DefaultButtonBackgroud").opacity(canSave() ? 1 : ColorConfig.UNABLE_COLOR_OPCITY),
-                        in: RoundedRectangle(cornerRadius: 14)
-                    )
-                    .shadow(color: canSave() ? Color("MainShadowColor").opacity(0.25) : Color.clear, radius: 6, x: 0, y: 3)
-            }
-            .disabled(!canSave())
-            .padding(.horizontal, 15)
-            .padding(.top, 4)
-            .padding(.bottom, 24)
+            // 悬浮保存按钮
+            saveButton
+                .padding(.horizontal, 15)
+                .padding(.bottom, 20)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .background(Color("ViewBackgroundColor"))
@@ -108,6 +95,29 @@ struct AssetAccountRecordEditView: View {
     }
 
     // MARK: - 状态判断
+
+    /// 悬浮保存按钮（半透明胶囊）
+    private var saveButton: some View {
+        Button {
+            save()
+        } label: {
+            HStack(spacing: 7) {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 15, weight: .bold))
+                Text("保存")
+                    .font(.system(size: 16, weight: .bold))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 44)
+            .frame(height: 50)
+            .background(
+                Color("DefaultButtonBackgroud").opacity(canSave() ? 1 : ColorConfig.UNABLE_COLOR_OPCITY),
+                in: Capsule()
+            )
+            .shadow(color: canSave() ? Color("DefaultButtonBackgroud").opacity(0.35) : Color.clear, radius: 10, x: 0, y: 6)
+        }
+        .disabled(!canSave())
+    }
 
     private var isTransfer: Bool {
         return changeType == AssetRecordChangeType.transfer.rawValue

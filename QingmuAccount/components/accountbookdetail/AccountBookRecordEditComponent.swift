@@ -27,16 +27,19 @@ struct AccountBookRecordEditComponent : View {
     @State var assetAccounts:[AssetAccountModel] = [];
 
     var body: some View {
-        VStack(spacing: 0) {
-            SheetHeaderComponent(title: "账单详情")
-            billHeader
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-            detailCard
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-            Spacer()
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                SheetHeaderComponent(title: "账单详情")
+                billHeader
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                detailCard
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                Spacer(minLength: 96)
+            }
             bottomBar
+                .padding(.bottom, 10)
         }.frame(minWidth: 0,maxWidth: .infinity,minHeight: 0,maxHeight: .infinity)
             .background(Color("ViewBackgroundColor"))
             .sheet(isPresented: $updateData) {
@@ -138,42 +141,46 @@ struct AccountBookRecordEditComponent : View {
             .fill(Color("MainShadowColor").opacity(0.08))
             .frame(height: 0.8)
     }
-    // 底部操作行：删除（左）+ 编辑（右）
+    // 底部悬浮操作舱：删除（圆形浅红）+ 编辑（胶囊主题色）
     var bottomBar: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             Button {
                 keyFeedback()
                 deleteRecordAlter()
             } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "trash")
-                        .font(.system(size: 13, weight: .bold))
-                    Text("删除")
-                        .font(.system(size: 15, weight: .bold))
-                }
-                .foregroundColor(Color("RedColor"))
-                .frame(width: 104, height: 50)
-                .background(Color("MainBackgroundColor"), in: RoundedRectangle(cornerRadius: 14))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14)
-                        .stroke(Color("RedColor").opacity(0.3), lineWidth: 1)
-                )
-                .shadow(color: Color("MainShadowColor").opacity(0.06), radius: 4, x: 0, y: 2)
+                Image(systemName: "trash")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color("RedColor"))
+                    .frame(width: 44, height: 44)
+                    .background(Color("RedColor").opacity(0.12), in: Circle())
             }
+            .buttonStyle(.plain)
+
             Button {
                 keyFeedback()
                 updateData = true
             } label: {
-                Text("编辑")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color("DefaultButtonBackgroud"), in: RoundedRectangle(cornerRadius: 14))
-                    .shadow(color: Color("MainShadowColor").opacity(0.25), radius: 6, x: 0, y: 3)
+                HStack(spacing: 7) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 14, weight: .bold))
+                    Text("编辑")
+                        .font(.system(size: 15, weight: .bold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 26)
+                .frame(height: 46)
+                .background(Color("DefaultButtonBackgroud"), in: Capsule())
+                .shadow(color: Color("DefaultButtonBackgroud").opacity(0.35), radius: 8, x: 0, y: 4)
             }
-        }.padding(.horizontal, 20)
-            .padding(.bottom, 24)
+            .buttonStyle(.plain)
+        }
+        .padding(6)
+        .background(Color("MainBackgroundColor"), in: Capsule())
+        .overlay {
+            Capsule()
+                .strokeBorder(Color("MainShadowColor").opacity(0.12), lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.16), radius: 18, x: 0, y: 8)
     }
     // 有内容进行编辑
     func haveEditRecord(_ changeAccountBookData: AccountBookData) {

@@ -214,7 +214,7 @@ struct AccountBookAddComponent : View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(Color("DefaultButtonBackgroud"), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .background(Color("DefaultButtonBackgroud"), in: Capsule())
                     .shadow(color: Color("DefaultButtonBackgroud").opacity(0.28), radius: 10, x: 0, y: 8)
                 }
                 .buttonStyle(.plain)
@@ -229,17 +229,17 @@ struct AccountBookAddComponent : View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(Color("DefaultButtonBackgroud"), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .background(Color("DefaultButtonBackgroud"), in: Capsule())
                     .shadow(color: Color("DefaultButtonBackgroud").opacity(0.28), radius: 10, x: 0, y: 8)
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(8)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .background(.ultraThinMaterial, in: Capsule())
         .overlay(
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .stroke(Color("MainShadowColor").opacity(0.12), lineWidth: 1)
+            Capsule()
+                .strokeBorder(Color("MainShadowColor").opacity(0.12), lineWidth: 1)
         )
         .shadow(color: Color.black.opacity(0.16), radius: 18, x: 0, y: 10)
     }

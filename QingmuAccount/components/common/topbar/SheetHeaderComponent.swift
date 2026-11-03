@@ -19,7 +19,7 @@ struct SheetHeaderComponent: View {
                 .foregroundColor(Color("DefaultButtonBackgroud"))
             if let title = title, !title.isEmpty {
                 Text(title)
-                    .font(.system(size: 20, weight: .bold))
+                    .font(.system(size: 17, weight: .bold))
             }
         }
         .padding(.top, 10)

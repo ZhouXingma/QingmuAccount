@@ -34,77 +34,64 @@ struct AssetAccountEditView: View {
     private let typeColumns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
 
     var body: some View {
-        VStack(spacing: 0) {
-            SheetHeaderComponent(title: mode == .add ? "添加资产账户" : "编辑资产账户")
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                SheetHeaderComponent(title: mode == .add ? "添加资产账户" : "编辑资产账户")
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 14) {
-                    iconNameSection
-                    typeSection
-                    currencySection
-                    if mode == .add {
-                        formCard {
-                            HStack {
-                                Text("初始金额")
-                                    .font(.system(size: 15, weight: .bold))
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 14) {
+                        iconNameSection
+                        typeSection
+                        currencySection
+                        if mode == .add {
+                            formCard {
+                                HStack {
+                                    Text("初始金额")
+                                        .font(.system(size: 15, weight: .bold))
+                                    Spacer()
+                                    TextField("0.00", text: $initialMoney)
+                                        .multilineTextAlignment(.trailing)
+                                        .font(.system(size: 15, weight: .bold))
+                                        .foregroundColor(Color("DefaultButtonBackgroud"))
+                                        .keyboardType(.decimalPad)
+                                        .onTapGesture { toHideKeyboard() }
+                                }
+                            }
+                            HStack(spacing: 4) {
+                                Image(systemName: "info.circle")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(.secondary)
+                                Text("负数代表负债，正数代表资产")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.secondary)
                                 Spacer()
-                                TextField("0.00", text: $initialMoney)
-                                    .multilineTextAlignment(.trailing)
+                            }
+                            .padding(.horizontal, 6)
+                        }
+                        // 备注
+                        formCard {
+                            HStack(spacing: 8) {
+                                Text("备注")
                                     .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(Color("DefaultButtonBackgroud"))
-                                    .keyboardType(.decimalPad)
+                                TextField("如：每月10号还款、还款方式等", text: $description)
+                                    .multilineTextAlignment(.trailing)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.secondary)
                                     .onTapGesture { toHideKeyboard() }
                             }
                         }
-                        HStack(spacing: 4) {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: 11))
-                                .foregroundColor(.secondary)
-                            Text("负数代表负债，正数代表资产")
-                                .font(.system(size: 12))
-                                .foregroundColor(.secondary)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 6)
                     }
-                    // 备注
-                    formCard {
-                        HStack(spacing: 8) {
-                            Text("备注")
-                                .font(.system(size: 15, weight: .bold))
-                            TextField("如：每月10号还款、还款方式等", text: $description)
-                                .multilineTextAlignment(.trailing)
-                                .font(.system(size: 14))
-                                .foregroundColor(.secondary)
-                                .onTapGesture { toHideKeyboard() }
-                        }
-                    }
+                    .padding(.horizontal, 15)
+                    .padding(.top, 4)
+                    .padding(.bottom, 100)
                 }
-                .padding(.horizontal, 15)
-                .padding(.top, 4)
-                .padding(.bottom, 16)
+                .padding(.top, 12)
             }
-            .padding(.top, 12)
 
-            // 保存
-            Button {
-                save()
-            } label: {
-                Text("保存")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(
-                        Color("DefaultButtonBackgroud").opacity(canSave() ? 1 : ColorConfig.UNABLE_COLOR_OPCITY),
-                        in: RoundedRectangle(cornerRadius: 14)
-                    )
-                    .shadow(color: canSave() ? Color("MainShadowColor").opacity(0.25) : Color.clear, radius: 6, x: 0, y: 3)
-            }
-            .disabled(!canSave())
-            .padding(.horizontal, 15)
-            .padding(.top, 4)
-            .padding(.bottom, 24)
+            // 悬浮保存按钮
+            saveButton
+                .padding(.horizontal, 15)
+                .padding(.bottom, 20)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .background(Color("ViewBackgroundColor"))
@@ -276,6 +263,29 @@ struct AssetAccountEditView: View {
 
     private func canSave() -> Bool {
         return StringUtils.trimCount(name) > 0
+    }
+
+    /// 悬浮保存按钮（居中胶囊）
+    private var saveButton: some View {
+        Button {
+            save()
+        } label: {
+            HStack(spacing: 7) {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 15, weight: .bold))
+                Text("保存")
+                    .font(.system(size: 16, weight: .bold))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 44)
+            .frame(height: 50)
+            .background(
+                Color("DefaultButtonBackgroud").opacity(canSave() ? 1 : ColorConfig.UNABLE_COLOR_OPCITY),
+                in: Capsule()
+            )
+            .shadow(color: canSave() ? Color("DefaultButtonBackgroud").opacity(0.35) : Color.clear, radius: 10, x: 0, y: 6)
+        }
+        .disabled(!canSave())
     }
 
     private func save() {
