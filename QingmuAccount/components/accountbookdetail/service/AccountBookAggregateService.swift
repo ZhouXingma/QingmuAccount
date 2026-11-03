@@ -140,6 +140,23 @@ class AccountBookAggregateService {
         }
     }
 
+    /**
+     单账本某月每天记账笔数，用于热力图。
+     */
+    static func dayCounts(bookId: String, year: Int, month: Int) throws -> [String: Int] {
+        let pattern = ymPattern(year: year, month: month)
+        let rows = try SQLiteManager.shared.query(
+            "SELECT dateStr, COUNT(*) AS c FROM record WHERE bookId=? AND dateStr LIKE ? GROUP BY dateStr",
+            [bookId, pattern]
+        )
+        var result: [String: Int] = [:]
+        for row in rows {
+            guard let dateStr = row["dateStr"] as? String else { continue }
+            result[dateStr] = Int(row["c"] as? Int64 ?? 0)
+        }
+        return result
+    }
+
     // MARK: - 私有
 
     private static func ymPattern(year: Int, month: Int?) -> String {

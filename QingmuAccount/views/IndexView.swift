@@ -39,7 +39,8 @@ struct IndexView : View {
                     .background(Color("ViewBackgroundColor"))
                     .navigationBarBackButtonHidden()
                     .navigationBarHidden(true)
-            }.ignoresSafeArea(.all,edges: .bottom)
+            }.navigationViewStyle(.stack)
+                .ignoresSafeArea(.all,edges: .bottom)
         }.ignoresSafeArea(.all,edges: .bottom)
          .frame(minWidth: 0,maxWidth: .infinity,minHeight: 0,maxHeight: .infinity)
         .background(Color("ViewBackgroundColor"))
@@ -148,7 +149,8 @@ struct IndexView : View {
                 }.padding(.horizontal,10)
                 Spacer()
             }.offset(y:-5)
-        }.padding(.horizontal,10)
+        }.padding(.horizontal,15)
+            .padding(.top,6)
     }
     /**
        内容

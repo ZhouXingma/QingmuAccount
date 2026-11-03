@@ -10,6 +10,9 @@ import SwiftUI
 
 struct AccountBookDetailView : View {
     @EnvironmentObject var globalModel:GlobalModel
+    // 宽屏（如 iPhone Duo 展开）时列表与日历左右分栏
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var isWideLayout: Bool { horizontalSizeClass == .regular }
     // 列表类型
     @State private var listType:Int = 0
     // 显示添加记录
@@ -26,18 +29,38 @@ struct AccountBookDetailView : View {
     @Namespace private var subBarNamespace
     var body: some View {
         ZStack {
-            VStack {
-                if listType==0 {
-                    // 列表模式
-                    AccountBookDetailOfListComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
-                } else if listType==1 {
-                    // 日历模式
-                    AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime,calendarSelectDate:$calendarSelectDate).environmentObject(globalModel)
-                }
-            }.ignoresSafeArea(.all,edges: .bottom)
-                .padding(.top, 10)
+            if isWideLayout {
+                // 宽屏：左侧列表、右侧日历，两栏等分
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        AccountBookDetailOfListComponent(latestLoadTime:$latestLoadTime)
+                            .environmentObject(globalModel)
+                            .frame(width: (geo.size.width - 1) / 2, height: geo.size.height)
+                        Divider()
+                        AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime,calendarSelectDate:$calendarSelectDate)
+                            .environmentObject(globalModel)
+                            .frame(width: (geo.size.width - 1) / 2, height: geo.size.height)
+                    }
+                }.ignoresSafeArea(.all,edges: .bottom)
+                    .padding(.top, 10)
+            } else {
+                VStack {
+                    if listType==0 {
+                        // 列表模式
+                        AccountBookDetailOfListComponent(latestLoadTime:$latestLoadTime).environmentObject(globalModel)
+                    } else if listType==1 {
+                        // 日历模式
+                        AccountBookDetailOfCalendarComponent(latestLoadTime:$latestLoadTime,calendarSelectDate:$calendarSelectDate).environmentObject(globalModel)
+                    }
+                }.ignoresSafeArea(.all,edges: .bottom)
+                    .padding(.top, 10)
+            }
             // 底部菜单栏
-            subBar
+            if isWideLayout {
+                wideSubBar
+            } else {
+                subBar
+            }
         }.ignoresSafeArea(.all,edges: .bottom)
             .onAppear() {
                 getAccountBookSeting()
@@ -88,6 +111,28 @@ struct AccountBookDetailView : View {
             }
         }.frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .padding(.horizontal, 20)
+    }
+
+    // 宽屏底部栏：列表与日历同时展示，无需切换，只保留添加记录按钮
+    var wideSubBar : some View {
+        VStack {
+            Spacer()
+            HStack(alignment: .center, spacing: 12) {
+                Spacer()
+                Button {
+                    openAddRecord()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 56, height: 56)
+                        .background(Color("DefaultButtonBackgroud"), in: Circle())
+                        .shadow(color: Color("MainShadowColor").opacity(0.2), radius: 8, x: 0, y: -4)
+                }
+            }
+        }.frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 8)
     }
 
     // 左侧胶囊内的切换按钮（高亮由滑动背景胶囊提供）
